@@ -10,8 +10,8 @@ class User extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type' => 'INT',
-                'constraint' => 11,
+                'type' => 'BIGINT',
+                'constraint' => 20,
                 'unsigned' => true,
                 'null' => false,
                 'auto_increment' => true,
@@ -48,7 +48,7 @@ class User extends Migration
                 'null' => false,
             ],
             'id_permission' => [
-                'type' => 'INT',
+                'type' => 'BIGINT',
                 'constraint' => 11,
                 'unsigned' => true,
                 'null' => false,
