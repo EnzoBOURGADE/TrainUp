@@ -1,10 +1,12 @@
+<?= $this->include('admin/layout/header') ?>
+
 <div class="row">
     <div class="col">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 class="card-title">Liste des utilisateurs</h3>
-                <a href="<?= base_url('/admin/user/new') ?>" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Nouvel Utilisateur
+                <a href="<?= base_url('/admin/user/create') ?>" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nouvel utilisateur
                 </a>
             </div>
             <div class="card-body">
@@ -22,7 +24,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Les données seront chargées via AJAX -->
+                    <!-- Données chargées via AJAX -->
                     </tbody>
                 </table>
             </div>
@@ -33,15 +35,14 @@
 <script>
     $(document).ready(function() {
         var baseUrl = "<?= base_url(); ?>";
+
         var table = $('#usersTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
                 url: '<?= base_url('datatable/searchdatatable') ?>',
                 type: 'POST',
-                data: {
-                    model: 'UserModel'
-                }
+                data: { model: 'UserModel' }
             },
             columns: [
                 { data: 'id' },
@@ -67,20 +68,23 @@
                         const isActive = (row.status === 'active' || row.deleted_at === null);
                         const toggleButton = isActive
                             ? `<button class="btn btn-sm btn-danger" onclick="toggleUserStatus(${row.id}, 'deactivate')" title="Désactiver">
-                                 <i class="fas fa-user-times"></i>
-                               </button>`
+                             <i class="fas fa-user-times"></i>
+                           </button>`
                             : `<button class="btn btn-sm btn-success" onclick="toggleUserStatus(${row.id}, 'activate')" title="Activer">
-                                 <i class="fas fa-user-check"></i>
-                               </button>`;
+                             <i class="fas fa-user-check"></i>
+                           </button>`;
 
                         return `
-                            <div class="btn-group" role="group">
-                                <a href="<?= base_url('/admin/user/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                ${toggleButton}
-                            </div>
-                        `;
+                        <div class="btn-group" role="group">
+                            <a href="<?= base_url('/admin/user/edit/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            ${toggleButton}
+                            <button class="btn btn-sm btn-danger" onclick="deleteUser(${row.id})" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
                     }
                 }
             ],
@@ -91,9 +95,8 @@
             }
         });
 
-        // Fonction pour actualiser la table
         window.refreshTable = function() {
-            table.ajax.reload(null, false); // false pour garder la pagination
+            table.ajax.reload(null, false);
         };
     });
 
@@ -115,22 +118,16 @@
                 $.ajax({
                     url: "<?= base_url('/admin/user/switch-active'); ?>",
                     type: "POST",
-                    data: {
-                        'id_user': id,
-                    },
-                    success: function (response) {
-                        console.log(response);
-
+                    data: { 'id_user': id },
+                    success: function(response) {
                         if (response.success) {
                             Swal.fire({
                                 title: 'Succès !',
                                 text: response.message,
                                 icon: 'success',
-                                timer: 2000,
+                                timer: 1500,
                                 showConfirmButton: false
                             });
-
-                            // Actualiser la table
                             refreshTable();
                         } else {
                             Swal.fire({
@@ -141,15 +138,64 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error('Erreur AJAX:', error);
                         Swal.fire({
                             title: 'Erreur !',
                             text: 'Erreur de communication avec le serveur',
                             icon: 'error'
                         });
+                        console.error('Erreur AJAX:', error);
+                    }
+                });
+            }
+        });
+    }
+
+    function deleteUser(id) {
+        Swal.fire({
+            title: `Êtes-vous sûr ?`,
+            text: `Voulez-vous vraiment supprimer cet utilisateur ?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: `Oui, supprimé !`,
+            cancelButtonText: "Annuler",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "<?= base_url('/admin/user/delete'); ?>",
+                    type: "POST",
+                    data: { id_user: id },
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Succès !',
+                                text: response.message,
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                            refreshTable();
+                        } else {
+                            Swal.fire({
+                                title: 'Erreur !',
+                                text: response.message || 'Une erreur est survenue',
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Erreur !',
+                            text: 'Erreur de communication avec le serveur',
+                            icon: 'error'
+                        });
+                        console.error('Erreur AJAX:', error);
                     }
                 });
             }
         });
     }
 </script>
+
+<?= $this->include('admin/layout/footer') ?>

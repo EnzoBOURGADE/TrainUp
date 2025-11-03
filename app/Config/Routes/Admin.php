@@ -20,5 +20,22 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
        $routes->post('delete', 'UserPermission::delete');
     });
 
+    $routes->group('program', function ($routes) {
+       $routes->get('/', 'Program::index');
+       $routes->get('new', 'Program::create');
+       $routes->get('(:num)', 'Program::edit/$1');
+       $routes->post('save', 'Program::save');
+       $routes->post('delete', 'Program::delete');
+    });
+
+    $routes->group('exercices', function($routes) {
+        $routes->get('/', 'Exercices::index');
+        $routes->get('create', 'Exercices::create');
+        $routes->post('store', 'Exercices::store');
+        $routes->get('edit/(:num)', 'Exercices::edit/$1');
+        $routes->post('update/(:num)', 'Exercices::update/$1');
+        $routes->get('delete/(:num)', 'Exercices::delete/$1');
+    });
+
 });
 
