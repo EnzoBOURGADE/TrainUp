@@ -11,11 +11,13 @@ class FriendRequest extends Migration
         $this->forge->addField([
             'requester_id' => [
                 'type' => 'BIGINT',
+                'unsigned' => true,
                 'constraint' => 20,
                 'null' => false,
             ],
             'receiver_id' => [
                 'type' => 'BIGINT',
+                'unsigned' => true,
                 'constraint' => 20,
                 'null' => false,
             ]

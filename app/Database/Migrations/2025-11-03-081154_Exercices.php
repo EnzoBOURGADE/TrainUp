@@ -48,11 +48,13 @@ class Exercices extends Migration
             ],
             'id_cat' => [
                 'type' => 'BIGINT',
+                'unsigned' => true,
                 'constraint' => '20',
                 'null' => false,
             ],
             'id_muscles' => [
                 'type' => 'BIGINT',
+                'unsigned' => true,
                 'constraint' => '20',
                 'null' => false,
             ],
