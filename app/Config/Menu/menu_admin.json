@@ -24,31 +24,31 @@
       },
       "programme": {
         "title": "Programmes",
-        "url": "/admin/programmes",
+        "url": "/admin/program",
         "icon": "<i class=\"nav-icon fa-solid fa-list-check\"></i>"
       }
     }
   },
 
   "Ressources": {
-    "title": "ressources",
+    "title": "Ressources",
     "url": "/",
     "icon": "<i class=\"nav-icon fas fa-database\"></i>",
     "class": "",
     "subs": {
       "categories": {
         "title": "Catégories",
-        "url": "/admin/categories",
+        "url": "/admin/category",
         "icon": "<i class=\"nav-icon fa-solid fa-table\"></i>"
       },
       "categories_prgm": {
         "title": "Catégories programmes",
-        "url": "/admin/categories_prgrm",
+        "url": "/admin/category_program",
         "icon": "<i class=\"nav-icon fa-solid fa-list\"></i>"
       },
       "muscle": {
         "title": "Muscles",
-        "url": "/admin/muscles",
+        "url": "/admin/muscle",
         "icon": "<i class=\"nav-icon fa-solid fa-hand-fist\"></i>"
       },
       "workout": {
@@ -67,7 +67,7 @@
     "subs": {
       "friend": {
         "title": "Amis",
-        "url": "/admin/amis",
+        "url": "/admin/friends",
         "icon": "<i class=\"nav-icon fa-solid fa-face-smile\"></i>"
       },
       "friend_request": {

@@ -28,6 +28,15 @@
                         <?php endif; ?>
                     </select>
                 </div>
+                <div class="mb-3">
+                    <select class="form-select" name="id_cat" id="cat" required>
+                        <?php if (isset($program['id_cat'])): ?>
+                            <option value="<?= $program['id_cat'] ?>" selected>
+                                <?= $program['category_name'] ?>
+                            </option>
+                        <?php endif; ?>
+                    </select>
+                </div>
             </div>
             <div class="card-footer text-end">
                 <button type="submit" class="btn btn-primary">Enregistrer</button>
@@ -42,6 +51,15 @@
             url: '<?= base_url('admin/user/search') ?>',
             placeholder : "Rechercher un utilisateur ...",
             searchFields: "username",
+            delay: 250
+        });
+    });
+
+    $(document).ready(function() {
+        initAjaxSelect2('#cat', {
+            url: '<?= base_url('admin/cat/search') ?>',
+            placeholder : "Rechercher une catégorie ...",
+            searchFields: "name",
             delay: 250
         });
     });
