@@ -41,8 +41,8 @@
                 }
             },
             columns: [
-                { data: 'exercice_name' },
-                { data: 'program_name' },
+                { data: 'name_exercice' },
+                { data: 'name_program' },
                 { data: 'date' },
                 { data: 'rest_time' },
                 { data: 'order' }

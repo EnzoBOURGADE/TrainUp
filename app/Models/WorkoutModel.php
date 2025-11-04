@@ -63,7 +63,7 @@ class WorkoutModel extends Model
                     'type' => 'left'
                 ]
             ],
-            'select' => 'workout.*', "exercices.name as exercice_name", "program.name as program_name",
+            'select' => 'workout.*, exercices.name as name_exercice, program.name as name_program',
             'with_deleted' => false,
         ];
     }
