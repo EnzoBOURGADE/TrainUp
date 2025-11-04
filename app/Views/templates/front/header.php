@@ -1,7 +1,10 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
+
+
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img class="img-fluid" src="<?= base_url('assets/img/logo-32.png'); ?>" alt="logo"> Votre application
+            <img class="img-fluid" src="<?= base_url('assets/img/TrainUp_logo2.png'); ?>" alt="logo"
+            width="150px">
         </a>
         <div class="dropdown ms-auto me-3 d-lg-none">
             <?php user_menu(); ?>

@@ -48,7 +48,7 @@
       },
       "muscle": {
         "title": "Muscles",
-        "url": "/admin/muscle",
+        "url": "/admin/muscles",
         "icon": "<i class=\"nav-icon fa-solid fa-hand-fist\"></i>"
       },
       "workout": {

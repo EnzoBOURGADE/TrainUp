@@ -14,6 +14,11 @@
                         <th>ID</th>
                         <th>Nom</th>
                         <th>Description</th>
+                        <th>Temps de repos</th>
+                        <th>Répétition</th>
+                        <th>Nombre de séries</th>
+                        <th>Temps de la série</th>
+                        <th>Catégorie</th>
                         <th>Muscle</th>
                         <th>Actions</th>
                     </tr>
@@ -37,13 +42,18 @@
                 url: '<?= base_url('datatable/searchdatatable') ?>',
                 type: 'POST',
                 data: {
-                    model: 'exerciceModel'
+                    model: 'ExerciceModel'
                 }
             },
             columns: [
                 { data: 'id' },
                 { data: 'name' },
                 { data: 'description' },
+                { data: 'rest_time' },
+                { data: 'reps' },
+                { data: 'nber_series' },
+                { data: 'time_series' },
+                { data: 'name_cat' },
                 { data: 'name_muscle' },
                 {
                     data: null,
@@ -69,9 +79,8 @@
             }
         });
 
-        // Fonction pour actualiser la table
         window.refreshTable = function() {
-            table.ajax.reload(null, false); // false pour garder la pagination
+            table.ajax.reload(null, false);
         };
     });
 

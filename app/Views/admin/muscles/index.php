@@ -2,19 +2,17 @@
     <div class="col">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="card-title">Liste des exercices</h3>
-                <a href="<?= base_url('/admin/exercice/new') ?>" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Nouvel exercice
+                <h3 class="card-title">Liste des muscles</h3>
+                <a href="<?= base_url('/admin/muscles/new') ?>" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nouveau muscle
                 </a>
             </div>
             <div class="card-body">
-                <table id="exercicesTable" class="table table-sm table-bordered table-striped">
+                <table id="musclesTable" class="table table-sm table-bordered table-striped">
                     <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nom</th>
-                        <th>Description</th>
-                        <th>Muscle</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -30,31 +28,29 @@
 <script>
     $(document).ready(function() {
         var baseUrl = "<?= base_url(); ?>";
-        var table = $('#exercicesTable').DataTable({
+        var table = $('#musclesTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
                 url: '<?= base_url('datatable/searchdatatable') ?>',
                 type: 'POST',
                 data: {
-                    model: 'exerciceModel'
+                    model: 'MusclesModel'
                 }
             },
             columns: [
                 { data: 'id' },
                 { data: 'name' },
-                { data: 'description' },
-                { data: 'name_muscle' },
                 {
                     data: null,
                     orderable: false,
                     render: function(data, type, row) {
                         return `
                             <div class="btn-group" role="group">
-                                <a href="<?= base_url('/admin/exercices/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
+                                <a href="<?= base_url('/admin/muscles/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteExercice(${row.id})">
+                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteMuscles(${row.id})">
                                     <i class="fas fa-trash"></i>
                                 </span>
                             </div>
@@ -78,7 +74,7 @@
     function deleteExercice(id) {
         Swal.fire({
             title: `Êtes-vous sûr ?`,
-            text: `Voulez-vous vraiment supprimer cet exercice ?`,
+            text: `Voulez-vous vraiment supprimer ce muscle ?`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: '#dc3545',
@@ -88,7 +84,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "<?= base_url('admin/exercice/delete') ?>",
+                    url: "<?= base_url('admin/muscle/delete') ?>",
                     type: 'POST',
                     data: { id: id },
                     success: function(response) {

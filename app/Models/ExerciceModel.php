@@ -13,6 +13,7 @@ class ExerciceModel extends Model
     use Select2Searchable;
     protected $table            = 'exercices';
     protected $primaryKey       = 'id';
+    protected $useAutoIncrement = true;
     protected $returnType       = "array";
     protected $useSoftDeletes   = true;
     protected $useTimestamps    = true;
@@ -24,15 +25,22 @@ class ExerciceModel extends Model
     protected function getDataTableConfig(): array
     {
         return [
-            'searchable_fields' => ['exercices.id', 'exercices.name', 'muscles.name', 'exercices.description'],
+            'searchable_fields' => ['exercices.id', 'exercices.name', 'exercices.description',
+                'exercices.rest_time', 'exercices.reps', 'exercices.nber_series', 'exercices.time_series',
+                'categories.name', 'muscles.name'],
             'joins' => [
                 [
                     'table' => 'muscles',
                     'condition' => 'muscles.id = exercices.id_muscle',
                     'type' => 'left'
+                ],
+                [
+                    'table' => 'categories',
+                    'condition' => 'categories.id = exercices.id_cat',
+                    'type' => 'left'
                 ]
             ],
-            'select' => 'exercices.*, muscles.name as name_muscle',
+            'select' => 'exercices.*, muscles.name as name_muscle, categories.name as name_cat',
             'with_deleted' => false,
         ];
     }

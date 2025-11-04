@@ -2,17 +2,21 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
+use App\Traits\Select2Searchable;
 use CodeIgniter\Model;
 
 class CategoryModel extends Model
 {
+    use DataTableTrait;
+    use Select2Searchable;
     protected $table            = 'categories';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["name"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -20,12 +24,8 @@ class CategoryModel extends Model
     protected array $casts = [];
     protected array $castHandlers = [];
 
-    // Dates
     protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [];
@@ -43,4 +43,18 @@ class CategoryModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => ['categories.id', 'categories.name'],
+            'joins' => [
+            ],
+            'select' => 'categories.*',
+            'with_deleted' => false,
+        ];
+    }
 }
+
+

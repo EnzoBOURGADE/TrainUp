@@ -24,9 +24,10 @@
                         <div class="card-body">
                             <div class="row flex-column align-content-center">
                                 <div class="col-6">
-                                    <img src="<?= base_url('assets/img/logo-full.png') ?>" alt="Votre Logo" class="w-100">
+                                    <img src="<?= base_url('assets/img/TrainUp_logo.webp') ?>" alt="Votre Logo" class="w-100">
                                 </div>
                             </div>
+                            <br>
                             <div class="form-floating mb-3">
                                 <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" required>
                                 <label for="floatingInput">Adresse Email</label>

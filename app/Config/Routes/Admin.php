@@ -36,5 +36,60 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->get('delete/(:num)', 'Exercices::delete/$1');
     });
 
+
+
+    $routes->group('category', function($routes) {
+        $routes->get('/', 'Category::index');
+        $routes->get('create', 'Category::create');
+        $routes->post('store', 'Category::store');
+        $routes->get('edit/(:num)', 'Category::edit/$1');
+        $routes->post('update/(:num)', 'Category::update/$1');
+        $routes->get('delete/(:num)', 'Category::delete/$1');
+    });
+
+
+
+    $routes->group('category_program', function($routes) {
+        $routes->get('/', 'CategoryProgram::index');
+        $routes->get('create', 'CategoryProgram::create');
+        $routes->post('store', 'CategoryProgram::store');
+        $routes->get('edit/(:num)', 'CategoryProgram::edit/$1');
+        $routes->post('update/(:num)', 'CategoryProgram::update/$1');
+        $routes->get('delete/(:num)', 'CategoryProgram::delete/$1');
+    });
+
+
+
+    $routes->group('series', function($routes) {
+        $routes->get('/', 'Series::index');
+        $routes->get('create', 'Series::create');
+        $routes->post('store', 'Series::store');
+        $routes->get('edit/(:num)', 'Series::edit/$1');
+        $routes->post('update/(:num)', 'Series::update/$1');
+        $routes->get('delete/(:num)', 'Series::delete/$1');
+    });
+
+
+
+    $routes->group('muscles', function($routes) {
+        $routes->get('/', 'Muscles::index');
+        $routes->get('create', 'Muscles::create');
+        $routes->post('store', 'Muscles::store');
+        $routes->get('edit/(:num)', 'Muscles::edit/$1');
+        $routes->post('update/(:num)', 'Muscles::update/$1');
+        $routes->get('delete/(:num)', 'Muscles::delete/$1');
+    });
+
+
+
+    $routes->group('workout', function($routes) {
+        $routes->get('/', 'Workout::index');
+        $routes->get('create', 'Workout::create');
+        $routes->post('store', 'Workout::store');
+        $routes->get('edit/(:num)', 'Workout::edit/$1');
+        $routes->post('update/(:num)', 'Workout::update/$1');
+        $routes->get('delete/(:num)', 'Workout::delete/$1');
+    });
+
 });
 

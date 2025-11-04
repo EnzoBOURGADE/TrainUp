@@ -2,17 +2,22 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
+use App\Traits\Select2Searchable;
 use CodeIgniter\Model;
 
 class WorkoutModel extends Model
 {
-    protected $table            = 'workouts';
+    use DataTableTrait;
+    use Select2Searchable;
+
+    protected $table            = 'workout';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["id_exercices", "id_program", "date", "rest_time", "order"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -23,9 +28,6 @@ class WorkoutModel extends Model
     // Dates
     protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [];
@@ -43,4 +45,26 @@ class WorkoutModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => ['exercices.name', 'program.name', "workout.date", "workout.rest_time", "workout.order"],
+            'joins' => [
+                [
+                    'table' => 'exercices',
+                    'condition' => 'exercices.id = workout.id_exercices',
+                    'type' => 'left'
+                ],
+                [
+                    'table' => 'program',
+                    'condition' => 'program.id = workout.id_program',
+                    'type' => 'left'
+                ]
+            ],
+            'select' => 'workout.*', "exercices.name as exercice_name", "program.name as program_name",
+            'with_deleted' => false,
+        ];
+    }
 }

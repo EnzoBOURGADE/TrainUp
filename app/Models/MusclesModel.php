@@ -2,17 +2,22 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
+use App\Traits\Select2Searchable;
 use CodeIgniter\Model;
 
 class MusclesModel extends Model
 {
+    use DataTableTrait;
+    use Select2Searchable;
+
     protected $table            = 'muscles';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["name"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -23,9 +28,6 @@ class MusclesModel extends Model
     // Dates
     protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [];
@@ -43,4 +45,15 @@ class MusclesModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => ['muscles.id', 'muscles.name'],
+            'joins' => [],
+            'select' => 'muscles.*',
+            'with_deleted' => false,
+        ];
+    }
 }
