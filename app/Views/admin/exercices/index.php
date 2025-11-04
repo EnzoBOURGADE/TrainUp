@@ -1,5 +1,3 @@
-<?= $this->include('admin/layout/header') ?>
-
 <div class="row">
     <div class="col">
         <div class="card">
@@ -21,7 +19,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Chargement AJAX -->
+                    <!-- Les données seront chargées via AJAX -->
                     </tbody>
                 </table>
             </div>
@@ -39,21 +37,21 @@
                 url: '<?= base_url('datatable/searchdatatable') ?>',
                 type: 'POST',
                 data: {
-                    model: 'ExerciceModel'
+                    model: 'exerciceModel'
                 }
             },
             columns: [
                 { data: 'id' },
                 { data: 'name' },
                 { data: 'description' },
-                { data: 'id_muscle' },
+                { data: 'name_muscle' },
                 {
                     data: null,
                     orderable: false,
                     render: function(data, type, row) {
                         return `
                             <div class="btn-group" role="group">
-                                <a href="<?= base_url('/admin/exercice/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
+                                <a href="<?= base_url('/admin/exercices/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteExercice(${row.id})">
@@ -71,8 +69,9 @@
             }
         });
 
+        // Fonction pour actualiser la table
         window.refreshTable = function() {
-            table.ajax.reload(null, false);
+            table.ajax.reload(null, false); // false pour garder la pagination
         };
     });
 
@@ -112,5 +111,3 @@
         });
     }
 </script>
-
-<?= $this->include('admin/layout/footer') ?>

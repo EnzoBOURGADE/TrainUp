@@ -1,5 +1,3 @@
-<?= $this->include('admin/layout/header') ?>
-
 <div class="row">
     <div class="col">
         <div class="card">
@@ -197,5 +195,3 @@
         });
     }
 </script>
-
-<?= $this->include('admin/layout/footer') ?>

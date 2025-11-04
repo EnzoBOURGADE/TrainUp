@@ -1,5 +1,3 @@
-<?= $this->include('admin/layout/header') ?>
-
 <div class="row">
     <div class="col">
         <div class="card">
@@ -69,9 +67,8 @@
             }
         });
 
-        // Fonction pour actualiser la table
         window.refreshTable = function() {
-            table.ajax.reload(null, false); // false pour garder la pagination
+            table.ajax.reload(null, false);
         };
     });
 
@@ -114,6 +111,4 @@
         });
     }
 </script>
-
-<?= $this->include('admin/layout/footer') ?>
 

@@ -24,12 +24,10 @@ class Series extends Migration
             'reps' => [
                 'type' => 'INT',
                 'null' => false,
-                'unique' => true,
             ],
             'weight' => [
                 'type' => 'DECIMAL',
                 'null' => false,
-                'unique' => true,
             ],
             'date' => [
                 'type' => 'DATETIME',

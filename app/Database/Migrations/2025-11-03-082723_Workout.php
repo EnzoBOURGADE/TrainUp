@@ -26,7 +26,7 @@ class Workout extends Migration
                 'null' => false,
             ],
             'rest_time' => [
-                'type' => 'DATETIME',
+                'type' => 'TIME',
                 'null' => false,
             ],
             'order' => [

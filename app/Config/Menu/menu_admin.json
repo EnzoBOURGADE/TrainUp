@@ -1,20 +1,86 @@
 {
-  "accueil": {
+  "Accueil": {
     "title": "Tableau de Bord",
     "url": "/admin/dashboard",
     "icon": "<i class=\"nav-icon fa-solid fa-house\"></i>",
     "class": "main-menu-accueil"
   },
-  "program": {
-    "title": "Programme",
-    "url": "/admin/program",
-    "icon": "<i class=\"nav-icon fas fa-dumbbell\"></i>",
-    "class": "bg-red"
+
+  "Activites": {
+    "title": "Activités",
+    "url": "/",
+    "icon": "<i class=\"nav-icon fas fa-person\"></i>",
+    "class": "",
+    "subs": {
+      "exercice": {
+        "title": "Exercices",
+        "url": "/admin/exercices",
+        "icon": "<i class=\"nav-icon fa-solid fa-person-walking\"></i>"
+      },
+      "serie": {
+        "title": "Series",
+        "url": "/admin/series",
+        "icon": "<i class=\"nav-icon fa-solid fa-list-ol\"></i>"
+      },
+      "programme": {
+        "title": "Programmes",
+        "url": "/admin/programmes",
+        "icon": "<i class=\"nav-icon fa-solid fa-list-check\"></i>"
+      }
+    }
   },
-  "administration": {
+
+  "Ressources": {
+    "title": "ressources",
+    "url": "/",
+    "icon": "<i class=\"nav-icon fas fa-database\"></i>",
+    "class": "",
+    "subs": {
+      "categories": {
+        "title": "Catégories",
+        "url": "/admin/categories",
+        "icon": "<i class=\"nav-icon fa-solid fa-table\"></i>"
+      },
+      "categories_prgm": {
+        "title": "Catégories programmes",
+        "url": "/admin/categories_prgrm",
+        "icon": "<i class=\"nav-icon fa-solid fa-list\"></i>"
+      },
+      "muscle": {
+        "title": "Muscles",
+        "url": "/admin/muscles",
+        "icon": "<i class=\"nav-icon fa-solid fa-hand-fist\"></i>"
+      },
+      "workout": {
+        "title": "Workout",
+        "url": "/admin/workout",
+        "icon": "<i class=\"nav-icon fa-solid fa-dumbbell\"></i>"
+      }
+    }
+  },
+
+  "Friends": {
+    "title": "Amis",
+    "url": "/",
+    "icon": "<i class=\"nav-icon fas fa-user-group\"></i>",
+    "class": "",
+    "subs": {
+      "friend": {
+        "title": "Amis",
+        "url": "/admin/amis",
+        "icon": "<i class=\"nav-icon fa-solid fa-face-smile\"></i>"
+      },
+      "friend_request": {
+        "title": "Requêtes d'amis",
+        "url": "/admin/friends_request",
+        "icon": "<i class=\"nav-icon fa-solid fa-user-check\"></i>"
+      }
+    }
+  },
+
+  "Administration": {
     "title": "Administration",
     "url": "/",
-    "require": "administrateur",
     "icon": "<i class=\"nav-icon fas fa-gear\"></i>",
     "class": "",
     "subs": {

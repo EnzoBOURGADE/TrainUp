@@ -30,20 +30,17 @@ class Exercices extends Migration
             'rest_time' => [
                 'type' => 'INT',
                 'null' => false,
-                'unique' => true,
             ],
             'reps' => [
                 'type' => 'INT',
                 'null' => false,
-                'unique' => true,
             ],
             'nber_series' => [
                 'type' => 'INT',
                 'null' => false,
-                'unique' => true,
             ],
             'time_series' => [
-                'type' => 'DATETIME',
+                'type' => 'TIME',
                 'null' => false,
             ],
             'id_cat' => [
@@ -52,7 +49,7 @@ class Exercices extends Migration
                 'constraint' => '20',
                 'null' => false,
             ],
-            'id_muscles' => [
+            'id_muscle' => [
                 'type' => 'BIGINT',
                 'unsigned' => true,
                 'constraint' => '20',
@@ -73,7 +70,7 @@ class Exercices extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_cat', 'categories', 'id', 'CASCADE', 'RESTRICT');
-        $this->forge->addForeignKey('id_muscles', 'muscles', 'id', 'CASCADE', 'RESTRICT');
+        $this->forge->addForeignKey('id_muscle', 'muscles', 'id', 'CASCADE', 'RESTRICT');
         $this->forge->createTable('exercices');
     }
 

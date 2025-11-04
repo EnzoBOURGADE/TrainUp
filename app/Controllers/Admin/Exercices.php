@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
+use App\Controllers\BaseController;
 use App\Models\ExerciceModel;
-use CodeIgniter\Controller;
 
 class Exercices extends BaseController
 {
@@ -17,7 +17,7 @@ class Exercices extends BaseController
     public function index()
     {
         $data['exercices'] = $this->model->findAll();
-        return view('exercices/index', $data);
+        return $this->view('/admin/exercices/index', $data);
     }
 
     public function create()

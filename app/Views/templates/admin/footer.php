@@ -19,7 +19,7 @@
             };
 
             var messages = <?= json_encode($messages) ?>;
-            var delay = 750; // 500 milliseconds delay between each toast
+            var delay = 750;
 
             messages.forEach(function(elem, index){
                 setTimeout(function(){
