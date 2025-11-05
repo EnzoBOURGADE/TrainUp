@@ -123,4 +123,13 @@ class UserModel extends Model
     // Configuration pour Select2Searchable
     protected $select2SearchFields = ['username'];
     protected $select2DisplayField = 'username';
+
+    public function findByLogin(string $login): ?User
+    {
+        return $this->groupStart()
+            ->where('username', $login)
+            ->orWhere('email', $login)
+            ->groupEnd()
+            ->first();
+    }
 }

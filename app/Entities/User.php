@@ -19,6 +19,7 @@ class User extends Entity
         'updated_at'    => null,
         'deleted_at'    => null,
     ];
+
     protected $casts = [
         'id'            => 'integer',
         'email'         => 'string',
@@ -34,64 +35,57 @@ class User extends Entity
     ];
 
     protected $hidden = ['password'];
-    protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
+    protected $dates   = ['created_at', 'updated_at', 'deleted_at', 'birthdate'];
 
-    public function getFullName():string
+    public function getFullName(): string
     {
-        return trim($this->attributes['first_name'] . ' ' . $this->attributes['last_name']);
+        return trim(($this->first_name ?? '') . ' ' . ($this->last_name ?? ''));
     }
 
     public function isActive(): bool
     {
-        return $this->attributes['deleted_at'] === null;
+        return $this->deleted_at === null;
     }
 
-    public function setPassword(string $password)
+    public function setPassword(string $password): self
     {
         $this->attributes['password'] = password_hash($password, PASSWORD_DEFAULT);
         return $this;
     }
+
     public function verifyPassword(string $password): bool
     {
-        return password_verify($password, $this->attributes['password']);
+        return password_verify($password, $this->password);
     }
-
     public function isAdmin(): bool
     {
         return $this->check('administrateur');
     }
 
-    // Vérifier les permissions (avec hiérarchie)
     public function check(string $slug): bool
     {
-        $userPermissionSlug = $this->getPermissionSlug();
-
-        if ($userPermissionSlug === $slug) {
-            return true;
-        }
-        return false;
+        return $this->getPermissionSlug() === $slug;
     }
 
     public function getPermissionSlug(): string
     {
         $upm = model('UserPermissionModel');
-        $permission = $upm->find($this->attributes['id_permission']);
+        $permission = $upm->find($this->id_permission);
 
-        return $permission ? $permission['slug'] : 'utilisateur';
+        return $permission['slug'] ?? 'utilisateur';
     }
 
     public function getPermissionName(): string
     {
         $upm = model('UserPermissionModel');
-        $permission = $upm->find($this->attributes['id_permission']);
+        $permission = $upm->find($this->id_permission);
 
-        return $permission ? $permission['name'] : 'Utilisateur';
+        return $permission['name'] ?? 'Utilisateur';
     }
 
     public function hasFavorite(int $recipeId): bool
     {
         $fm = model('FavoriteModel');
-        return $fm->hasFavorite($this->attributes['id'], $recipeId);
+        return $fm->hasFavorite($this->id, $recipeId);
     }
-
 }

@@ -7,6 +7,7 @@ trait DataTableTrait
     /**
      * Configuration pour DataTable - à surcharger dans chaque modèle
      */
+
     protected function getDataTableConfig(): array
     {
         return [

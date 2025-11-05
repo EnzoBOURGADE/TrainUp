@@ -2,9 +2,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 text-center">
-            <img src="<?= base_url('assets/img/logo-64.png'); ?>" alt="logo">
+            <img src="<?= base_url('assets/img/TrainUp_logo.webp'); ?>" alt="logo" width="150px">
             <br>
-            Nous sommes un super site
+            Ta séance commence ici
         </div>
         <div class="col-md-4">
             NOTRE MENU PLUS TARD

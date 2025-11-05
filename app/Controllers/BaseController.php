@@ -67,7 +67,7 @@ abstract class BaseController extends Controller
      *
      * @var string
      */
-    protected $title_prefix = 'ins3gram';
+    protected $title_prefix = 'TrainUp';
 
     /**
      * Chemin de navigation pour la gestion des breadcrumbs.
@@ -139,17 +139,14 @@ abstract class BaseController extends Controller
 
     public function redirect(string $url, array $data = [])
     {
-        // Ajout des messages à la session si présents
         if (!empty($this->messages)) {
             session()->setFlashdata('messages', $this->messages);
         }
 
-        // Ajout des données supplémentaires à la session si présentes
         if (!empty($data)) {
             session()->setFlashdata('data', $data);
         }
 
-        // Redirection avec la méthode CI4
         return redirect()->to(base_url($url));
     }
 
