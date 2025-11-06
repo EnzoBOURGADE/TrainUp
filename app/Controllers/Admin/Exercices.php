@@ -20,9 +20,38 @@ class Exercices extends BaseController
         return $this->view('/admin/exercices/index', $data);
     }
 
-    public function create()
-    {
-        return view('exercices/create');
+    public function create() {
+        helper('form');
+        $exercices = Model('ExerciceModel')->findAll();
+        $category = Model('CategoryModel')->findAll();
+        $muscles = Model('MusclesModel')->findAll();
+
+        return $this->view('/admin/exercices/form',
+            [
+                'exercices' => $exercices,
+                'categories' => $category,
+                'muscles' => $muscles
+            ]);
+    }
+
+    public function save() {
+        $data = $this->request->getPost();
+        $pm = Model('ExerciceModel');
+        if ($pm->save($data)) {
+            if (isset($data['id'])) {
+                $id = $data['id'];
+                $this->success('Exercice bien modifié');
+            } else {
+                $id = $pm->getInsertID();
+                $this->success('Exercice bien ajouté');
+            }
+        } else {
+            $id = '';
+            foreach($pm->errors() as $error) {
+                $this->error($error);
+            }
+        }
+        return $this->redirect('admin/exercices/');
     }
 
     public function store()
@@ -33,8 +62,23 @@ class Exercices extends BaseController
 
     public function edit($id)
     {
-        $data['exercice'] = $this->model->find($id);
-        return view('exercices/edit', $data);
+        helper('form');
+        $exercice = $this->model->find($id);
+        $categories = model('CategoryModel')->findAll();
+        $muscles = model('MusclesModel')->findAll();
+
+        if (!$exercice) {
+            $this->error('Exercice introuvable');
+            return $this->redirect('admin/exercices');
+        }
+
+        return $this->view('/admin/exercices/form', [
+            'exercice' => $exercice,
+            'categories' => $categories,
+            'muscles' => $muscles,
+            'selectedCategoryId' => $exercice['id_cat'] ?? null,
+            'selectedMuscleId' => $exercice['id_muscle'] ?? null,
+        ]);
     }
 
     public function update($id)
@@ -43,9 +87,22 @@ class Exercices extends BaseController
         return redirect()->to('/exercices');
     }
 
-    public function delete($id)
+
+    public function delete()
     {
-        $this->model->delete($id);
-        return redirect()->to('/exercices');
+        $id = $this->request->getPost('id');
+
+        if ($id) {
+            $this->model->delete($id);
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Exercice supprimé avec succès'
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'ID manquant'
+            ]);
+        }
     }
 }

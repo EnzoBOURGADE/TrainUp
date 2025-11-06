@@ -43,6 +43,6 @@
         </li>
     </ul>
     <div class="sidebar-footer border-top d-none d-md-flex">
-        <small>Version :</small>
+        <small>Version : 1.0.0</small>
     </div>
 </div>

@@ -3,18 +3,14 @@
         <div class="card">
             <div class="card-header">
                 <?php if(isset($user)) : ?>
-                    <!-- Si l'utilisateur existe déjà : on affiche "Modification" -->
                     Modification de <?= esc($user->username); ?>
                 <?php else : ?>
-                    <!-- Sinon : on affiche "Création d'un utilisateur" -->
                     Création d'un utilisateur
                 <?php endif;?>
             </div>
             <?php
-            // Ouverture du formulaire selon le cas : update ou create
             if(isset($user)):
                 echo form_open('admin/user/update', ['class' => 'needs-validation', 'novalidate' => true]); ?>
-                <!-- Champ caché pour stocker l'ID de l'utilisateur lors de la modification -->
                 <input type="hidden" name="id" value="<?= $user->id ?>">
             <?php
             else:

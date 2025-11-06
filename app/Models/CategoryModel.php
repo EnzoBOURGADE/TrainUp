@@ -49,8 +49,7 @@ class CategoryModel extends Model
     {
         return [
             'searchable_fields' => ['categories.id', 'categories.name'],
-            'joins' => [
-            ],
+            'joins' => [],
             'select' => 'categories.*',
             'with_deleted' => false,
         ];

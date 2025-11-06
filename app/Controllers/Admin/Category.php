@@ -19,4 +19,22 @@ class Category extends BaseController
         $data['categories'] = $this->model->findAll();
         return $this->view('/admin/category/index', $data);
     }
+
+    public function delete()
+    {
+        $id = $this->request->getPost('id');
+        $cm = Model('CategoryModel');
+
+        if ($cm->delete($id)) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Catégorie supprimée avec succès'
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Erreur lors de la suppression'
+            ]);
+        }
+    }
 }

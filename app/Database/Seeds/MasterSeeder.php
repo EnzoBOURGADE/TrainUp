@@ -11,13 +11,13 @@ class MasterSeeder extends Seeder
         $this->call('PermissionSeeder');
         $this->call('UserSeeder');
         $this->call('CategoriesSeeder');
-        $this->call('CategoriesProgramSeeder');
-        $this->call('ExercicesSeeder');
-        $this->call('FriendsRequestSeeder');
-        $this->call('FriendsSeeder');
         $this->call('MusclesSeeder');
+        $this->call('CategoriesProgramSeeder');
         $this->call('ProgramSeeder');
+        $this->call('ExercicesSeeder');
         $this->call('SeriesSeeder');
         $this->call('WorkoutSeeder');
+        $this->call('FriendsRequestSeeder');
+        $this->call('FriendsSeeder');
     }
 }

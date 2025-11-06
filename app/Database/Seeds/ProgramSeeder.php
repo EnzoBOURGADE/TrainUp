@@ -21,17 +21,17 @@ class ProgramSeeder extends Seeder
             ],
             [
                 'name' => 'Yoga Flow',
-                'id_user' => 3,
+                'id_user' => 1,
                 'id_cat' => 4,
             ],
             [
                 'name' => 'HIIT Express',
-                'id_user' => 4,
+                'id_user' => 2,
                 'id_cat' => 5,
             ],
             [
                 'name' => 'Core Focus',
-                'id_user' => 5,
+                'id_user' => 1,
                 'id_cat' => 4,
             ],
         ];

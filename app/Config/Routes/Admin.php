@@ -27,89 +27,68 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
        $routes->post('delete', 'Program::delete');
     });
 
-    $routes->group('exercices', function($routes) {
+    $routes->group('exercices', function ($routes) {
         $routes->get('/', 'Exercices::index');
-        $routes->get('create', 'Exercices::create');
-        $routes->post('store', 'Exercices::store');
-        $routes->get('edit/(:num)', 'Exercices::edit/$1');
-        $routes->post('update/(:num)', 'Exercices::update/$1');
-        $routes->get('delete/(:num)', 'Exercices::delete/$1');
+        $routes->get('new', 'Exercices::create');
+        $routes->get('(:num)', 'Exercices::edit/$1');
+        $routes->post('save', 'Exercices::save');
+        $routes->post('delete', 'Exercices::delete');
     });
 
-
-
-    $routes->group('category', function($routes) {
+    $routes->group('category', function ($routes) {
         $routes->get('/', 'Category::index');
-        $routes->get('create', 'Category::create');
-        $routes->post('store', 'Category::store');
-        $routes->get('edit/(:num)', 'Category::edit/$1');
-        $routes->post('update/(:num)', 'Category::update/$1');
-        $routes->get('delete/(:num)', 'Category::delete/$1');
+        $routes->get('new', 'Category::create');
+        $routes->get('(:num)', 'Category::edit/$1');
+        $routes->post('save', 'Category::save');
+        $routes->post('delete', 'Category::delete');
     });
 
-
-
-    $routes->group('category_program', function($routes) {
+    $routes->group('category_program', function ($routes) {
         $routes->get('/', 'CategoryProgram::index');
-        $routes->get('create', 'CategoryProgram::create');
-        $routes->post('store', 'CategoryProgram::store');
-        $routes->get('edit/(:num)', 'CategoryProgram::edit/$1');
-        $routes->post('update/(:num)', 'CategoryProgram::update/$1');
-        $routes->get('delete/(:num)', 'CategoryProgram::delete/$1');
+        $routes->get('new', 'CategoryProgram::create');
+        $routes->get('(:num)', 'CategoryProgram::edit/$1');
+        $routes->post('save', 'CategoryProgram::save');
+        $routes->post('delete', 'CategoryProgram::delete');
     });
 
-
-
-    $routes->group('series', function($routes) {
+    $routes->group('series', function ($routes) {
         $routes->get('/', 'Series::index');
-        $routes->get('create', 'Series::create');
-        $routes->post('store', 'Series::store');
-        $routes->get('edit/(:num)', 'Series::edit/$1');
-        $routes->post('update/(:num)', 'Series::update/$1');
-        $routes->get('delete/(:num)', 'Series::delete/$1');
+        $routes->get('new', 'Series::create');
+        $routes->get('(:num)', 'Series::edit/$1');
+        $routes->post('save', 'Series::save');
+        $routes->post('delete', 'Series::delete');
     });
 
-
-
-    $routes->group('muscles', function($routes) {
+    $routes->group('muscles', function ($routes) {
         $routes->get('/', 'Muscles::index');
-        $routes->get('create', 'Muscles::create');
-        $routes->post('store', 'Muscles::store');
-        $routes->get('edit/(:num)', 'Muscles::edit/$1');
-        $routes->post('update/(:num)', 'Muscles::update/$1');
-        $routes->get('delete/(:num)', 'Muscles::delete/$1');
+        $routes->get('new', 'Muscles::create');
+        $routes->get('(:num)', 'Muscles::edit/$1');
+        $routes->post('save', 'Muscles::save');
+        $routes->post('delete', 'Muscles::delete');
     });
 
-
-
-    $routes->group('workout', function($routes) {
+    $routes->group('workout', function ($routes) {
         $routes->get('/', 'Workout::index');
-        $routes->get('create', 'Workout::create');
-        $routes->post('store', 'Workout::store');
-        $routes->get('edit/(:num)', 'Workout::edit/$1');
-        $routes->post('update/(:num)', 'Workout::update/$1');
-        $routes->get('delete/(:num)', 'Workout::delete/$1');
+        $routes->get('new', 'Workout::create');
+        $routes->get('(:num)', 'Workout::edit/$1');
+        $routes->post('save', 'Workout::save');
+        $routes->post('delete', 'Workout::delete');
     });
 
-
-
-    $routes->group('friends', function($routes) {
+    $routes->group('friends', function ($routes) {
         $routes->get('/', 'Friends::index');
-        $routes->get('create', 'Friends::create');
-        $routes->post('store', 'Friends::store');
-        $routes->get('edit/(:num)', 'Friends::edit/$1');
-        $routes->post('update/(:num)', 'Friends::update/$1');
-        $routes->get('delete/(:num)', 'Friends::delete/$1');
+        $routes->get('new', 'Friends::create');
+        $routes->get('(:num)', 'Friends::edit/$1');
+        $routes->post('save', 'Friends::save');
+        $routes->post('delete', 'Friends::delete');
     });
 
-
-    $routes->group('friends_request', function($routes) {
+    $routes->group('friends_request', function ($routes) {
         $routes->get('/', 'FriendsRequest::index');
-        $routes->get('create', 'FriendsRequest::create');
-        $routes->post('store', 'FriendsRequest::store');
-        $routes->get('edit/(:num)', 'FriendsRequest::edit/$1');
-        $routes->post('update/(:num)', 'FriendsRequest::update/$1');
-        $routes->get('delete/(:num)', 'FriendsRequest::delete/$1');
+        $routes->get('new', 'FriendsRequest::create');
+        $routes->get('(:num)', 'FriendsRequest::edit/$1');
+        $routes->post('save', 'FriendsRequest::save');
+        $routes->post('delete', 'FriendsRequest::delete');
     });
 
 });
