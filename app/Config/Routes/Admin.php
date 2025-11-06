@@ -91,5 +91,26 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->get('delete/(:num)', 'Workout::delete/$1');
     });
 
+
+
+    $routes->group('friends', function($routes) {
+        $routes->get('/', 'Friends::index');
+        $routes->get('create', 'Friends::create');
+        $routes->post('store', 'Friends::store');
+        $routes->get('edit/(:num)', 'Friends::edit/$1');
+        $routes->post('update/(:num)', 'Friends::update/$1');
+        $routes->get('delete/(:num)', 'Friends::delete/$1');
+    });
+
+
+    $routes->group('friends_request', function($routes) {
+        $routes->get('/', 'FriendsRequest::index');
+        $routes->get('create', 'FriendsRequest::create');
+        $routes->post('store', 'FriendsRequest::store');
+        $routes->get('edit/(:num)', 'FriendsRequest::edit/$1');
+        $routes->post('update/(:num)', 'FriendsRequest::update/$1');
+        $routes->get('delete/(:num)', 'FriendsRequest::delete/$1');
+    });
+
 });
 

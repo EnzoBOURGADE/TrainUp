@@ -11,8 +11,8 @@
                 <table id="seriesTable" class="table table-sm table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>ID Programme</th>
-                        <th>ID Exercice</th>
+                        <th>Nom du Programme</th>
+                        <th>Nom de l'Exercice</th>
                         <th>Répétition</th>
                         <th>Poids</th>
                         <th>Date</th>
@@ -41,8 +41,8 @@
                 }
             },
             columns: [
-                { data: 'id_program' },
-                { data: 'id_exercices' },
+                { data: 'name_program' },
+                { data: 'name_exercices' },
                 { data: 'reps' },
                 { data: 'weight' },
                 { data: 'date' }

@@ -2,19 +2,17 @@
     <div class="col">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="card-title">Liste des exercices</h3>
-                <a href="<?= base_url('/admin/exercice/new') ?>" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Nouvel exercice
+                <h3 class="card-title">Liste des amitiés</h3>
+                <a href="<?= base_url('/admin/friends/new') ?>" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nouvelle amitié
                 </a>
             </div>
             <div class="card-body">
-                <table id="exercicesTable" class="table table-sm table-bordered table-striped">
+                <table id="friendsTable" class="table table-sm table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Description</th>
-                        <th>Muscle</th>
+                        <th>ID User 1</th>
+                        <th>ID User 2</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -30,31 +28,29 @@
 <script>
     $(document).ready(function() {
         var baseUrl = "<?= base_url(); ?>";
-        var table = $('#exercicesTable').DataTable({
+        var table = $('#friendsTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
                 url: '<?= base_url('datatable/searchdatatable') ?>',
                 type: 'POST',
                 data: {
-                    model: 'exerciceModel'
+                    model: 'FriendsModel'
                 }
             },
             columns: [
-                { data: 'id' },
-                { data: 'name' },
-                { data: 'description' },
-                { data: 'name_muscle' },
+                { data: 'id_user_1' },
+                { data: 'id_user_2' },
                 {
                     data: null,
                     orderable: false,
                     render: function(data, type, row) {
                         return `
                             <div class="btn-group" role="group">
-                                <a href="<?= base_url('/admin/exercices/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
+                                <a href="<?= base_url('/admin/friends/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteExercice(${row.id})">
+                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteFriends(${row.id})">
                                     <i class="fas fa-trash"></i>
                                 </span>
                             </div>
@@ -75,10 +71,10 @@
         };
     });
 
-    function deleteExercice(id) {
+    function deleteFriends(id) {
         Swal.fire({
             title: `Êtes-vous sûr ?`,
-            text: `Voulez-vous vraiment supprimer cet exercice ?`,
+            text: `Voulez-vous vraiment supprimer cette amitié ?`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: '#dc3545',
@@ -88,7 +84,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "<?= base_url('admin/exercice/delete') ?>",
+                    url: "<?= base_url('admin/friends/delete') ?>",
                     type: 'POST',
                     data: { id: id },
                     success: function(response) {

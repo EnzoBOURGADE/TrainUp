@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Friend extends Migration
+class Friends extends Migration
 {
     public function up()
     {
@@ -33,11 +33,11 @@ class Friend extends Migration
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_user_1', 'user', 'id', 'CASCADE', 'RESTRICT');
         $this->forge->addForeignKey('id_user_2', 'user', 'id', 'CASCADE', 'RESTRICT');
-        $this->forge->createTable('friend');
+        $this->forge->createTable('friends');
     }
 
     public function down()
     {
-        $this->forge->dropTable('friend');
+        $this->forge->dropTable('friends');
     }
 }

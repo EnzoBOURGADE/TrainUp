@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
+use App\Traits\Select2Searchable;
 use CodeIgniter\Model;
 
 class FriendsRequestModel extends Model
 {
-    protected $table            = 'friendsrequests';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    use DataTableTrait;
+    use Select2Searchable;
+
+    protected $table            = 'friends_request';
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['requester_id', 'receiver_id'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -25,7 +28,6 @@ class FriendsRequestModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [];
@@ -43,4 +45,15 @@ class FriendsRequestModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => ['friends_request.requester_id', 'friends_request.receiver_id'],
+            'joins' => [],
+            'select' => 'friends_request.*',
+            'with_deleted' => false,
+        ];
+    }
 }
