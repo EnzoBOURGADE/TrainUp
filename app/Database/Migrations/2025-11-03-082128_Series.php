@@ -30,7 +30,7 @@ class Series extends Migration
                 'null' => false,
             ],
             'date' => [
-                'type' => 'DATETIME',
+                'type' => 'DATE',
                 'null' => false,
             ]
         ]);

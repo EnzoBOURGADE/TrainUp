@@ -21,6 +21,14 @@ class ExerciceModel extends Model
         'name', 'description', 'rest_time', 'reps', 'nber_series', 'time_series', 'id_cat', 'id_muscle'
     ];
 
+    public function getExerciceById(int $id): string
+    {
+        $exerciceModel = model('ExercicesModel');
+        $exercice = $exerciceModel->find($id);
+        return $exercice;
+    }
+
+
     protected function getDataTableConfig(): array
     {
         return [

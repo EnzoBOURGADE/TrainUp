@@ -64,7 +64,7 @@ class SeriesModel extends Model
                     'type' => 'left'
                 ]
             ],
-            'select' => 'series.*, exercices.name as name_exercices, program.name as name_program,',
+            'select' => 'series.*, exercices.name as name_exercices, program.name as name_program',
             'with_deleted' => false,
         ];
     }

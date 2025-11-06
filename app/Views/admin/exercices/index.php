@@ -106,6 +106,7 @@
             cancelButtonText: 'Annuler',
         }).then((result) => {
             if (result.isConfirmed) {
+
                 $.ajax({
                     url: "<?= base_url('admin/exercices/delete') ?>",
                     type: 'POST',
