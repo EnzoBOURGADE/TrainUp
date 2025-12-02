@@ -36,9 +36,9 @@ class ProgramModel extends Model
     public function getProgram($id) : array {
         return
             $this
-                ->select('program.*, u.username as creator_name, c.category_name as cat_name' )
+                ->select('program.*, u.username as creator_name, c.name as cat_name' )
                 ->join('user u', 'program.id_user = u.id', 'left')
-                ->join('category c', 'c.id = program.id_cat', 'left')
+                ->join('category_prgm c', 'c.id = program.id_cat', 'left')
                 ->where('program.id', $id)
                 ->first();
     }
@@ -49,7 +49,7 @@ class ProgramModel extends Model
                 'program.id',
                 'program.name',
                 'user.username',
-                'category.category_name'
+                'category_prgm.name'
             ],
             'joins' => [
                 [
@@ -58,12 +58,12 @@ class ProgramModel extends Model
                     'type' => 'left'
                 ],
                 [
-                    'table' => 'categories',
-                    'condition' => 'categories.id = program.id_cat',
+                    'table' => 'categories_prgm',
+                    'condition' => 'categories_prgm.id = program.id_cat',
                     'type' => 'left'
                 ]
             ],
-            'select' => 'program.id, program.name, user.username as creator_name, categories.name as cat_name, 
+            'select' => 'program.id, program.name, user.username as creator_name, categories_prgm.name as cat_name, 
             (
                 (SELECT COUNT(*) FROM workout WHERE workout.id_program = program .id)
                 +

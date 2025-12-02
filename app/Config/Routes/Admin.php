@@ -8,6 +8,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->get('new', 'User::create');
         $routes->post('update', 'User::update');
         $routes->post('insert', 'User::insert');
+        $routes->post('save', 'User::save');
         $routes->post('switch-active','User::switchActive');
         $routes->get('search', 'User::search');
     });

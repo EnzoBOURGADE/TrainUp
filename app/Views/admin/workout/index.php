@@ -16,6 +16,7 @@
                         <th>Date</th>
                         <th>Temps repos</th>
                         <th>Ordre</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,7 +46,23 @@
                 { data: 'name_program' },
                 { data: 'date' },
                 { data: 'rest_time' },
-                { data: 'order' }
+                { data: 'order' },
+                {
+                    data: null,
+                    orderable: false,
+                    render: function(data, type, row) {
+                        return `
+                            <div class="btn-group" role="group">
+                                <a href="<?= base_url('/admin/workout/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteWorkout(${row.id})">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                            </div>
+    `;
+                    }
+                }
             ],
             order: [[0, 'desc']],
             pageLength: 10,
@@ -58,4 +75,54 @@
             table.ajax.reload(null, false);
         };
     });
+
+    function deleteWorkout(id) {
+        Swal.fire({
+            title: 'Êtes-vous sûr ?',
+            text: 'Voulez-vous vraiment supprimer ce workout ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Oui, supprimé !',
+            cancelButtonText: 'Annuler',
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "<?= base_url('admin/workout/delete') ?>",
+                    type: 'POST',
+                    data: { id: id },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            refreshTable();
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Supprimé',
+                                text: response.message,
+                                timer: 1500,
+                                showConfirmButton: false,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erreur',
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erreur AJAX :', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la suppression.',
+                        });
+                    }
+                });
+            }
+        });
+    }
 </script>

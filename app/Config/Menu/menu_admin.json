@@ -26,6 +26,11 @@
         "title": "Programmes",
         "url": "/admin/program",
         "icon": "<i class=\"nav-icon fa-solid fa-list-check\"></i>"
+      },
+      "workout": {
+        "title": "Workout",
+        "url": "/admin/workout",
+        "icon": "<i class=\"nav-icon fa-solid fa-dumbbell\"></i>"
       }
     }
   },
@@ -50,11 +55,6 @@
         "title": "Muscles",
         "url": "/admin/muscles",
         "icon": "<i class=\"nav-icon fa-solid fa-hand-fist\"></i>"
-      },
-      "workout": {
-        "title": "Workout",
-        "url": "/admin/workout",
-        "icon": "<i class=\"nav-icon fa-solid fa-dumbbell\"></i>"
       }
     }
   },

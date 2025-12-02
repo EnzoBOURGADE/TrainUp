@@ -74,7 +74,7 @@
 
                         return `
                         <div class="btn-group" role="group">
-                            <a href="<?= base_url('/admin/user/edit/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
+                            <a href="<?= base_url('/admin/user/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
                                 <i class="fas fa-edit"></i>
                             </a>
                             ${toggleButton}

@@ -39,7 +39,7 @@ class Program extends Migration
         $this->forge->addKey('id', true);
 
         $this->forge->addForeignKey('id_user', 'user', 'id', 'CASCADE', 'RESTRICT');
-        $this->forge->addForeignKey('id_cat', 'categories', 'id', 'CASCADE', 'RESTRICT');
+        $this->forge->addForeignKey('id_cat', 'categories_prgm', 'id', 'CASCADE', 'RESTRICT');
 
         $this->forge->createTable('program');
     }

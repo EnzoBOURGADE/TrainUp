@@ -53,7 +53,10 @@ class CategoryProgramModel extends Model
             'searchable_fields' => ['categories_prgm.id', 'categories_prgm.name'],
             'joins' => [
             ],
-            'select' => 'categories_prgm.*',
+            'select' => 'categories_prgm.*, 
+            (
+                (SELECT COUNT(*) FROM program WHERE program.id_cat = categories_prgm.id)
+            ) AS count_usage',
             'with_deleted' => false,
         ];
     }
