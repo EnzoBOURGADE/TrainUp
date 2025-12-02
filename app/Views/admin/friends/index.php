@@ -3,9 +3,6 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 class="card-title">Liste des amitiés</h3>
-                <a href="<?= base_url('/admin/friends/new') ?>" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Nouvelle amitié
-                </a>
             </div>
             <div class="card-body">
                 <table id="friendsTable" class="table table-sm table-bordered table-striped">
@@ -47,14 +44,11 @@
                     render: function(data, type, row) {
                         return `
                             <div class="btn-group" role="group">
-                                <a href="<?= base_url('/admin/friends/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteFriends(${row.id})">
+                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteFriends(${row.id_user_1}, ${row.id_user_2})">
                                     <i class="fas fa-trash"></i>
                                 </span>
                             </div>
-                        `;
+    `;
                     }
                 }
             ],
@@ -65,13 +59,12 @@
             }
         });
 
-        // Fonction pour actualiser la table
         window.refreshTable = function() {
-            table.ajax.reload(null, false); // false pour garder la pagination
+            table.ajax.reload(null, false);
         };
     });
 
-    function deleteFriends(id) {
+    function deleteFriends(user1, user2) {
         Swal.fire({
             title: `Êtes-vous sûr ?`,
             text: `Voulez-vous vraiment supprimer cette amitié ?`,
@@ -86,7 +79,7 @@
                 $.ajax({
                     url: "<?= base_url('admin/friends/delete') ?>",
                     type: 'POST',
-                    data: { id: id },
+                    data: { id_user_1: user1, id_user_2: user2 },
                     success: function(response) {
                         if(response.success) {
                             refreshTable();

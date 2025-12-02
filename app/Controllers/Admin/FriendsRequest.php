@@ -16,6 +16,6 @@ class FriendsRequest extends BaseController
     public function index()
     {
         $data['friends_request'] = $this->model->findAll();
-        return $this->view('/admin/friends_request/index', $data);
+        return $this->view('/admin/friends-request/index', $data);
     }
 }

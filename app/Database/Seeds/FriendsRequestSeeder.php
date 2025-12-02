@@ -12,6 +12,6 @@ class FriendsRequestSeeder extends Seeder
             ['requester_id' => 1, 'receiver_id' => 2]
         ];
 
-        $this->db->table('friends_request')->insertBatch($data);
+        $this->db->table('friends-request')->insertBatch($data);
     }
 }

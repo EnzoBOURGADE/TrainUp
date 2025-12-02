@@ -40,6 +40,15 @@
             },
             columns: [
                 { data: 'id' },
+                {
+                    data: 'count_usage',
+                    className: 'text-center',
+                    render: function(data) {
+                        return data > 0
+                            ? `<span class="badge bg-success">${data}</span>`
+                            : `<span class="badge bg-secondary">0</span>`;
+                    }
+                },
                 { data: 'name' },
                 {
                     data: null,
@@ -65,13 +74,12 @@
             }
         });
 
-        // Fonction pour actualiser la table
         window.refreshTable = function() {
-            table.ajax.reload(null, false); // false pour garder la pagination
+            table.ajax.reload(null, false);
         };
     });
 
-    function deleteExercice(id) {
+    function deleteMuscles(id) {
         Swal.fire({
             title: `Êtes-vous sûr ?`,
             text: `Voulez-vous vraiment supprimer ce muscle ?`,
@@ -84,7 +92,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "<?= base_url('admin/muscle/delete') ?>",
+                    url: "<?= base_url('admin/muscles/delete') ?>",
                     type: 'POST',
                     data: { id: id },
                     success: function(response) {

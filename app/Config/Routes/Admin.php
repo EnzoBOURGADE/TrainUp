@@ -77,18 +77,11 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
 
     $routes->group('friends', function ($routes) {
         $routes->get('/', 'Friends::index');
-        $routes->get('new', 'Friends::create');
-        $routes->get('(:num)', 'Friends::edit/$1');
-        $routes->post('save', 'Friends::save');
         $routes->post('delete', 'Friends::delete');
     });
 
     $routes->group('friends-request', function ($routes) {
         $routes->get('/', 'FriendsRequest::index');
-        $routes->get('new', 'FriendsRequest::create');
-        $routes->get('(:num)', 'FriendsRequest::edit/$1');
-        $routes->post('save', 'FriendsRequest::save');
-        $routes->post('delete', 'FriendsRequest::delete');
     });
 
 });

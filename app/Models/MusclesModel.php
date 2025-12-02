@@ -52,7 +52,10 @@ class MusclesModel extends Model
         return [
             'searchable_fields' => ['muscles.id', 'muscles.name'],
             'joins' => [],
-            'select' => 'muscles.*',
+            'select' => 'muscles.*, 
+            (
+                (SELECT COUNT(*) FROM exercices WHERE exercices.id_muscle = muscles .id)
+            ) AS count_usage',
             'with_deleted' => false,
         ];
     }

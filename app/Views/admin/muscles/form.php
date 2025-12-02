@@ -3,31 +3,24 @@
         <div class="card">
             <div class="card-header">
                 <h1 class="h3">
-                    <?php if (isset($exercice['id'])) : ?>
-                        Modification d’un exercice
+                    <?php if (isset($muscles['id'])) : ?>
+                        Modification d’un muscle
                     <?php else: ?>
-                        Création d’un exercice
+                        Création d’un muscle
                     <?php endif; ?>
                 </h1>
             </div>
-            <?= form_open('admin/exercice/save') ?>
-            <?php if (isset($exercice['id'])) : ?>
-                <input type="hidden" name="id" value="<?= $exercice['id'] ?>">
+            <?= form_open('admin/muscles/save') ?>
+            <?php if (isset($muscles['id'])) : ?>
+                <input type="hidden" name="id" value="<?= $muscles['id'] ?>">
             <?php endif; ?>
             <div class="card-body">
                 <div class="mb-3 form-floating">
-                    <input type="text" class="form-control" name="name" value="<?= $exercice['name'] ?? '' ?>" placeholder="Nom de l’exercice" required>
-                    <label for="name">Nom de l’exercice</label>
-                </div>
-                <div class="mb-3 form-floating">
-                    <textarea class="form-control" name="description" placeholder="Description"><?= $exercice['description'] ?? '' ?></textarea>
-                    <label for="description">Description</label>
-                </div>
-                <div class="mb-3 form-floating">
-                    <input type="number" class="form-control" name="id_muscle" value="<?= $exercice['id_muscle'] ?? '' ?>" placeholder="ID Muscle">
-                    <label for="id_muscle">ID Muscle</label>
+                    <input type="text" class="form-control" name="name" value="<?= $muscles['name'] ?? '' ?>" placeholder="Nom du muscle" required>
+                    <label for="name">Nom du muscle</label>
                 </div>
             </div>
+
             <div class="card-footer text-end">
                 <button type="submit" class="btn btn-primary">Enregistrer</button>
             </div>
