@@ -12,6 +12,7 @@
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Utilisation</th>
                         <th>Nom</th>
                         <th>Actions</th>
                     </tr>
@@ -40,6 +41,15 @@
             },
             columns: [
                 { data: 'id' },
+                {
+                    data: 'count_usage',
+                    className: 'text-center',
+                    render: function(data) {
+                        return data > 0
+                            ? `<span class="badge bg-success">${data}</span>`
+                            : `<span class="badge bg-secondary">0</span>`;
+                    }
+                },
                 { data: 'name' },
                 {
                     data: null,
@@ -65,9 +75,8 @@
             }
         });
 
-        // Fonction pour actualiser la table
         window.refreshTable = function() {
-            table.ajax.reload(null, false); // false pour garder la pagination
+            table.ajax.reload(null, false);
         };
     });
 

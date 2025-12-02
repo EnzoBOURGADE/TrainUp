@@ -50,7 +50,12 @@ class CategoryModel extends Model
         return [
             'searchable_fields' => ['categories.id', 'categories.name'],
             'joins' => [],
-            'select' => 'categories.*',
+            'select' => 'categories.*, 
+            (
+                (SELECT COUNT(*) FROM exercices WHERE exercices.id_cat  = categories .id)
+                +
+                (SELECT COUNT(*) FROM program WHERE program.id_cat  = categories .id)
+            ) AS count_usage',
             'with_deleted' => false,
         ];
     }

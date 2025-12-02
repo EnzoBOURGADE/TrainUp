@@ -12,32 +12,41 @@
             </div>
             <?= form_open('admin/program/save') ?>
             <?php if (isset($program['id'])) : ?>
-                 <input type="hidden" name="id" value="<?= $program['id'] ?>">
+                <input type="hidden" name="id" value="<?= $program['id'] ?>">
             <?php endif; ?>
             <div class="card-body">
                 <div class="mb-3 form-floating">
                     <input type="text" class="form-control" name="name" value="<?= $program['name'] ?? '' ?>" placeholder="Nom du programme" required>
                     <label for="nom">Nom du programme</label>
                 </div>
+
                 <div class="mb-3">
-                    <select class="form-select" name="id_user" id="user" required>
-                        <?php if (isset($program['id_user'])): ?>
-                            <option value="<?= $program['id_user'] ?>" selected>
-                                <?= $program['creator_name'] ?>
+                    <label for="id_user">Utilisateur : </label>
+                    <select class="form-select" name="id_user" id="id_user" required>
+                        <option value="">-- Sélectionner un utilisateur --</option>
+                        <?php foreach ($users as $us): ?>
+                            <option value="<?= $us->id ?>"
+                                <?= isset($selectedUserId) && $selectedUserId == $us->id ? 'selected' : '' ?>>
+                                <?= esc($us->username) ?>
                             </option>
-                        <?php endif; ?>
+                        <?php endforeach; ?>
                     </select>
                 </div>
+
                 <div class="mb-3">
-                    <select class="form-select" name="id_cat" id="cat" required>
-                        <?php if (isset($program['id_cat'])): ?>
-                            <option value="<?= $program['id_cat'] ?>" selected>
-                                <?= $program['category_name'] ?>
+                    <label for="id_cat">Catégorie : </label>
+                    <select class="form-select" name="id_cat" id="id_cat" required>
+                        <option value="">-- Sélectionner une catégorie --</option>
+                        <?php foreach ($categories as $cat): ?>
+                            <option value="<?= $cat['id'] ?>"
+                                <?= isset($selectedCategoryId) && $selectedCategoryId == $cat['id'] ? 'selected' : '' ?>>
+                                <?= esc($cat['name']) ?>
                             </option>
-                        <?php endif; ?>
+                        <?php endforeach; ?>
                     </select>
                 </div>
             </div>
+
             <div class="card-footer text-end">
                 <button type="submit" class="btn btn-primary">Enregistrer</button>
             </div>
@@ -45,22 +54,3 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        initAjaxSelect2('#user', {
-            url: '<?= base_url('admin/user/search') ?>',
-            placeholder : "Rechercher un utilisateur ...",
-            searchFields: "username",
-            delay: 250
-        });
-    });
-
-    $(document).ready(function() {
-        initAjaxSelect2('#cat', {
-            url: '<?= base_url('admin/cat/search') ?>',
-            placeholder : "Rechercher une catégorie ...",
-            searchFields: "name",
-            delay: 250
-        });
-    });
-</script>

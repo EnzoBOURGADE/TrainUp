@@ -68,6 +68,7 @@
                     <label for="description">Description</label>
                 </div>
             </div>
+
             <div class="card-footer text-end">
                 <button type="submit" class="btn btn-primary">Enregistrer</button>
             </div>

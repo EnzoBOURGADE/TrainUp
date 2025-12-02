@@ -14,7 +14,7 @@ class ProgramModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'id_user'];
+    protected $allowedFields    = ['name', 'id_user', 'id_cat'];
     protected $useTimestamps = false;
     // Validation
     protected $validationRules      = [];
@@ -36,8 +36,9 @@ class ProgramModel extends Model
     public function getProgram($id) : array {
         return
             $this
-                ->select('program.*, user.username as creator_name')
-                ->join('user', 'program.id_user = user.id', 'left')
+                ->select('program.*, u.username as creator_name, c.category_name as cat_name' )
+                ->join('user u', 'program.id_user = u.id', 'left')
+                ->join('category c', 'c.id = program.id_cat', 'left')
                 ->where('program.id', $id)
                 ->first();
     }
@@ -47,16 +48,29 @@ class ProgramModel extends Model
             'searchable_fields' => [
                 'program.id',
                 'program.name',
-                'user.username'
+                'user.username',
+                'category.category_name'
             ],
             'joins' => [
                 [
                     'table' => 'user',
                     'condition' => 'program.id_user = user.id',
                     'type' => 'left'
+                ],
+                [
+                    'table' => 'categories',
+                    'condition' => 'categories.id = program.id_cat',
+                    'type' => 'left'
                 ]
             ],
-            'select' => 'program.id, program.name, user.username as creator_name, program.id_user',
+            'select' => 'program.id, program.name, user.username as creator_name, categories.name as cat_name, 
+            (
+                (SELECT COUNT(*) FROM workout WHERE workout.id_program = program .id)
+                +
+                (SELECT COUNT(*) FROM series WHERE series.id_program  = program .id)
+            ) AS count_usage'
+
+
         ];
     }
 }
