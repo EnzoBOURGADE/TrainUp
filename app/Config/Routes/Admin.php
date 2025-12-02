@@ -43,7 +43,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('delete', 'Category::delete');
     });
 
-    $routes->group('category_program', function ($routes) {
+    $routes->group('category-program', function ($routes) {
         $routes->get('/', 'CategoryProgram::index');
         $routes->get('new', 'CategoryProgram::create');
         $routes->get('(:num)', 'CategoryProgram::edit/$1');
@@ -83,7 +83,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('delete', 'Friends::delete');
     });
 
-    $routes->group('friends_request', function ($routes) {
+    $routes->group('friends-request', function ($routes) {
         $routes->get('/', 'FriendsRequest::index');
         $routes->get('new', 'FriendsRequest::create');
         $routes->get('(:num)', 'FriendsRequest::edit/$1');

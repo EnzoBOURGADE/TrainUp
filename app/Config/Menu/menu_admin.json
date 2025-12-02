@@ -41,9 +41,9 @@
         "url": "/admin/category",
         "icon": "<i class=\"nav-icon fa-solid fa-table\"></i>"
       },
-      "categories_prgm": {
+      "categories-prgm": {
         "title": "Catégories programmes",
-        "url": "/admin/category_program",
+        "url": "/admin/category-program",
         "icon": "<i class=\"nav-icon fa-solid fa-list\"></i>"
       },
       "muscle": {
@@ -70,9 +70,9 @@
         "url": "/admin/friends",
         "icon": "<i class=\"nav-icon fa-solid fa-face-smile\"></i>"
       },
-      "friend_request": {
+      "friend-request": {
         "title": "Requêtes d'amis",
-        "url": "/admin/friends_request",
+        "url": "/admin/friends-request",
         "icon": "<i class=\"nav-icon fa-solid fa-user-check\"></i>"
       }
     }
