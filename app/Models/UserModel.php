@@ -19,7 +19,7 @@ class UserModel extends Model
     protected $allowedFields    = ['email','password','username','first_name','last_name', 'birthdate', 'id_permission'];
     // Dates
     protected $useTimestamps = true;
-    protected $dateFormat    = 'datetime';
+    protected $dateFormat    = 'date';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
@@ -107,6 +107,7 @@ class UserModel extends Model
                 'last_name',
                 'username',
                 'email',
+                'birthdate',
                 'user_permission.name'
             ],
             'joins' => [
@@ -116,7 +117,11 @@ class UserModel extends Model
                     'type' => 'left'
                 ]
             ],
-            'select' => 'user.*, user_permission.name as permission_name',
+            'select' => 'user.*, user_permission.name as permission_name,
+            (
+                (SELECT COUNT(*) FROM friends WHERE friends.id_user_1 = user.id OR friends.id_user_2 = user.id)
+            ) AS count_usage
+        ',
             'with_deleted' => true
         ];
     }

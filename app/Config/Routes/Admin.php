@@ -6,7 +6,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->get('/', 'User::index');
         $routes->get('(:num)', 'User::edit/$1');
         $routes->get('new', 'User::create');
-        $routes->post('update', 'User::update');
+        $routes->post('update/(:num)', 'User::update/$1');
         $routes->post('insert', 'User::insert');
         $routes->post('save', 'User::save');
         $routes->post('switch-active','User::switchActive');
@@ -83,6 +83,8 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
 
     $routes->group('friends-request', function ($routes) {
         $routes->get('/', 'FriendsRequest::index');
+        $routes->get('new', 'FriendsRequest::create');
+        $routes->post('save', 'FriendsRequest::save');
     });
 
 });

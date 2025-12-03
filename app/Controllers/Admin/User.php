@@ -19,17 +19,20 @@ class User extends BaseController
         return $this->view('/admin/user/index');
     }
 
-    public function create() {
-    helper('form');
-    $users = Model('UserModel')->findAll();
-    $permissions = Model('UserPermissionModel')->findAll();
+    public function create()
+    {
+        helper('form');
 
-    return $this->view('/admin/user/form',
-        [
-            'users' => $users,
+        $user = new \App\Entities\User();
+        $permissions = model('UserPermissionModel')->findAll();
+
+        return $this->view('/admin/user/form', [
+            'users' => $user,
             'permissions' => $permissions,
+            'selectedPermissionId' => null,
         ]);
-}
+    }
+
 
     public function save() {
         $data = $this->request->getPost();

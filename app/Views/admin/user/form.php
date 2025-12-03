@@ -17,13 +17,13 @@
             <div class="card-body">
                 <div class="row g-3 mb-3">
                     <div class="col-md-4 form-floating">
-                        <input type="text" class="form-control" id="name" name="name" value="<?= $users -> first_name ?? '' ?>" placeholder="Prenom de l’utilisateur" required>
-                        <label for="name">Prenom de l’utilisateur</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" value="<?= $users -> first_name ?? '' ?>" placeholder="Prenom de l’utilisateur" required>
+                        <label for="first_name">Prenom de l’utilisateur</label>
                     </div>
 
                     <div class="col-md-4 form-floating">
-                        <input type="text" class="form-control" name="surname" value="<?= $users -> last_name ?? '' ?>" placeholder="Nom de l’utilisateur" required>
-                        <label for="name">Nom de l’utilisateur</label>
+                        <input type="text" class="form-control" name="last_name" value="<?= $users -> last_name ?? '' ?>" placeholder="Nom de l’utilisateur" required>
+                        <label for="last_name">Nom de l’utilisateur</label>
                     </div>
 
                     <div class="col-md-4 form-floating">
@@ -49,6 +49,13 @@
                             <?php endforeach; ?>
                         </select>
                         <label for="id_perm">Permission</label>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6 form-floating">
+                        <input type="date" class="form-control" name="birthdate" value="<?= isset($users->birthdate) ? $users->birthdate->toDateString() : '' ?>" placeholder="Date Naissance" required>
+                        <label for="birthdate">Date de Naissance</label>
                     </div>
                 </div>
             </div>

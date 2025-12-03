@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 class="card-title">Liste des utilisateurs</h3>
-                <a href="<?= base_url('/admin/user/create') ?>" class="btn btn-primary">
+                <a href="<?= base_url('/admin/user/new') ?>" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Nouvel utilisateur
                 </a>
             </div>
@@ -12,10 +12,12 @@
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Nombre d'amis</th>
                         <th>Prénom</th>
                         <th>Nom</th>
                         <th>Username</th>
                         <th>Email</th>
+                        <th>Date de naissance</th>
                         <th>Permission</th>
                         <th>Statut</th>
                         <th>Actions</th>
@@ -44,10 +46,20 @@
             },
             columns: [
                 { data: 'id' },
+                {
+                    data: 'count_usage',
+                    className: 'text-center',
+                    render: function(data) {
+                        return data > 0
+                            ? `<span class="badge bg-success">${data}</span>`
+                            : `<span class="badge bg-secondary">0</span>`;
+                    }
+                },
                 { data: 'first_name' },
                 { data: 'last_name' },
                 { data: 'username' },
                 { data: 'email' },
+                { data: 'birthdate' },
                 { data: 'permission_name' },
                 {
                     data: 'status',
