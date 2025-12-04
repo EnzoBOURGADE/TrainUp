@@ -13,6 +13,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre d'amis</th>
+                        <th>Nombre de demandes</th>
                         <th>Prénom</th>
                         <th>Nom</th>
                         <th>Username</th>
@@ -48,6 +49,15 @@
                 { data: 'id' },
                 {
                     data: 'count_usage',
+                    className: 'text-center',
+                    render: function(data) {
+                        return data > 0
+                            ? `<span class="badge bg-success">${data}</span>`
+                            : `<span class="badge bg-secondary">0</span>`;
+                    }
+                },
+                {
+                    data: 'count_request',
                     className: 'text-center',
                     render: function(data) {
                         return data > 0
@@ -175,7 +185,7 @@
                 $.ajax({
                     url: "<?= base_url('/admin/user/delete'); ?>",
                     type: "POST",
-                    data: { id_user: id },
+                    data: { id: id },
                     success: function(response) {
                         if (response.success) {
                             Swal.fire({

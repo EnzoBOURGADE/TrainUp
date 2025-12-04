@@ -1,6 +1,6 @@
 <?php
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:administrateur'], function ($routes) {
-    $routes->get('dashboard', 'Admin::dashboard');
+    $routes->get('dashboard', 'Dashboard::index');
 
     $routes->group('user', function ($routes) {
         $routes->get('/', 'User::index');
@@ -11,6 +11,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('save', 'User::save');
         $routes->post('switch-active','User::switchActive');
         $routes->get('search', 'User::search');
+        $routes->post('delete', 'User::delete');
     });
 
     $routes->group('user-permission', function ($routes) {

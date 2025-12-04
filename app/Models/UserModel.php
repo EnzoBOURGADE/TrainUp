@@ -14,7 +14,7 @@ class UserModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'App\Entities\User';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['email','password','username','first_name','last_name', 'birthdate', 'id_permission'];
     // Dates
@@ -120,7 +120,10 @@ class UserModel extends Model
             'select' => 'user.*, user_permission.name as permission_name,
             (
                 (SELECT COUNT(*) FROM friends WHERE friends.id_user_1 = user.id OR friends.id_user_2 = user.id)
-            ) AS count_usage
+            ) AS count_usage,
+            (
+                (SELECT COUNT(*) FROM friends_request WHERE friends_request.requester_id = user.id OR friends_request.receiver_id = user.id)
+            ) AS count_request
         ',
             'with_deleted' => true
         ];

@@ -34,23 +34,32 @@ class User extends BaseController
     }
 
 
-    public function save() {
+    public function save()
+    {
         $data = $this->request->getPost();
-        $pm = Model('UserModel');
+        $pm = model('UserModel');
+
+        if (empty($data['id'])) {
+            if (!empty($data['password'])) {
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+            }
+        }
+        else {
+            unset($data['password']);
+        }
+
         if ($pm->save($data)) {
             if (isset($data['id'])) {
-                $id = $data['id'];
                 $this->success('Utilisateur bien modifié');
             } else {
-                $id = $pm->getInsertID();
                 $this->success('Utilisateur bien ajouté');
             }
         } else {
-            $id = '';
-            foreach($pm->errors() as $error) {
+            foreach ($pm->errors() as $error) {
                 $this->error($error);
             }
         }
+
         return $this->redirect('admin/user/');
     }
 
@@ -131,5 +140,24 @@ class User extends BaseController
         $limit = 20;
         $result = $um->quickSearchForSelect2($search, $page, $limit);
         return $this->response->setJSON($result);
+    }
+
+
+    public function delete()
+    {
+        $id = $this->request->getPost('id');
+
+        if ($id) {
+            $this->model->delete($id);
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Utilisateur supprimé avec succès'
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'ID manquant'
+            ]);
+        }
     }
 }

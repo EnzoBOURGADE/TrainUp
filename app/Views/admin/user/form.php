@@ -10,7 +10,7 @@
                     <?php endif; ?>
                 </h1>
             </div>
-            <?= form_open('admin/user/save') ?>
+            <?= form_open('admin/user/save', ['autocomplete' => 'off']) ?>
             <?php if (isset($users -> id)) : ?>
                 <input type="hidden" name="id" value="<?= $users -> id ?>">
             <?php endif; ?>
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="col-md-4 form-floating">
-                        <input type="text" class="form-control" name="username" value="<?= $users -> username ?? '' ?>" placeholder="username" required>
+                        <input type="text" class="form-control" name="username" value="<?= $users -> username ?? '' ?>" placeholder="username" required  autocomplete="new-username">
                         <label for="name">Nom utilisateur</label>
                     </div>
                 </div>
@@ -57,6 +57,16 @@
                         <input type="date" class="form-control" name="birthdate" value="<?= isset($users->birthdate) ? $users->birthdate->toDateString() : '' ?>" placeholder="Date Naissance" required>
                         <label for="birthdate">Date de Naissance</label>
                     </div>
+
+                    <?php if (!isset($users->id)) : ?>
+                        <div class="col-md-6">
+                            <div class="input-group form-floating">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required  autocomplete="new-password">
+                                <label for="password">Mot de passe</label>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                 </div>
             </div>
 
