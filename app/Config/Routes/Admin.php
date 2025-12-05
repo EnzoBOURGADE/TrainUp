@@ -1,6 +1,6 @@
 <?php
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:administrateur'], function ($routes) {
-    $routes->get('dashboard', 'Dashboard::index');
+    $routes->get('dashboard', 'Admin::dashboard');
 
     $routes->group('user', function ($routes) {
         $routes->get('/', 'User::index');
@@ -35,6 +35,8 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->get('(:num)', 'Exercices::edit/$1');
         $routes->post('save', 'Exercices::save');
         $routes->post('delete', 'Exercices::delete');
+        $routes->get('info/(:num)', 'Exercices::info/$1');
+        $routes->get('search', 'Exercices::search');
     });
 
     $routes->group('category', function ($routes) {

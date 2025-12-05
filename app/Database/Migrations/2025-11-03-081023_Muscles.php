@@ -10,7 +10,7 @@ class Muscles extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'constraint' => 20,
                 'unsigned' => true,
                 'null' => false,

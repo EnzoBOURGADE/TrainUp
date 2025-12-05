@@ -10,20 +10,20 @@ class Workout extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'unsigned' => true,
                 'constraint' => 20,
                 'null' => false,
                 'auto_increment' => true,
             ],
             'id_exercices' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'unsigned' => true,
                 'constraint' => 20,
                 'null' => false,
             ],
             'id_program' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'unsigned' => true,
                 'constraint' => 20,
                 'null' => false,

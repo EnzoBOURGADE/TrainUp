@@ -8,8 +8,8 @@ use CodeIgniter\Model;
 
 class WorkoutModel extends Model
 {
-    use DataTableTrait;
     use Select2Searchable;
+    use DataTableTrait;
 
     protected $table            = 'workout';
     protected $primaryKey       = 'id';
@@ -45,6 +45,7 @@ class WorkoutModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
 
 
     protected function getDataTableConfig(): array

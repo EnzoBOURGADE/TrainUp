@@ -36,6 +36,7 @@ class Workout extends BaseController
 
     public function save() {
         $data = $this->request->getPost();
+        dd($data);
         $pm = Model('WorkoutModel');
         if ($pm->save($data)) {
             if (isset($data['id'])) {

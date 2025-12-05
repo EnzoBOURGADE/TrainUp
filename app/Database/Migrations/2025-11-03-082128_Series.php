@@ -10,13 +10,13 @@ class Series extends Migration
     {
         $this->forge->addField([
             'id_program' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'unsigned' => true,
                 'constraint' => 20,
                 'null' => false,
             ],
             'id_exercices' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'unsigned' => true,
                 'constraint' => 20,
                 'null' => false,

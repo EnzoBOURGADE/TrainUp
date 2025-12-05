@@ -11,6 +11,7 @@ class ExerciceModel extends Model
 {
     use DataTableTrait;
     use Select2Searchable;
+
     protected $table            = 'exercices';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -20,6 +21,10 @@ class ExerciceModel extends Model
     protected $allowedFields    = [
         'name', 'description', 'rest_time', 'reps', 'nber_series', 'time_series', 'id_cat', 'id_muscle'
     ];
+
+    protected $select2SearchableFields = ['name'];
+    protected $select2DisplayField = 'name';
+
 
     public function getExerciceById(int $id): string
     {

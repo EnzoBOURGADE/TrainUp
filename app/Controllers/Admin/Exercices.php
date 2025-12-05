@@ -105,4 +105,30 @@ class Exercices extends BaseController
             ]);
         }
     }
+
+    public function info(int $id) {
+
+        $exercise = Model('ExerciceModel')->find($id);
+
+        if (!$exercise) {
+            return $this->response->setJSON(['error' => 'Exercice non trouvé']);
+        }
+
+        return $this->response->setJSON($exercise);
+    }
+
+    public function search()
+    {
+        $request = $this->request;
+
+        if (!$request->isAJAX()) {
+            return $this->response->setJSON(['error' => 'Requête non autorisée']);
+        }
+        $um = Model('ExerciceModel');
+        $search = $request->getGet('search') ?? '';
+        $page = (int)($request->getGet('page') ?? 1);
+        $limit = 20;
+        $result = $um->quickSearchForSelect2($search, $page, $limit);
+        return $this->response->setJSON($result);
+    }
 }

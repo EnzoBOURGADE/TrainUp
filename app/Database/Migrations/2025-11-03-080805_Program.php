@@ -10,7 +10,7 @@ class Program extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'constraint' => 20,
                 'unsigned' => true,
                 'null' => false,
@@ -23,13 +23,13 @@ class Program extends Migration
                 'unique' => true,
             ],
             'id_user' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'constraint' => 20,
                 'unsigned' => true,
                 'null' => false,
             ],
             'id_cat' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'constraint' => 20,
                 'unsigned' => true,
                 'null' => false,

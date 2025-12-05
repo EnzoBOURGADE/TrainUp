@@ -10,13 +10,13 @@ class FriendsRequest extends Migration
     {
         $this->forge->addField([
             'requester_id' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'unsigned' => true,
                 'constraint' => 20,
                 'null' => false,
             ],
             'receiver_id' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'unsigned' => true,
                 'constraint' => 20,
                 'null' => false,
