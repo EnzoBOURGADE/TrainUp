@@ -22,13 +22,14 @@ class Program extends BaseController
 
     public function create() {
         helper('form');
-        $program = Model('ProgramModel');
-        $category = Model('CategoryModel')->findAll();
+        $program = null;
+        $categoryProgram = Model('CategoryProgramModel')->findAll();
         $users = Model('UserModel')->findAll();
 
         return $this->view('/admin/program/form',
             [
-                'categories' => $category,
+                'program' => $program,
+                'categoriesProgram' => $categoryProgram,
                 'users' => $users
             ]);
     }
@@ -39,7 +40,7 @@ class Program extends BaseController
         helper('form');
         $program = $this->model->find($id);
         $user = model('UserModel')->findAll();
-        $categories = model('CategoryModel')->findAll();
+        $categoriesProgram = model('CategoryProgramModel')->findAll();
 
         if (!$program) {
             $this->error('Programme introuvable');
@@ -49,30 +50,32 @@ class Program extends BaseController
         return $this->view('/admin/program/form', [
             'program' => $program,
             'users' => $user,
-            'categories' => $categories,
+            'categoriesProgram' => $categoriesProgram,
             'selectedUserId' => $program['id_user'] ?? null,
-            'selectedCategoryId' => $program['id_cat'] ?? null,
+            'selectedCategoryProgramId' => $program['id_cat'] ?? null,
         ]);
     }
 
-    public function save() {
+    public function save()
+    {
         $data = $this->request->getPost();
-        $pm = Model('ProgramModel');
+        $pm = model('ProgramModel');
+
         if ($pm->save($data)) {
-            if (isset($data['id'])) {
-                $id = $data['id'];
+            if (!empty($data['id'])) {
                 $this->success('Programme bien modifié');
-            } else {
-                $id = $pm->getInsertID();
-                $this->success('Programme bien ajouté');
+                return $this->redirect('admin/program/' . $data['id']);
             }
+            $id = $pm->getInsertID();
+            $this->success('Programme bien ajouté');
+            return $this->redirect('admin/program/' . $id);
+
         } else {
-            $id = '';
-            foreach($pm->errors() as $error) {
+            foreach ($pm->errors() as $error) {
                 $this->error($error);
             }
+            return $this->redirect('admin/program');
         }
-        return $this->redirect('admin/program');
     }
 
     public function delete()

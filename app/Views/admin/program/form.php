@@ -37,29 +37,32 @@
                     <label for="id_cat">Catégorie : </label>
                     <select class="form-select" name="id_cat" id="id_cat" required>
                         <option value="">-- Sélectionner une catégorie --</option>
-                        <?php foreach ($categories as $cat): ?>
+                        <?php foreach ($categoriesProgram as $cat): ?>
                             <option value="<?= $cat['id'] ?>"
-                                <?= isset($selectedCategoryId) && $selectedCategoryId == $cat['id'] ? 'selected' : '' ?>>
+                                <?= isset($selectedCategoryProgramId) && $selectedCategoryProgramId == $cat['id'] ? 'selected' : '' ?>>
                                 <?= esc($cat['name']) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-
+                <br>
+                <h4> Séances : </h4>
                 <div class="row justify-content-center">
                     <div id="workoutContainer"></div>
 
                     <div class="row justify-content-center mb-3">
                         <div class="col-auto">
-                            <button type="button" id="addWorkout" class="btn btn-sm btn-primary">
-                                <i class="fas fa-plus"></i> Ajouter une séance
-                            </button>
+                            <?php if (isset($program['id'])) : ?>
+                                <a id="addWorkout"
+                                   class="btn btn-sm btn-primary"
+                                   href="<?= base_url('admin/workout/new/' . $program['id']) ?>">
+                                    <i class="fas fa-plus"></i> Ajouter une séance
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
             </div>
-
-
 
             <div class="card-footer d-flex justify-content-between">
                 <a class="text-light btn btn-danger" href="./admin/program">
@@ -79,83 +82,3 @@
         </div>
     </div>
 </div>
-
-
-<script>
-    $(document).ready(function () {
-
-        $('#addWorkout').on('click', function () {
-            let nb = $('.rowWorkout').length;
-
-            const row = `
-        <div class="row rowWorkout mb-3" data-nb="${nb}">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <select class="form-select selectExercise"></select>
-                            <button type="button" class="btn btn-danger btn-sm ms-2 btnRemoveWorkout">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                        <div class="rowInfoWorkout mt-3"></div>
-                    </div>
-                </div>
-            </div>
-        </div>`;
-
-            $('#workoutContainer').append(row);
-
-            initAjaxSelect2('#workoutContainer .rowWorkout:last-child .selectWorkout', {
-                url: base_url + '/admin/workout/search',
-                placeholder: 'Rechercher une séance ...',
-                searchFields: 'name',
-                delay: 250
-            });
-        });
-
-        $('#workoutContainer').on('click', '.btnRemoveExercise', function () {
-            $(this).closest('.rowExercise').remove();
-        });
-
-        $('#workoutContainer').on('select2:select', '.selectExercise', function () {
-            const id = parseInt($(this).val());
-            const rowExercise = $(this).closest('.rowWorkout');
-            const rowInfo = rowExercise.find('.rowInfoExercise');
-            const nb = rowExercise.data('nb');
-
-            $.ajax({
-                type: 'GET',
-                url: base_url + 'admin/exercices/info/' + id,
-                success: function (data) {
-                    if (!data.error) {
-                        const row = `
-                    <div class="row">
-                        <input type="hidden" name="exercices[${nb}][id_exercices]" value="${id}">
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="number" class="form-control" name="exercices[${nb}][reps]" value="${data.reps}" required>
-                                <label>Répétitions</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="number" class="form-control" name="exercices[${nb}][nber_series]" value="${data.nber_series}" required>
-                                <label>Séries</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="number" class="form-control" name="exercices[${nb}][rest_time]" value="${data.rest_time}" required>
-                                <label>Temps de repos (s)</label>
-                            </div>
-                        </div>
-                    </div>`;
-                        rowInfo.html(row);
-                    }
-                }
-            });
-        });
-
-    });
-</script>
