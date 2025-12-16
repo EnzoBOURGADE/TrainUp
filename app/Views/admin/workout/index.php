@@ -64,7 +64,9 @@
                     }
                 }
             ],
-            order: [[0, 'desc']],
+            order: [
+            [1, 'asc']
+        ],
             pageLength: 10,
             language: {
                 url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json',

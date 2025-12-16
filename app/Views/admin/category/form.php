@@ -20,9 +20,21 @@
                     <label for="name">Nom de la catégorie</label>
                 </div>
             </div>
-            <div class="card-footer text-end">
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <div class="card-footer d-flex justify-content-between">
+                <a class="text-light btn btn-danger" href="./admin/category">
+                    <i class="fa-solid fa-left-long"></i>
+                    Retour
+                </a>
+                <button type="reset" class="btn btn-secondary">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Réinitialiser
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Enregistrer
+                </button>
             </div>
+
             <?= form_close() ?>
         </div>
     </div>

@@ -28,7 +28,7 @@
         "icon": "<i class=\"nav-icon fa-solid fa-list-check\"></i>"
       },
       "workout": {
-        "title": "Workout",
+        "title": "Séances",
         "url": "/admin/workout",
         "icon": "<i class=\"nav-icon fa-solid fa-dumbbell\"></i>"
       }

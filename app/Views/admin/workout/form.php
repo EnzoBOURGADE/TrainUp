@@ -4,74 +4,78 @@
             <div class="card-header">
                 <h1 class="h3">
                     <?php if (isset($workout['id'])) : ?>
-                        Modification d’un workout
+                        Modification d’une séance
                     <?php else: ?>
-                        Création d’un workout
+                        Création d’une séance
                     <?php endif; ?>
                 </h1>
             </div>
+
             <?= form_open('admin/workout/save') ?>
+
             <?php if (isset($workout['id'])) : ?>
                 <input type="hidden" name="id_workout" value="<?= $workout['id'] ?>">
             <?php endif; ?>
+
             <div class="card-body">
                 <div class="row g-3 mb-3">
                     <div class="col-md-8 form-floating">
                         <select class="form-select" name="id_program" id="id_program" required>
                             <option value="">-- Sélectionner un programme --</option>
                             <?php foreach ($program as $p): ?>
-                                <option value="<?= $p['id'] ?>"
-                                    <?= isset($selectedProgramId) && $selectedProgramId == $p['id'] ? 'selected' : '' ?>>
+                                <option value="<?= $p['id'] ?>" <?= isset($selectedProgramId) && $selectedProgramId == $p['id'] ? 'selected' : '' ?>>
                                     <?= esc($p['name']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <label for="id_muscle">Programme</label>
+                        <label for="id_program">Programme</label>
                     </div>
 
                     <div class="col-md-4 form-floating">
-                        <input type="date" class="form-control" name="date" value="<?= $workout['date'] ?? '' ?>" placeholder="Date" required>
+                        <input type="date" class="form-control" name="date" value="<?= $workout['date'] ?? '' ?>" required>
                         <label for="date">Date</label>
                     </div>
-
                 </div>
 
-                <!-- <div class="row g-3 mb-3">
-                    <div class="col-md-4 form-floating">
-                        <input type="number" class="form-control" name="order" value="<?= $workout['order'] ?? '' ?>" placeholder="Ordre" required>
-                        <label for="order">Ordre</label>
-                    </div>
-                </div>
-            </div> -->
+                <div class="row justify-content-center">
+                    <div id="exercisesContainer"></div>
 
-
-            <div class="row justify-content-center">
-                <div id="exercisesContainer">
-
-                </div>
-                <div class="row justify-content-center mb-3">
-                    <div class="col-auto">
-                        <button type="button" id="addExercise" class="btn btn-sm btn-primary">
-                            <i class="fas fa-plus"></i> Ajouter un exercice
-                        </button>
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-auto">
+                            <button type="button" id="addExercise" class="btn btn-sm btn-primary">
+                                <i class="fas fa-plus"></i> Ajouter un exercice
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-            <div class="card-footer text-end">
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
+
+            <div class="card-footer d-flex justify-content-between">
+                <a class="text-light btn btn-danger" href="./admin/workout">
+                    <i class="fa-solid fa-left-long"></i>
+                    Retour
+                </a>
+                <button type="reset" class="btn btn-secondary">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Réinitialiser
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Enregistrer
+                </button>
             </div>
+
             <?= form_close() ?>
+        </div>
     </div>
 </div>
 
-
-
-
 <script>
-    $(document).ready(function(){
-        $('#addExercise').on('click', function(){
+    $(document).ready(function () {
+
+        $('#addExercise').on('click', function () {
             let nb = $('.rowExercise').length;
+
             const row = `
         <div class="row rowExercise mb-3" data-nb="${nb}">
             <div class="col">
@@ -87,60 +91,60 @@
                     </div>
                 </div>
             </div>
-        </div>
-        `;
+        </div>`;
+
             $('#exercisesContainer').append(row);
+
             initAjaxSelect2('#exercisesContainer .rowExercise:last-child .selectExercise', {
                 url: base_url + '/admin/exercices/search',
-                placeholder: "Rechercher un exercice ...",
-                searchFields : 'name',
-                delay: 250,
+                placeholder: 'Rechercher un exercice ...',
+                searchFields: 'name',
+                delay: 250
             });
         });
 
-        // Supprimer un exercice
-        $('#exercisesContainer').on('click', '.btnRemoveExercise', function(){
+        $('#exercisesContainer').on('click', '.btnRemoveExercise', function () {
             $(this).closest('.rowExercise').remove();
         });
 
-        $('#exercisesContainer').on('select2:select','.selectExercise', function(e){
+        $('#exercisesContainer').on('select2:select', '.selectExercise', function () {
             const id = parseInt($(this).val());
-            const rowInfo = $(this).closest('.rowExercise').find('.rowInfoExercise');
-            const nb = $(this).closest('.rowExercise').data('nb');
+            const rowExercise = $(this).closest('.rowExercise');
+            const rowInfo = rowExercise.find('.rowInfoExercise');
+            const nb = rowExercise.data('nb');
+
             $.ajax({
-                type : 'GET',
-                url : base_url + 'admin/exercices/info/' + id,
-                success : function(data){
-                    if(!data.error) {
+                type: 'GET',
+                url: base_url + 'admin/exercices/info/' + id,
+                success: function (data) {
+                    if (!data.error) {
                         const row = `
                     <div class="row">
+                        <input type="hidden" name="exercices[${nb}][id_exercices]" value="${id}">
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input value="${data.reps}" type="number" class="form-control" name="exercices[${nb}][reps]" placeholder="Répétitions" required>
+                                <input type="number" class="form-control" name="exercices[${nb}][reps]" value="${data.reps}" required>
                                 <label>Répétitions</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input value="${data.nber_series}" type="number" class="form-control" name="exercices[${nb}][nber_series]" placeholder="Séries" required>
+                                <input type="number" class="form-control" name="exercices[${nb}][nber_series]" value="${data.nber_series}" required>
                                 <label>Séries</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input value="${data.rest_time}" type="number" class="form-control" name="exercices[${nb}][rest_time]" placeholder="Temps de repos (s)" required>
+                                <input type="number" class="form-control" name="exercices[${nb}][rest_time]" value="${data.rest_time}" required>
                                 <label>Temps de repos (s)</label>
                             </div>
                         </div>
-                    </div>
-                    `;
+                    </div>`;
                         rowInfo.html(row);
                     }
-                },
-                error : function(err){
-                    console.log(err);
                 }
             });
         });
+
     });
 </script>

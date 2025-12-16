@@ -34,26 +34,27 @@ class Workout extends BaseController
             ]);
     }
 
-    public function save() {
+    public function save()
+    {
         $data = $this->request->getPost();
-        dd($data);
-        $pm = Model('WorkoutModel');
-        if ($pm->save($data)) {
-            if (isset($data['id'])) {
-                $id = $data['id'];
-                $this->success('Workout bien modifié');
-            } else {
-                $id = $pm->getInsertID();
-                $this->success('Workout bien ajouté');
-            }
-        } else {
-            $id = '';
-            foreach($pm->errors() as $error) {
-                $this->error($error);
-            }
+        $workoutModel = model('WorkoutModel');
+
+        foreach ($data['exercices'] as $index => $exercice) {
+
+            $workoutModel->insert([
+                'id_program'   => $data['id_program'],
+                'date'         => $data['date'],
+                'id_exercices' => $exercice['id_exercices'],
+                'rest_time'    => gmdate('H:i:s', (int)$exercice['rest_time']),
+                'order'        => $index + 1,
+            ]);
         }
-        return $this->redirect('admin/workout/');
+
+        $this->success('Workout enregistré avec succès');
+        return $this->redirect('admin/workout');
     }
+
+
 
     public function store()
     {
