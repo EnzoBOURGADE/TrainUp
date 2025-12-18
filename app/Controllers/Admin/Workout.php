@@ -20,20 +20,67 @@ class Workout extends BaseController
         return $this->view('/admin/workout/index', $data);
     }
 
-    public function create() {
+    public function create($id_program)
+    {
         helper('form');
-        $workout = Model('WorkoutModel')->findAll();
-        $exercices = Model('ExerciceModel')->findAll();
-        $program = Model('ProgramModel')->findAll();
 
-        return $this->view('/admin/workout/form',
-            [
-                'workout' => $workout,
-                'exercices' => $exercices,
-                'program' => $program
-            ]);
+        $program = model('ProgramModel')->find($id_program);
+
+        if (!$program) {
+            $this->error('Programme introuvable');
+            return $this->redirect('admin/workout');
+        }
+        return $this->view('/admin/workout/form', [
+            'id_program' => $id_program,
+            'program'    => $program
+        ]);
     }
 
+
+    public function save()
+    {
+        $data = $this->request->getPost();
+        $workoutModel = model('WorkoutModel');
+        $seriesModel = model('SeriesModel');
+        $workoutData = [
+            'id_program' => $data['id_program'],
+            'date' => $data['date'],
+            'exercices' => []
+        ];
+
+        foreach ($data['exercices'] as $index => $exercice) {
+            $series = [];
+            if (!empty($exercice['series'])) {
+                foreach ($exercice['series'] as $serie) {
+                    $series[] = [
+                        'reps' => $serie['reps'],
+                        'weight' => $serie['weight']
+                    ];
+                }
+            }
+
+            $workoutData['exercices'][] = [
+                'id_exercices' => $exercice['id_exercices'],
+                'rest_time'    => $exercice['rest_time'] ?? 0,
+                'order'        => $index + 1,
+                'series'       => $series,
+            ];
+
+            foreach ($data['exercices']['series'] as $index => $series) {
+
+                $seriesModel->insert([
+                    'id_program'   => $data['id_program'],
+                    'date'         => $data['date'],
+                    'id_exercices' => $exercice['id_exercices'],
+                    'rest_time'    => gmdate('H:i:s', (int)$exercice['rest_time']),
+                    'order'        => $index + 1,
+                ]);
+            }
+        }
+    }
+
+
+    /*
     public function save()
     {
         $data = $this->request->getPost();
@@ -53,6 +100,9 @@ class Workout extends BaseController
         $this->success('Workout enregistré avec succès');
         return $this->redirect('admin/workout');
     }
+    */
+
+
 
 
 

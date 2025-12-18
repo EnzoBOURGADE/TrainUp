@@ -73,7 +73,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
 
     $routes->group('workout', function ($routes) {
         $routes->get('/', 'Workout::index');
-        $routes->get('new', 'Workout::create');
+        $routes->get('new/(:num)', 'Workout::create/$1');
         $routes->get('(:num)', 'Workout::edit/$1');
         $routes->post('save', 'Workout::save');
         $routes->post('delete', 'Workout::delete');

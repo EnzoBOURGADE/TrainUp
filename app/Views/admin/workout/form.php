@@ -13,25 +13,19 @@
 
             <?= form_open('admin/workout/save') ?>
 
-            <?php if (isset($workout['id'])) : ?>
-                <input type="hidden" name="id_workout" value="<?= $workout['id'] ?>">
-            <?php endif; ?>
+            <input type="hidden" name="id_program" value="<?= $id_program ?>">
 
             <div class="card-body">
                 <div class="row g-3 mb-3">
-                    <div class="col-md-8 form-floating">
-                        <select class="form-select" name="id_program" id="id_program" required>
-                            <option value="">-- Sélectionner un programme --</option>
-                            <?php foreach ($program as $p): ?>
-                                <option value="<?= $p['id'] ?>" <?= isset($selectedProgramId) && $selectedProgramId == $p['id'] ? 'selected' : '' ?>>
-                                    <?= esc($p['name']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                        <label for="id_program">Programme</label>
+                    <div class="col-md-13 form-floating">
+                        <input type="text"
+                               class="form-control"
+                               value="<?= esc($program['name']) ?>"
+                               readonly>
+                        <label for="program">Programme</label>
                     </div>
 
-                    <div class="col-md-4 form-floating">
+                    <div class="col-md-13 form-floating">
                         <input type="date" class="form-control" name="date" value="<?= $workout['date'] ?? '' ?>" required>
                         <label for="date">Date</label>
                     </div>
@@ -51,11 +45,11 @@
             </div>
 
             <div class="card-footer d-flex justify-content-between">
-                <a class="text-light btn btn-danger" href="./admin/workout">
+                <a class="text-light btn btn-danger" href="./admin/program">
                     <i class="fa-solid fa-left-long"></i>
                     Retour
                 </a>
-                <button type="reset" class="btn btn-secondary">
+                <button type="reset" class="btn btn-secondary btn-reinitialiser" id="reinitialiser">
                     <i class="fa-solid fa-rotate-left"></i>
                     Réinitialiser
                 </button>
@@ -118,33 +112,62 @@
                 url: base_url + 'admin/exercices/info/' + id,
                 success: function (data) {
                     if (!data.error) {
-                        const row = `
-                    <div class="row">
-                        <input type="hidden" name="exercices[${nb}][id_exercices]" value="${id}">
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="number" class="form-control" name="exercices[${nb}][reps]" value="${data.reps}" required>
-                                <label>Répétitions</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="number" class="form-control" name="exercices[${nb}][nber_series]" value="${data.nber_series}" required>
-                                <label>Séries</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="number" class="form-control" name="exercices[${nb}][rest_time]" value="${data.rest_time}" required>
-                                <label>Temps de repos (s)</label>
-                            </div>
-                        </div>
-                    </div>`;
-                        rowInfo.html(row);
+                        rowInfo.empty();
+                        rowInfo.append(`<input type="hidden" name="exercices[${nb}][id_exercices]" value="${id}">`);
+                        for (let i = 0; i < data.nber_series; i++) {
+                            const seriesRow = createSeriesRow(nb, i, data.reps, data.weight ?? 0);
+                            rowInfo.append(seriesRow);
+                        }
+                        const addBtn = `<div class="text-center mt-2">
+                                    <button type="button" class="btn btn-sm btn-success btnAddSeries">+ Ajouter une série</button>
+                                </div>`;
+                        rowInfo.append(addBtn);
                     }
                 }
             });
         });
+        function createSeriesRow(nb, i, reps = 0, weight = 0) {
+            return `
+    <div class="row mb-2 seriesRow">
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input type="number" class="form-control"
+                       name="exercices[${nb}][series][${i}][reps]"
+                       value="${reps}" required>
+                <label>Répétitions</label>
+            </div>
+        </div>
+        <div class="col-md-6 d-flex">
+            <div class="form-floating flex-grow-1">
+                <input type="number" class="form-control"
+                       name="exercices[${nb}][series][${i}][weight]"
+                       value="${weight}" required>
+                <label>Poids</label>
+            </div>
+           <div class="d-flex align-items-center">
+                <button type="button" class="btn btn-danger btn-sm px-2 py-2 m-2 btnRemoveSeries">
+                <i class="nav-icon fa-solid fa-trash-can"></i>
+                </button>
+            </div>
+        </div>
+    </div>`;
+        }
+        $('#exercisesContainer').on('click', '.btnAddSeries', function() {
+            const rowInfo = $(this).closest('#exercisesContainer .rowInfoExercise');
+            const rowExercise = $(this).closest('.rowExercise');
+            const nb = rowExercise.data('nb');
+            const index = rowExercise.find('.seriesRow').length;
+
+            const newRow = createSeriesRow(nb, index, 0, 0);
+            $(this).parent().before(newRow);
+        });
+        $('#exercisesContainer').on('click', '.btnRemoveSeries', function() {
+            const rowExercise = $(this).closest('.rowExercise');
+            if (rowExercise.find('.seriesRow').length > 1) {
+                $(this).closest('.seriesRow').remove();
+            }
+        });
+
 
     });
 </script>
