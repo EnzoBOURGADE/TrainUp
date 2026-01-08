@@ -9,13 +9,6 @@ class Workout extends Migration
     public function up()
     {
         $this->forge->addField([
-            'id' => [
-                'type' => 'INT',
-                'unsigned' => true,
-                'constraint' => 20,
-                'null' => false,
-                'auto_increment' => true,
-            ],
             'id_exercices' => [
                 'type' => 'INT',
                 'unsigned' => true,
@@ -42,7 +35,6 @@ class Workout extends Migration
                 'null' => false,
             ]
         ]);
-        $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_exercices', 'exercices', 'id');
         $this->forge->addForeignKey('id_program', 'program', 'id',);
         $this->forge->createTable('workout');

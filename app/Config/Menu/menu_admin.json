@@ -12,11 +12,6 @@
     "icon": "<i class=\"nav-icon fas fa-person\"></i>",
     "class": "",
     "subs": {
-      "exercice": {
-        "title": "Exercices",
-        "url": "/admin/exercices",
-        "icon": "<i class=\"nav-icon fa-solid fa-person-walking\"></i>"
-      },
       "serie": {
         "title": "Series",
         "url": "/admin/series",
@@ -26,11 +21,6 @@
         "title": "Programmes",
         "url": "/admin/program",
         "icon": "<i class=\"nav-icon fa-solid fa-list-check\"></i>"
-      },
-      "workout": {
-        "title": "Séances",
-        "url": "/admin/workout",
-        "icon": "<i class=\"nav-icon fa-solid fa-dumbbell\"></i>"
       }
     }
   },
@@ -50,6 +40,11 @@
         "title": "Catégories programmes",
         "url": "/admin/category-program",
         "icon": "<i class=\"nav-icon fa-solid fa-list\"></i>"
+      },
+      "exercice": {
+        "title": "Exercices",
+        "url": "/admin/exercices",
+        "icon": "<i class=\"nav-icon fa-solid fa-person-walking\"></i>"
       },
       "muscle": {
         "title": "Muscles",
