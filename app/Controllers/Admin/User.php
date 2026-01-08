@@ -3,77 +3,93 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class User extends BaseController
 {
+    protected $model;
+
+    public function __construct()
+    {
+        $this->model = new UserModel();
+    }
     public function index()
     {
         return $this->view('/admin/user/index');
     }
 
-    public function edit($id_user) {
-        $um = Model('UserModel');
-        $user = $um->find($id_user);
-        if (!$user) {
-            $this->error('Utilisateur inexistant');
-            return $this->redirect('/admin/user');
-        }
-        helper('form');
-        $permissions = Model('UserPermissionModel')->findAll();
-        return $this->view('/admin/user/form', ['user' => $user, 'permissions' => $permissions]);
-    }
-
-    public function create() {
-        helper('form');
-        $permissions = Model('UserPermissionModel')->findAll();
-
-        return $this->view('/admin/user/form', ['permissions' => $permissions]);
-    }
-
-    public function update()
+    public function create()
     {
-        $userModel = model('UserModel');
-        $data = $this->request->getPost();
-        $id = $this->request->getPost('id');
-        $user = $userModel->find($id);
-        if (!$user) {
-            $this->error('Utilisateur inexistant');
-            return $this->redirect('/admin/user');
-        }
-
-        if (empty($data['password'])) {
-            unset($data['password']);
-        }
-        $user->fill($data);
-        if ($userModel->save($user)) {
-            $this->success('Utilisateur mis à jour avec succès.');
-            return $this->redirect('/admin/user/' . $user->id);
-        } else {
-            $this->error('Erreur');
-            return $this->redirect('/admin/user/' . $user->id);
-        }
-    }
-
-    public function insert() {
-        $userModel = model('UserModel');
-        $data = $this->request->getPost();
-
-        if (empty($data['password'])) {
-            $this->error('Le mot de passe est obligatoire.');
-            return $this->redirect('/admin/user/new');
-        }
+        helper('form');
 
         $user = new \App\Entities\User();
-        $user->fill($data);
+        $permissions = model('UserPermissionModel')->findAll();
 
-        if ($userModel->save($user)) {
-            $this->success('Utilisateur créé avec succès.');
-            return $this->redirect('/admin/user/');
-        } else {
-            $this->error('Erreur lors de la création.');
-            return $this->redirect('/admin/user/new');
+        return $this->view('/admin/user/form', [
+            'users' => $user,
+            'permissions' => $permissions,
+            'selectedPermissionId' => null,
+        ]);
+    }
+
+
+    public function save()
+    {
+        $data = $this->request->getPost();
+        $pm = model('UserModel');
+
+        if (empty($data['id'])) {
+            if (!empty($data['password'])) {
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+            }
         }
+        else {
+            unset($data['password']);
+        }
+
+        if ($pm->save($data)) {
+            if (isset($data['id'])) {
+                $this->success('Utilisateur bien modifié');
+            } else {
+                $this->success('Utilisateur bien ajouté');
+            }
+        } else {
+            foreach ($pm->errors() as $error) {
+                $this->error($error);
+            }
+        }
+
+        return $this->redirect('admin/user/');
+    }
+
+    public function store()
+    {
+        $this->model->save($this->request->getPost());
+        return redirect()->to('/user');
+    }
+
+    public function edit($id)
+    {
+        helper('form');
+        $users = $this->model->find($id);
+        $permissions = model('UserPermissionModel')->findAll();
+        if (!$users) {
+            $this->error('Utilisateur introuvable');
+            return $this->redirect('admin/user');
+        }
+
+        return $this->view('/admin/user/form', [
+            'users' => $users,
+            'permissions' => $permissions,
+            'selectedPermissionId' => $users -> id_permission ?? null,
+        ]);
+    }
+
+    public function update($id)
+    {
+        $this->model->update($id, $this->request->getPost());
+        return redirect()->to('/user');
     }
 
     public function switchActive() {
@@ -124,5 +140,24 @@ class User extends BaseController
         $limit = 20;
         $result = $um->quickSearchForSelect2($search, $page, $limit);
         return $this->response->setJSON($result);
+    }
+
+
+    public function delete()
+    {
+        $id = $this->request->getPost('id');
+
+        if ($id) {
+            $this->model->delete($id);
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Utilisateur supprimé avec succès'
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'ID manquant'
+            ]);
+        }
     }
 }

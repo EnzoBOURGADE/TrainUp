@@ -66,3 +66,6 @@ aussi.
 Pour vous connecter au phpmyadmin il faut utiliser ```root / root```
 
 Si jamais vous avez besoin d'un serveur de mail vous pouvez décommenter les lignes dans le fichier `docker-compose.yml`.
+
+
+http://localhost:8080/admin/dashboard

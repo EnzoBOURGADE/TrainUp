@@ -59,11 +59,11 @@ trait DataTableTrait
     /**
      * Prépare le builder avec la configuration
      */
-    protected function prepareBuilder(): \CodeIgniter\Database\BaseBuilder
+    protected function prepareBuilder(array $filters = []): \CodeIgniter\Database\BaseBuilder
     {
         $config = $this->getDataTableConfig();
 
-        // Si with_deleted est activé, utiliser withDeleted()
+        // Si with_deleted est activé
         if (!empty($config['with_deleted']) && method_exists($this, 'withDeleted')) {
             $builder = $this->withDeleted()->builder();
         } else {
@@ -78,13 +78,19 @@ trait DataTableTrait
             $builder->select($config['select']);
         }
 
+        // Applique les filtres dynamiques (ex: program_id)
+        foreach ($filters as $field => $value) {
+            $builder->where($field, $value);
+        }
+
         return $builder;
     }
 
-    public function getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection)
+
+    public function getPaginated($start, $length, $searchValue, $orderColumnName, $orderDirection, array $filters = [])
     {
         $config = $this->getDataTableConfig();
-        $builder = $this->prepareBuilder();
+        $builder = $this->prepareBuilder($filters); // 👈 passer les filtres
 
         // Applique la recherche
         $this->applySearch($builder, $searchValue, $config['searchable_fields']);

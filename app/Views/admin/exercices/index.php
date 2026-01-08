@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 class="card-title">Liste des exercices</h3>
-                <a href="<?= base_url('/admin/exercice/new') ?>" class="btn btn-primary">
+                <a href="<?= base_url('/admin/exercices/new') ?>" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Nouvel exercice
                 </a>
             </div>
@@ -12,6 +12,7 @@
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Utilisation</th>
                         <th>Nom</th>
                         <th>Description</th>
                         <th>Temps de repos</th>
@@ -47,6 +48,15 @@
             },
             columns: [
                 { data: 'id' },
+                {
+                    data: 'count_usage',
+                    className: 'text-center',
+                    render: function(data) {
+                        return data > 0
+                            ? `<span class="badge bg-success">${data}</span>`
+                            : `<span class="badge bg-secondary">0</span>`;
+                    }
+                },
                 { data: 'name' },
                 { data: 'description' },
                 { data: 'rest_time' },
@@ -86,34 +96,48 @@
 
     function deleteExercice(id) {
         Swal.fire({
-            title: `Êtes-vous sûr ?`,
-            text: `Voulez-vous vraiment supprimer cet exercice ?`,
-            icon: "warning",
+            title: 'Êtes-vous sûr ?',
+            text: 'Voulez-vous vraiment supprimer cet exercice ?',
+            icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#dc3545',
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: `Oui, supprimé !`,
-            cancelButtonText: "Annuler",
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Oui, supprimé !',
+            cancelButtonText: 'Annuler',
         }).then((result) => {
             if (result.isConfirmed) {
+
                 $.ajax({
-                    url: "<?= base_url('admin/exercice/delete') ?>",
+                    url: "<?= base_url('admin/exercices/delete') ?>",
                     type: 'POST',
                     data: { id: id },
+                    dataType: 'json',
                     success: function(response) {
-                        if(response.success) {
+                        if (response.success) {
                             refreshTable();
+
                             Swal.fire({
-                                icon : 'success',
-                                title : 'Supprimé',
+                                icon: 'success',
+                                title: 'Supprimé',
                                 text: response.message,
                                 timer: 1500,
                                 showConfirmButton: false,
                             });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erreur',
+                                text: response.message,
+                            });
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error('Erreur :', error);
+                        console.error('Erreur AJAX :', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue lors de la suppression.',
+                        });
                     }
                 });
             }

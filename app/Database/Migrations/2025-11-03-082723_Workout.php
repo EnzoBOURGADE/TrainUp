@@ -10,13 +10,13 @@ class Workout extends Migration
     {
         $this->forge->addField([
             'id_exercices' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'unsigned' => true,
                 'constraint' => 20,
                 'null' => false,
             ],
             'id_program' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'unsigned' => true,
                 'constraint' => 20,
                 'null' => false,
@@ -35,9 +35,8 @@ class Workout extends Migration
                 'null' => false,
             ]
         ]);
-        $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('id_exercices', 'exercices', 'id', 'CASCADE', 'RESTRICT');
-        $this->forge->addForeignKey('id_program', 'program', 'id', 'CASCADE', 'RESTRICT');
+        $this->forge->addForeignKey('id_exercices', 'exercices', 'id');
+        $this->forge->addForeignKey('id_program', 'program', 'id',);
         $this->forge->createTable('workout');
     }
 

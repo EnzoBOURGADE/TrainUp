@@ -12,8 +12,10 @@
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Utilisation</th>
                         <th>Nom</th>
                         <th>Créateur</th>
+                        <th>Catégorie</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -41,8 +43,18 @@
             },
             columns: [
                 { data: 'id' },
+                {
+                    data: 'count_usage',
+                    className: 'text-center',
+                    render: function(data) {
+                        return data > 0
+                            ? `<span class="badge bg-success">${data}</span>`
+                            : `<span class="badge bg-secondary">0</span>`;
+                    }
+                },
                 { data: 'name' },
                 { data: 'creator_name' },
+                { data: 'cat_name' },
                 {
                     data: null,
                     orderable: false,

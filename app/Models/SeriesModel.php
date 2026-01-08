@@ -51,10 +51,20 @@ class SeriesModel extends Model
     protected function getDataTableConfig(): array
     {
         return [
-            'searchable_fields' => ['series.id_program', 'series.id_exercices', 'series.reps', 'series.weight', 'series.date'],
+            'searchable_fields' => ['program.name', 'exercices_name', 'series.reps', 'series.weight', 'series.date'],
             'joins' => [
+                [
+                    'table' => 'program',
+                    'condition' => 'program.id = series.id_program',
+                    'type' => 'left'
+                ],
+                [
+                    'table' => 'exercices',
+                    'condition' => 'exercices.id = series.id_exercices',
+                    'type' => 'left'
+                ]
             ],
-            'select' => 'series.*',
+            'select' => 'series.*, exercices.name as name_exercices, program.name as name_program',
             'with_deleted' => false,
         ];
     }

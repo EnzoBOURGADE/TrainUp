@@ -3,25 +3,26 @@
         <div class="card">
             <div class="card-header">
                 <h1 class="h3">
-                    <?php if (isset($category['id'])) : ?>
-                        Modification d’une catégorie
+                    <?php if (isset($cat_prgrm['id'])) : ?>
+                        Modification d’une catégorie de programme
                     <?php else: ?>
-                        Création d’une catégorie
+                        Création d’une catégorie de programme
                     <?php endif; ?>
                 </h1>
             </div>
-            <?= form_open('admin/category/save') ?>
-            <?php if (isset($category['id'])) : ?>
-                <input type="hidden" name="id" value="<?= $category['id'] ?>">
+            <?= form_open('admin/category-program/save') ?>
+            <?php if (isset($cat_prgrm['id'])) : ?>
+                <input type="hidden" name="id" value="<?= $cat_prgrm['id'] ?>">
             <?php endif; ?>
             <div class="card-body">
                 <div class="mb-3 form-floating">
-                    <input type="text" class="form-control" name="name" value="<?= $category['name'] ?? '' ?>" placeholder="Nom de la catégorie" required>
-                    <label for="name">Nom de la catégorie</label>
+                    <input type="text" class="form-control" name="name" value="<?= $cat_prgrm['name'] ?? '' ?>" placeholder="Nom de la catégorie de programme" required>
+                    <label for="name">Nom de la catégorie de programme</label>
                 </div>
             </div>
+
             <div class="card-footer d-flex justify-content-between">
-                <a class="text-light btn btn-danger" href="./admin/category">
+                <a class="text-light btn btn-danger" href="./admin/category-program">
                     <i class="fa-solid fa-left-long"></i>
                     Retour
                 </a>
@@ -34,7 +35,6 @@
                     Enregistrer
                 </button>
             </div>
-
             <?= form_close() ?>
         </div>
     </div>

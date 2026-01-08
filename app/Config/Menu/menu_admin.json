@@ -12,11 +12,6 @@
     "icon": "<i class=\"nav-icon fas fa-person\"></i>",
     "class": "",
     "subs": {
-      "exercice": {
-        "title": "Exercices",
-        "url": "/admin/exercices",
-        "icon": "<i class=\"nav-icon fa-solid fa-person-walking\"></i>"
-      },
       "serie": {
         "title": "Series",
         "url": "/admin/series",
@@ -41,20 +36,20 @@
         "url": "/admin/category",
         "icon": "<i class=\"nav-icon fa-solid fa-table\"></i>"
       },
-      "categories_prgm": {
+      "categories-prgm": {
         "title": "Catégories programmes",
-        "url": "/admin/category_program",
+        "url": "/admin/category-program",
         "icon": "<i class=\"nav-icon fa-solid fa-list\"></i>"
+      },
+      "exercice": {
+        "title": "Exercices",
+        "url": "/admin/exercices",
+        "icon": "<i class=\"nav-icon fa-solid fa-person-walking\"></i>"
       },
       "muscle": {
         "title": "Muscles",
         "url": "/admin/muscles",
         "icon": "<i class=\"nav-icon fa-solid fa-hand-fist\"></i>"
-      },
-      "workout": {
-        "title": "Workout",
-        "url": "/admin/workout",
-        "icon": "<i class=\"nav-icon fa-solid fa-dumbbell\"></i>"
       }
     }
   },
@@ -70,9 +65,9 @@
         "url": "/admin/friends",
         "icon": "<i class=\"nav-icon fa-solid fa-face-smile\"></i>"
       },
-      "friend_request": {
+      "friend-request": {
         "title": "Requêtes d'amis",
-        "url": "/admin/friends_request",
+        "url": "/admin/friends-request",
         "icon": "<i class=\"nav-icon fa-solid fa-user-check\"></i>"
       }
     }

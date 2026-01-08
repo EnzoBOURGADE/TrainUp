@@ -3,62 +3,101 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\ProgramModel;
+use App\Models\WorkoutModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Program extends BaseController
 {
+    protected $model;
+    protected $workoutModel;
+
+    public function __construct()
+    {
+        $this->model = new ProgramModel();
+        $this->workoutModel = new WorkoutModel();
+    }
+
     public function index()
     {
-        return $this->view('/admin/program/index', ['test'=>'coucou']);
+        return $this->view('/admin/program/index');
     }
 
-    public function create()
+    public function create() {
+        helper('form');
+        $program = null;
+        $categoryProgram = Model('CategoryProgramModel')->findAll();
+        $users = Model('UserModel')->findAll();
+
+        return $this->view('/admin/program/form',
+            [
+                'program' => $program,
+                'categoriesProgram' => $categoryProgram,
+                'users' => $users
+            ]);
+    }
+
+
+    public function edit($id)
     {
         helper('form');
-        return $this->view('/admin/program/form');
+        $program = $this->model->find($id);
+        $user = model('UserModel')->findAll();
+        $categoriesProgram = model('CategoryProgramModel')->findAll();
+        $workout = $this->workoutModel->FindWorkoutById($id);
+
+        if (!$program) {
+            $this->error('Programme introuvable');
+            return $this->redirect('admin/program');
+        }
+
+        return $this->view('/admin/program/form', [
+            'program' => $program,
+            'users' => $user,
+            'workout' => $workout,
+            'categoriesProgram' => $categoriesProgram,
+            'selectedUserId' => $program['id_user'] ?? null,
+            'selectedCategoryProgramId' => $program['id_cat'] ?? null,
+        ]);
     }
 
-    public function edit($id) {
-        helper('form');
-        $pm = Model('ProgramModel');
-        $program = $pm->getProgram($id);
-        return $this->view('/admin/program/form', ['program' => $program]);
-    }
-
-    public function save() {
+    public function save()
+    {
         $data = $this->request->getPost();
-        $pm = Model('ProgramModel');
+        $pm = model('ProgramModel');
+
         if ($pm->save($data)) {
-            if (isset($data['id'])) {
-                $id = $data['id'];
+            if (!empty($data['id'])) {
                 $this->success('Programme bien modifié');
-            } else {
-                $id = $pm->getInsertID();
-                $this->success('Programme bien ajouté');
+                return $this->redirect('admin/program/' . $data['id']);
             }
+            $id = $pm->getInsertID();
+            $this->success('Programme bien ajouté');
+            return $this->redirect('admin/program/' . $id);
+
         } else {
-            $id = '';
-            foreach($pm->errors() as $error) {
+            foreach ($pm->errors() as $error) {
                 $this->error($error);
             }
+            return $this->redirect('admin/program');
         }
-        return $this->redirect('admin/program/' . $id);
     }
 
-    public function delete() {
+    public function delete()
+    {
         $id = $this->request->getPost('id');
-        $pm = Model('ProgramModel');
-        if ($pm->delete($id)) {
-            $response = [
+
+        if ($id) {
+            $this->model->delete($id);
+            return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Le programme à bien été supprimé'
-            ];
+                'message' => 'Programme supprimé avec succès'
+            ]);
         } else {
-            $response = ['success' => false];
-            foreach($pm->errors() as $error) {
-                $response['message'][] = $error;
-            }
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'ID manquant'
+            ]);
         }
-        return $this->response->setJSON($response);
     }
 }

@@ -10,7 +10,7 @@ class Exercices extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'constraint' => 20,
                 'unsigned' => true,
                 'null' => false,
@@ -44,13 +44,13 @@ class Exercices extends Migration
                 'null' => false,
             ],
             'id_cat' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'unsigned' => true,
                 'constraint' => '20',
                 'null' => false,
             ],
             'id_muscle' => [
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'unsigned' => true,
                 'constraint' => '20',
                 'null' => false,

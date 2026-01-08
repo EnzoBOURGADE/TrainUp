@@ -8,8 +8,8 @@ use CodeIgniter\Model;
 
 class WorkoutModel extends Model
 {
-    use DataTableTrait;
     use Select2Searchable;
+    use DataTableTrait;
 
     protected $table            = 'workout';
     protected $primaryKey       = 'id';
@@ -46,11 +46,27 @@ class WorkoutModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    public function FindWorkoutById($id)
+    {
+        return $this
+            ->select('date, COUNT(*) as total_exercices')
+            ->where('id_program', $id)
+            ->groupBy('date')
+            ->orderBy('date', 'ASC')
+            ->findAll();
+    }
+
 
     protected function getDataTableConfig(): array
     {
         return [
-            'searchable_fields' => ['exercices.name', 'program.name', "workout.date", "workout.rest_time", "workout.order"],
+            'searchable_fields' => [
+                'exercices.name',
+                'program.name',
+                'workout.date',
+                'workout.rest_time',
+                'workout.order'
+            ],
             'joins' => [
                 [
                     'table' => 'exercices',
@@ -61,9 +77,16 @@ class WorkoutModel extends Model
                     'table' => 'program',
                     'condition' => 'program.id = workout.id_program',
                     'type' => 'left'
-                ]
+                ],
             ],
-            'select' => 'workout.*, exercices.name as name_exercice, program.name as name_program',
+            'select' => '
+            workout.date,
+            workout.id_program,
+            exercices.name AS name_exercice,
+            program.name AS name_program,
+            COUNT(*) AS count_usage
+        ',
+            'group_by' => 'workout.date, workout.id_program, exercices.name, program.name',
             'with_deleted' => false,
         ];
     }

@@ -2,20 +2,17 @@
     <div class="col">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="card-title">Liste des séries</h3>
-                <a href="<?= base_url('/admin/series/new') ?>" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Nouvelle série
+                <h3 class="card-title">Liste des demandes d'amitiés</h3>
+                <a href="<?= base_url('/admin/friends-request/new') ?>" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nouvelle demande d'amitié
                 </a>
             </div>
             <div class="card-body">
-                <table id="seriesTable" class="table table-sm table-bordered table-striped">
+                <table id="FriendsRequestTable" class="table table-sm table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>Nom du Programme</th>
-                        <th>Nom de l'Exercice</th>
-                        <th>Répétition</th>
-                        <th>Poids</th>
-                        <th>Date</th>
+                        <th>ID Demandeur</th>
+                        <th>ID Recepteur</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,22 +27,19 @@
 <script>
     $(document).ready(function() {
         var baseUrl = "<?= base_url(); ?>";
-        var table = $('#seriesTable').DataTable({
+        var table = $('#FriendsRequestTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
                 url: '<?= base_url('datatable/searchdatatable') ?>',
                 type: 'POST',
                 data: {
-                    model: 'SeriesModel'
+                    model: 'FriendsRequestModel'
                 }
             },
             columns: [
-                { data: 'name_program' },
-                { data: 'name_exercices' },
-                { data: 'reps' },
-                { data: 'weight' },
-                { data: 'date' }
+                { data: 'requester_id' },
+                { data: 'receiver_id'  }
             ],
             order: [[0, 'desc']],
             pageLength: 10,

@@ -10,7 +10,7 @@ class UserPermission extends Migration
     {
         $this->forge->addField([
             'id' => [
-                'type'           => 'BIGINT',
+                'type'           => 'INT',
                 'constraint'     => 20,
                 'unsigned'       => true,
                 'auto_increment' => true,
