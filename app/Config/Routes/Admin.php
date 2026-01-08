@@ -15,18 +15,18 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
     });
 
     $routes->group('user-permission', function ($routes) {
-       $routes->get('/', 'UserPermission::index');
-       $routes->post('update', 'UserPermission::update');
-       $routes->post('insert', 'UserPermission::insert');
-       $routes->post('delete', 'UserPermission::delete');
+        $routes->get('/', 'UserPermission::index');
+        $routes->post('update', 'UserPermission::update');
+        $routes->post('insert', 'UserPermission::insert');
+        $routes->post('delete', 'UserPermission::delete');
     });
 
     $routes->group('program', function ($routes) {
-       $routes->get('/', 'Program::index');
-       $routes->get('new', 'Program::create');
-       $routes->get('(:num)', 'Program::edit/$1');
-       $routes->post('save', 'Program::save');
-       $routes->post('delete', 'Program::delete');
+        $routes->get('/', 'Program::index');
+        $routes->get('new', 'Program::create');
+        $routes->get('(:num)', 'Program::edit/$1');
+        $routes->post('save', 'Program::save');
+        $routes->post('delete', 'Program::delete');
     });
 
     $routes->group('exercices', function ($routes) {
