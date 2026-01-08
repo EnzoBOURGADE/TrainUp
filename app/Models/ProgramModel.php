@@ -30,7 +30,7 @@ class ProgramModel extends Model
     protected $afterUpdate    = [];
     protected $beforeFind     = [];
     protected $afterFind      = [];
-    protected $beforeDelete   = [];
+    protected $beforeDelete = ['deleteRelatedWorkoutsAndSeries'];
     protected $afterDelete    = [];
 
     public function getProgram($id) : array {
@@ -42,6 +42,7 @@ class ProgramModel extends Model
                 ->where('program.id', $id)
                 ->first();
     }
+
     protected function getDataTableConfig(): array
     {
         return [
@@ -72,5 +73,22 @@ class ProgramModel extends Model
 
 
         ];
+    }
+
+    protected function deleteRelatedWorkoutsAndSeries(array $data)
+    {
+        $builderWorkout = $this->db->table('workout');
+        $builderSeries = $this->db->table('series');
+
+        // $data['ids'] contient les IDs qui vont être supprimés
+        $ids = is_array($data['id']) ? $data['id'] : [$data['id']];
+
+        if (!empty($ids)) {
+            // Supprimer les series liées
+            $builderSeries->whereIn('id_program', $ids)->delete();
+
+            // Supprimer les workouts liés
+            $builderWorkout->whereIn('id_program', $ids)->delete();
+        }
     }
 }
