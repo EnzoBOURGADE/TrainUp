@@ -44,7 +44,7 @@ class Program extends BaseController
         $program = $this->model->find($id);
         $user = model('UserModel')->findAll();
         $categoriesProgram = model('CategoryProgramModel')->findAll();
-        $workout = $this->v->FindWorkoutById($id);
+        $workout = $this->workoutModel->FindWorkoutById($id);
 
         if (!$program) {
             $this->error('Programme introuvable');
