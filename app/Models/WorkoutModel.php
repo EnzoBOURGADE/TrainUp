@@ -46,6 +46,15 @@ class WorkoutModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    public function FindWorkoutById($id)
+    {
+        return $this
+            ->select('date, COUNT(*) as total_exercices')
+            ->where('id_program', $id)
+            ->groupBy('date')
+            ->orderBy('date', 'ASC')
+            ->findAll();
+    }
 
 
     protected function getDataTableConfig(): array

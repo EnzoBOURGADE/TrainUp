@@ -40,48 +40,42 @@ class Workout extends BaseController
     public function save()
     {
         $data = $this->request->getPost();
-        $workoutModel = model('WorkoutModel');
-        $seriesModel = model('SeriesModel');
-        $workoutData = [
-            'id_program' => $data['id_program'],
-            'date' => $data['date'],
-            'exercices' => []
-        ];
 
-        foreach ($data['exercices'] as $index => $exercice) {
-            $series = [];
+        $workoutModel = model('WorkoutModel');
+        $seriesModel  = model('SeriesModel');
+
+        if (empty($data['exercices'])) {
+            return redirect()->back()->with('error', 'Aucun exercice ajouté');
+        }
+
+        foreach ($data['exercices'] as $order => $exercice) {
             if (!empty($exercice['series'])) {
                 foreach ($exercice['series'] as $serie) {
-                    $series[] = [
-                        'reps' => $serie['reps'],
-                        'weight' => $serie['weight']
-                    ];
+                    $seriesModel->insert([
+                        'id_program'   => $data['id_program'],
+                        'id_exercices' => $exercice['id_exercices'],
+                        'reps'         => $serie['reps'],
+                        'weight'       => $serie['weight'],
+                        'date'         => $data['date'],
+                    ]);
                 }
             }
-
-            $workoutData['exercices'][] = [
+            $workoutModel->insert([
+                'id_program'   => $data['id_program'],
                 'id_exercices' => $exercice['id_exercices'],
-                'rest_time'    => $exercice['rest_time'] ?? 0,
-                'order'        => $index + 1,
-                'series'       => $series,
-            ];
-
-            foreach ($data['exercices']['series'] as $index => $series) {
-
-                $seriesModel->insert([
-                    'id_program'   => $data['id_program'],
-                    'date'         => $data['date'],
-                    'id_exercices' => $exercice['id_exercices'],
-                    'rest_time'    => gmdate('H:i:s', (int)$exercice['rest_time']),
-                    'order'        => $index + 1,
-                ]);
-            }
+                'date'         => $data['date'],
+                'order'        => $order + 1,
+                'rest_time'    => 0,
+            ]);
         }
+
+        return redirect()->to('/admin/program/' . $data['id_program'])->with('success', 'Séance enregistrée avec succès');
     }
 
 
-    /*
-    public function save()
+
+
+    /*public function save()
     {
         $data = $this->request->getPost();
         $workoutModel = model('WorkoutModel');
@@ -99,8 +93,7 @@ class Workout extends BaseController
 
         $this->success('Workout enregistré avec succès');
         return $this->redirect('admin/workout');
-    }
-    */
+    }*/
 
 
 

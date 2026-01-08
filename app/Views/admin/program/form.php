@@ -60,7 +60,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <!-- Les données seront chargées via AJAX -->
+                                <?php
+                                if (isset($program['id'])) {
+                                    $workouts = (new \App\Models\WorkoutModel())->FindWorkoutById($program['id']);
+
+                                    if (empty($workouts)) {
+                                        echo '<tr><td colspan="3" class="text-center">Aucune séance trouvée</td></tr>';
+                                    } else {
+                                        foreach ($workouts as $workout) {
+                                            echo '<tr>';
+                                            echo '<td>' . esc($workout['date']) . '</td>';
+                                            echo '<td>' . esc($workout['total_exercices']) . '</td>';
+                                            echo '<td>
+                                                <a href="' . base_url('admin/workout/edit/' . $program['id'] . '/' . $workout['date']) . '" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="' . base_url('admin/workout/delete/' . $program['id'] . '/' . $workout['date']) . '" class="btn btn-sm btn-danger" onclick="return confirm(\'Voulez-vous vraiment supprimer cette séance ?\')">
+                                                <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>';
+                                            echo '</tr>';
+                                        }
+                                    }
+                                }
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -99,64 +122,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        var baseUrl = "<?= base_url(); ?>";
-        <?php if (isset($program['id'])) : ?>
-            var programId = <?= isset($program['id']) ? (int)$program['id'] : 'null' ?>;
-        <?php endif; ?>
-
-        if (programId !== null) {
-            var table = $('#workoutTable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: '<?= base_url('datatable/searchdatatable') ?>',
-                    type: 'POST',
-                    data: function(d) {
-                        d.model = 'WorkoutModel';
-                        d.program_id = programId;
-                    }
-                },
-                columns: [
-                    { data: 'date' },
-                    {
-                        data: 'count_usage',
-                        className: 'text-center',
-                        render: function(data) {
-                            return data > 0
-                                ? `<span class="badge bg-success">${data}</span>`
-                                : `<span class="badge bg-secondary">0</span>`;
-                        }
-                    },
-                    {
-                        data: null,
-                        orderable: false,
-                        render: function(data, type, row) {
-                            return `
-                            <div class="btn-group" role="group">
-                                <a href="<?= base_url('/admin/workout/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteWorkout(${row.id})">
-                                    <i class="fas fa-trash"></i>
-                                </span>
-                            </div>
-                        `;
-                        }
-                    }
-                ],
-                order: [[1, 'asc']],
-                pageLength: 10,
-                language: {
-                    url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json',
-                }
-            });
-
-            window.refreshTable = function() {
-                table.ajax.reload(null, false);
-            };
-        }
-    });
-</script>

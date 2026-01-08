@@ -4,15 +4,18 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\ProgramModel;
+use App\Models\WorkoutModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Program extends BaseController
 {
     protected $model;
+    protected $workoutModel;
 
     public function __construct()
     {
         $this->model = new ProgramModel();
+        $this->workoutModel = new WorkoutModel();
     }
 
     public function index()
@@ -41,6 +44,7 @@ class Program extends BaseController
         $program = $this->model->find($id);
         $user = model('UserModel')->findAll();
         $categoriesProgram = model('CategoryProgramModel')->findAll();
+        $workout = $this->workoutModel->FindWorkoutById($id);
 
         if (!$program) {
             $this->error('Programme introuvable');
@@ -50,6 +54,7 @@ class Program extends BaseController
         return $this->view('/admin/program/form', [
             'program' => $program,
             'users' => $user,
+            'workout' => $workout,
             'categoriesProgram' => $categoriesProgram,
             'selectedUserId' => $program['id_user'] ?? null,
             'selectedCategoryProgramId' => $program['id_cat'] ?? null,
