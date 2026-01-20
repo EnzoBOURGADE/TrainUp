@@ -25,13 +25,11 @@ class Auth extends ResourceController
             if (!$user || !$user->verifyPassword($password)) {
                 return $this->respond(['message' => 'Identifiants incorrects'], 401);
             }
-
             if (!$user->isActive()) {
                 return $this->respond(['message' => 'Compte désactivé'], 401);
             }
-
             helper('token');
-            return $this->respond(generateToken($user->id));
+            return $this->respond(['token' => generateToken($user->id)]);
         }
         catch (\Exception $e) {
             return $this->respond(['message' => $e->getMessage()], 500);
