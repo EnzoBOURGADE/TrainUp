@@ -5,7 +5,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->get('(:num)', 'User::show/$1');
     });
 
-    $routes->group('exercice', function ($routes) {
+    $routes->group('exercice', ['filter' => 'apitoken'], function ($routes) {
         $routes->get('all', 'Exercice::index');
         $routes->get('(:num)', 'Exercice::show/$1');
     });
