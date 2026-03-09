@@ -5,17 +5,17 @@ namespace App\Controllers\Api;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
-class User extends ResourceController
+class Friends extends ResourceController
 {
-    protected $modelName = 'App\Models\UserModel';
+    protected $modelName = 'App\Models\FriendsModel';
     protected $format    = 'json';
 
 
     public function index()
     {
         try {
-            $users = $this->model->findAll();
-            return $this->respond($users);
+            $friends = $this->model->findAll();
+            return $this->respond($friends);
         } catch (\Exception $e) {
             return $this->failServerError($e->getMessage());
         }
@@ -25,18 +25,11 @@ class User extends ResourceController
     public function show($id = null)
     {
         try {
-            $user = $this->model->find($id);
-            if (!$user) {
-                return $this->failNotFound("Utilisateur introuvable");
+            $friend = $this->model->find($id);
+            if (!$friend) {
+                return $this->failNotFound("Amitiée introuvable");
             }
-
-            helper('token');
-            $token = generateToken($id);
-
-            return $this->respond([
-                'user'  => $user,
-                'token' => $token
-            ]);
+            return $this->respond(['friend' => $friend]);
         } catch (\Exception $e) {
             return $this->failServerError($e->getMessage());
         }
@@ -51,7 +44,7 @@ class User extends ResourceController
                 return $this->failValidationErrors($this->model->errors());
             }
             $id = $this->model->getInsertID();
-            return $this->respondCreated(['id' => $id, 'message' => 'Utilisateur créé']);
+            return $this->respondCreated(['id' => $id, 'message' => 'Amitiée créée']);
         } catch (\Exception $e) {
             return $this->failServerError($e->getMessage());
         }
@@ -65,7 +58,7 @@ class User extends ResourceController
             if (!$this->model->update($id, $data)) {
                 return $this->failValidationErrors($this->model->errors());
             }
-            return $this->respond(['message' => "Utilisateur mis à jour"]);
+            return $this->respond(['message' => "Amitiée mise à jour"]);
         } catch (\Exception $e) {
             return $this->failServerError($e->getMessage());
         }
@@ -76,10 +69,10 @@ class User extends ResourceController
     {
         try {
             if (!$this->model->find($id)) {
-                return $this->failNotFound("Utilisateur introuvable");
+                return $this->failNotFound("Amitiée introuvable");
             }
             $this->model->delete($id);
-            return $this->respondDeleted(['message' => "Utilisateur supprimé"]);
+            return $this->respondDeleted(['message' => "Amitiée supprimée"]);
         } catch (\Exception $e) {
             return $this->failServerError($e->getMessage());
         }

@@ -24,7 +24,7 @@ class ExercicesSeeder extends Seeder
             ],
             [
                 'name' => 'Squat',
-                'description' => 'Leg exercise',
+                'description' => 'Leg exercice',
                 'rest_time' => 90,
                 'reps' => 12,
                 'nber_series' => 4,

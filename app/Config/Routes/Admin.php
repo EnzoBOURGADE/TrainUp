@@ -21,7 +21,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('delete', 'UserPermission::delete');
     });
 
-    $routes->group('program', function ($routes) {
+    $routes->group('Program', function ($routes) {
         $routes->get('/', 'Program::index');
         $routes->get('new', 'Program::create');
         $routes->get('(:num)', 'Program::edit/$1');

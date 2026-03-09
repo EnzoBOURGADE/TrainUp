@@ -32,11 +32,11 @@
                 </div>
 
                 <div class="row justify-content-center">
-                    <div id="exercisesContainer"></div>
+                    <div id="exercicesContainer"></div>
 
                     <div class="row justify-content-center mb-3">
                         <div class="col-auto">
-                            <button type="button" id="addExercise" class="btn btn-sm btn-primary">
+                            <button type="button" id="addexercice" class="btn btn-sm btn-primary">
                                 <i class="fas fa-plus"></i> Ajouter un exercice
                             </button>
                         </div>
@@ -87,9 +87,9 @@
             </div>
         </div>`;
 
-            $('#exercisesContainer').append(row);
+            $('#exercicesContainer').append(row);
 
-            initAjaxSelect2('#exercisesContainer .rowExercise:last-child .selectExercise', {
+            initAjaxSelect2('#exercicesContainer .rowExercise:last-child .selectExercise', {
                 url: base_url + '/admin/exercices/search',
                 placeholder: 'Rechercher un exercice ...',
                 searchFields: 'name',
@@ -97,11 +97,11 @@
             });
         });
 
-        $('#exercisesContainer').on('click', '.btnRemoveExercise', function () {
+        $('#exercicesContainer').on('click', '.btnRemoveExercise', function () {
             $(this).closest('.rowExercise').remove();
         });
 
-        $('#exercisesContainer').on('select2:select', '.selectExercise', function () {
+        $('#exercicesContainer').on('select2:select', '.selectExercise', function () {
             const id = parseInt($(this).val());
             const rowExercise = $(this).closest('.rowExercise');
             const rowInfo = rowExercise.find('.rowInfoExercise');
@@ -152,8 +152,8 @@
         </div>
     </div>`;
         }
-        $('#exercisesContainer').on('click', '.btnAddSeries', function() {
-            const rowInfo = $(this).closest('#exercisesContainer .rowInfoExercise');
+        $('#exercicesContainer').on('click', '.btnAddSeries', function() {
+            const rowInfo = $(this).closest('#exercicesContainer .rowInfoExercise');
             const rowExercise = $(this).closest('.rowExercise');
             const nb = rowExercise.data('nb');
             const index = rowExercise.find('.seriesRow').length;
@@ -161,7 +161,7 @@
             const newRow = createSeriesRow(nb, index, 0, 0);
             $(this).parent().before(newRow);
         });
-        $('#exercisesContainer').on('click', '.btnRemoveSeries', function() {
+        $('#exercicesContainer').on('click', '.btnRemoveSeries', function() {
             const rowExercise = $(this).closest('.rowExercise');
             if (rowExercise.find('.seriesRow').length > 1) {
                 $(this).closest('.seriesRow').remove();

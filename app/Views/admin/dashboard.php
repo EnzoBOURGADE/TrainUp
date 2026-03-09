@@ -58,7 +58,7 @@ $permissions = $db->table('user_permission')->countAllResults();
                     <br>
                     <h3><?= $programmes ?></h3>
                     <br>
-                    <a href="admin/program"
+                    <a href="admin/Program"
                        class="text-primary border border-2 border-primary rounded px-4 py-2 text-decoration-none">
                         Voir +
                     </a>
