@@ -28,7 +28,7 @@ class ExerciceModel extends Model
 
     public function getExerciceById(int $id): string
     {
-        $exerciceModel = model('ExercicesModel');
+        $exerciceModel = model('ExerciceModel');
         $exercice = $exerciceModel->find($id);
         return $exercice;
     }
