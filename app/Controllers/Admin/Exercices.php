@@ -108,13 +108,13 @@ class Exercices extends BaseController
 
     public function info(int $id) {
 
-        $exercise = Model('ExerciceModel')->find($id);
+        $exercice = Model('ExerciceModel')->find($id);
 
-        if (!$exercise) {
+        if (!$exercice) {
             return $this->response->setJSON(['error' => 'Exercice non trouvé']);
         }
 
-        return $this->response->setJSON($exercise);
+        return $this->response->setJSON($exercice);
     }
 
     public function search()

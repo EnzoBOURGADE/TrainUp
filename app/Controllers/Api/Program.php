@@ -29,7 +29,7 @@ class Program extends ResourceController
             if (!$program) {
                 return $this->failNotFound("Programme introuvable");
             }
-            return $this->respond(['program' => $program]);
+            return $this->respond(['Program' => $program]);
         } catch (\Exception $e) {
             return $this->failServerError($e->getMessage());
         }

@@ -6,8 +6,8 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
     });
 
     $routes->group('exercice', ['filter' => 'apitoken'], function ($routes) {
-        $routes->get('all', 'Exercice::index');
-        $routes->get('(:num)', 'Exercice::show/$1');
+        $routes->get('all', 'Exercices::index');
+        $routes->get('(:num)', 'Exercices::show/$1');
         $routes->get('new', 'Exercices::create');
         $routes->get('(:num)', 'Exercices::edit/$1');
         $routes->post('save', 'Exercices::save');
@@ -27,7 +27,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('delete', 'Category::delete');
     });
 
-    $routes->group('category-program', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('category-Program', ['filter' => 'apitoken'], function ($routes) {
         $routes->get('all', 'CategoryProgram::index');
         $routes->get('(:num)', 'CategoryProgram::show/$1');
         $routes->get('new', 'CategoryProgram::create');
@@ -63,7 +63,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('delete', 'Muscles::delete');
     });
 
-    $routes->group('program', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('Program', ['filter' => 'apitoken'], function ($routes) {
         $routes->get('all', 'Program::index');
         $routes->get('(:num)', 'Program::show/$1');
         $routes->get('new', 'Program::create');
