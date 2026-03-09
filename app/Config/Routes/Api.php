@@ -63,7 +63,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('delete', 'Muscles::delete');
     });
 
-    $routes->group('Program', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('program', ['filter' => 'apitoken'], function ($routes) {
         $routes->get('all', 'Program::index');
         $routes->get('(:num)', 'Program::show/$1');
         $routes->get('new', 'Program::create');
