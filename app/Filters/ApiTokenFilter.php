@@ -26,14 +26,20 @@ class ApiTokenFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         $header = $request->getHeaderLine('Authorization');
-        if($header && preg_match('/Bearer\s(\S+)/', $header, $matches)){
+        if(!$header){
+             return service('response')->setJSON(['error' => 'Missing Authorization header'])->setStatusCode(401);
+        }
+
+        if(preg_match('/Bearer\s(\S+)/', $header, $matches)){
             $token = $matches[1];
             helper('token');
             if (validateToken($token)) {
                 return;
             }
+            return service('response')->setJSON(['error' => 'Invalid token', 'debug_token' => $token])->setStatusCode(401);
         }
-        return service('response')->setJSON(['error' => $header])->setStatusCode(401);
+        
+        return service('response')->setJSON(['error' => 'Invalid Authorization format', 'header' => $header])->setStatusCode(401);
     }
 
     /**

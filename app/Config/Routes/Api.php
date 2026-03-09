@@ -91,4 +91,5 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
     });
 
 
+    $routes->get('debug/tokens', 'Debug::index');
 });
