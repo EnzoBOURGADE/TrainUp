@@ -2,26 +2,19 @@
     <div class="col">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="card-title">Liste des exercices</h3>
-                <a href="<?= base_url('/admin/exercices/new') ?>" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Nouvel exercice
+                <h3 class="card-title">Liste des difficultés</h3>
+                <a href="<?= base_url('/admin/difficulty/new') ?>" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nouvelle difficulté
                 </a>
             </div>
             <div class="card-body">
-                <table id="exercicesTable" class="table table-sm table-bordered table-striped">
+                <table id="DifficultyTable" class="table table-sm table-bordered table-striped">
                     <thead>
                     <tr>
                         <th>ID</th>
                         <th>Utilisation</th>
                         <th>Nom</th>
-                        <th>Dificulté</th>
-                        <th>Description</th>
-                        <th>Temps de repos</th>
-                        <th>Répétition</th>
-                        <th>Nombre de séries</th>
-                        <th>Temps de la série</th>
-                        <th>Catégorie</th>
-                        <th>Muscle</th>
+                        <th>Couleur Hexadécimale</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -37,14 +30,14 @@
 <script>
     $(document).ready(function() {
         var baseUrl = "<?= base_url(); ?>";
-        var table = $('#exercicesTable').DataTable({
+        var table = $('#DifficultyTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
                 url: '<?= base_url('datatable/searchdatatable') ?>',
                 type: 'POST',
                 data: {
-                    model: 'ExerciceModel'
+                    model: 'DifficultyModel'
                 }
             },
             columns: [
@@ -58,29 +51,18 @@
                             : `<span class="badge bg-secondary">0</span>`;
                     }
                 },
-                { data: 'name' },
-                {
-                    data: 'name_difficulty',
-                    className: 'text-center',
-                    textColor: 'color_hex'
-                },
-                { data: 'description' },
-                { data: 'rest_time' },
-                { data: 'reps' },
-                { data: 'nber_series' },
-                { data: 'time_series' },
-                { data: 'name_cat' },
-                { data: 'name_muscle' },
+                { data: 'libelle' },
+                { data: 'color_hex' },
                 {
                     data: null,
                     orderable: false,
                     render: function(data, type, row) {
                         return `
                             <div class="btn-group" role="group">
-                                <a href="<?= base_url('/admin/exercices/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
+                                <a href="<?= base_url('/admin/difficulty/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteExercice(${row.id})">
+                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteDifficulty(${row.id})">
                                     <i class="fas fa-trash"></i>
                                 </span>
                             </div>
@@ -100,50 +82,36 @@
         };
     });
 
-    function deleteExercice(id) {
+    function deleteCategory(id) {
         Swal.fire({
-            title: 'Êtes-vous sûr ?',
-            text: 'Voulez-vous vraiment supprimer cet exercice ?',
-            icon: 'warning',
+            title: `Êtes-vous sûr ?`,
+            text: `Voulez-vous vraiment supprimer cette difficulté ?`,
+            icon: "warning",
             showCancelButton: true,
             confirmButtonColor: '#dc3545',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Oui, supprimé !',
-            cancelButtonText: 'Annuler',
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: `Oui, supprimé !`,
+            cancelButtonText: "Annuler",
         }).then((result) => {
             if (result.isConfirmed) {
-
                 $.ajax({
-                    url: "<?= base_url('admin/exercices/delete') ?>",
+                    url: "<?= base_url('admin/difficulty/delete') ?>",
                     type: 'POST',
                     data: { id: id },
-                    dataType: 'json',
                     success: function(response) {
-                        if (response.success) {
+                        if(response.success) {
                             refreshTable();
-
                             Swal.fire({
-                                icon: 'success',
-                                title: 'Supprimé',
+                                icon : 'success',
+                                title : 'Supprimé',
                                 text: response.message,
                                 timer: 1500,
                                 showConfirmButton: false,
                             });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Erreur',
-                                text: response.message,
-                            });
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error('Erreur AJAX :', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Erreur',
-                            text: 'Une erreur est survenue lors de la suppression.',
-                        });
+                        console.error('Erreur :', error);
                     }
                 });
             }

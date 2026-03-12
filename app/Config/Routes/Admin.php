@@ -47,6 +47,14 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('delete', 'Category::delete');
     });
 
+    $routes->group('difficulty', function ($routes) {
+        $routes->get('/', 'Difficulty::index');
+        $routes->get('new', 'Difficulty::create');
+        $routes->get('(:num)', 'Difficulty::edit/$1');
+        $routes->post('save', 'Difficulty::save');
+        $routes->post('delete', 'Difficulty::delete');
+    });
+
     $routes->group('category-program', function ($routes) {
         $routes->get('/', 'CategoryProgram::index');
         $routes->get('new', 'CategoryProgram::create');

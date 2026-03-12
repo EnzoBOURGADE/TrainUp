@@ -9,6 +9,7 @@ class MasterSeeder extends Seeder
     public function run()
     {
         $this->call('PermissionSeeder');
+        $this->call('DifficultiesSeeder');
         $this->call('UserSeeder');
         $this->call('CategoriesSeeder');
         $this->call('MusclesSeeder');

@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\ExerciceModel;
+use App\Models\DifficultyModel;
 
 class Exercices extends BaseController
 {
@@ -66,6 +67,7 @@ class Exercices extends BaseController
         $exercice = $this->model->find($id);
         $categories = model('CategoryModel')->findAll();
         $muscles = model('MusclesModel')->findAll();
+        $difficulties = model('App\Controllers\Admin\DifficultyModel')->findAll();
 
         if (!$exercice) {
             $this->error('Exercice introuvable');
@@ -76,6 +78,8 @@ class Exercices extends BaseController
             'exercice' => $exercice,
             'categories' => $categories,
             'muscles' => $muscles,
+            'difficulties' => $difficulties,
+            'selectedDifficultyId' => $exercice['id_dif'] ?? null,
             'selectedCategoryId' => $exercice['id_cat'] ?? null,
             'selectedMuscleId' => $exercice['id_muscle'] ?? null,
         ]);

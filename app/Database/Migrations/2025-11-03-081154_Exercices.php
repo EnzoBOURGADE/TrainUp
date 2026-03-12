@@ -55,6 +55,13 @@ class Exercices extends Migration
                 'constraint' => '20',
                 'null' => false,
             ],
+            'difficulty' => [
+                'type' => 'INT',
+                'unsigned' => true,
+                'default' => '1',
+                'constraint' => '20',
+                'null' => false,
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
@@ -71,6 +78,7 @@ class Exercices extends Migration
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_cat', 'categories', 'id', 'CASCADE', 'RESTRICT');
         $this->forge->addForeignKey('id_muscle', 'muscles', 'id', 'CASCADE', 'RESTRICT');
+        $this->forge->addForeignKey('difficulty', 'difficulties', 'id', 'CASCADE', 'RESTRICT');
         $this->forge->createTable('exercices');
     }
 
