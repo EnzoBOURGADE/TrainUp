@@ -64,6 +64,7 @@ class ExerciceModel extends Model
             muscles.name as name_muscle,
             categories.name as name_cat,
             difficulties.libelle as name_difficulty,
+            difficulties.color_hex as color_difficulty,
             (
                 (SELECT COUNT(*) FROM workout WHERE workout.id_exercices = exercices.id)
                 +

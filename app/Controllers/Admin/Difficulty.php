@@ -2,10 +2,12 @@
 
 namespace App\Controllers\Admin;
 
+use App\Controllers\BaseController;
+use App\Models\DifficultyModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
-class DifficultyModel extends ResourceController
+class Difficulty extends BaseController
 {
     protected $model;
     /**
@@ -39,7 +41,9 @@ class DifficultyModel extends ResourceController
     public function save()
     {
         $data = $this->request->getPost();
-        $d = $data->model;
+        print_r($data);
+        die();
+        $d = $this->model;
         if ($d->save($data)) {
             if (isset($data['id'])) {
                 $this->success('Difficulté bien modifié');

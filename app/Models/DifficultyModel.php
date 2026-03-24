@@ -46,11 +46,10 @@ class DifficultyModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getDifficultyById(int $id): string
+    public function getDifficultyById(int $id): array|null
     {
         $difficultyModel = model('DifficultyModel');
-        $difficulty = $difficultyModel->find($id);
-        return $difficulty;
+        return $difficultyModel->find($id);
     }
 
 

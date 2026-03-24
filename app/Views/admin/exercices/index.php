@@ -62,7 +62,10 @@
                 {
                     data: 'name_difficulty',
                     className: 'text-center',
-                    textColor: 'color_hex'
+                    render: function(data, type, row) {
+                        const bgColor = row.color_difficulty || '#6c757d'; // fallback gris si vide
+                        return `<span class="badge" style="background-color:${bgColor}; color:#fff;">${data}</span>`;
+                    }
                 },
                 { data: 'description' },
                 { data: 'rest_time' },
