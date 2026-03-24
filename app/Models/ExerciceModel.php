@@ -19,7 +19,7 @@ class ExerciceModel extends Model
     protected $useSoftDeletes   = false;
     protected $useTimestamps    = true;
     protected $allowedFields    = [
-        'name', 'description', 'rest_time', 'reps', 'nber_series', 'time_series', 'id_cat', 'id_muscle'
+        'name', 'description', 'rest_time', 'reps', 'nber_series', 'time_series', 'id_cat', 'id_muscle', 'difficulty'
     ];
 
     protected $select2SearchableFields = ['name'];

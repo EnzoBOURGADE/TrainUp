@@ -15,17 +15,26 @@
                 <input type="hidden" name="id" value="<?= $difficulty['id'] ?>">
             <?php endif; ?>
             <div class="card-body">
-                <div class="mb-3 form-floating">
-                    <input type="text" class="form-control" name="name" value="<?= $difficulty['libelle'] ?? '' ?>" placeholder="Nom de la Difficulté" required>
-                    <label for="name">Nom de la difficulté</label>
-                </div>
-                <div class="mb-3 form-floating">
-                    <input type="color" class="form-control" name="name" value="<?= $difficulty['color_hex'] ?? '' ?>" placeholder="Couleur de la Difficulté" required>
-                    <label for="name">Couleur de la difficulté</label>
+                <div class="row">
+                    <div class="col-md-10 mb-3 form-floating">
+                        <input type="text" class="form-control" name="libelle"
+                               value="<?= $difficulty['libelle'] ?? '' ?>"
+                               placeholder="Nom de la Difficulté" required>
+                        <label for="libelle">Nom de la difficulté</label>
+                    </div>
+
+                    <div class="col-md-2 mb-3">
+                        <input type="color"
+                               class="form-control p-1 h-100"
+                               name="color_hex"
+                               id="color_hex"
+                               value="<?= $difficulty['color_hex'] ?? '#000000' ?>"
+                               required>
+                    </div>
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-between">
-                <a class="text-light btn btn-danger" href="./admin/category">
+                <a class="text-light btn btn-danger" href="./admin/difficulty">
                     <i class="fa-solid fa-left-long"></i>
                     Retour
                 </a>
@@ -38,7 +47,6 @@
                     Enregistrer
                 </button>
             </div>
-
             <?= form_close() ?>
         </div>
     </div>

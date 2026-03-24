@@ -1,67 +1,72 @@
 <?php
-
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\CategoryProgramModel;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class CategoryProgram extends BaseController
 {
     protected $model;
 
+    /**
+     * Return an array of resource objects, themselves in array format.
+     *
+     * @return ResponseInterface
+     */
+
     public function __construct()
     {
         $this->model = new CategoryProgramModel();
     }
+
+    /**
+     * @return string
+     */
     public function index()
     {
-        $data['categories_prgm'] = $this->model->findAll();
-        return $this->view('/admin/category-program/index', $data);
+        return $this->view('/admin/category-program/index');
     }
 
-    public function create() {
-        helper('form');
-        $cat_prgrm = Model('CategoryProgramModel')->findAll();
-
-        return $this->view('/admin/category-program/form',
-            [
-                'cat_prgrm' => $cat_prgrm
-            ]);
-    }
-
-    public function save() {
+    /**
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     * @throws \ReflectionException
+     */
+    public function save()
+    {
         $data = $this->request->getPost();
-        $pm = Model('CategoryProgramModel');
-        if ($pm->save($data)) {
+        $d = $this->model;
+        if ($d->save($data)) {
             if (isset($data['id'])) {
-                $id = $data['id'];
-                $this->success('Catégorie de programme bien modifié');
+                $this->success('Catégorie bien modifiée');
             } else {
-                $id = $pm->getInsertID();
-                $this->success('Catégorie de programme bien ajouté');
+                $this->success('Catégorie bien ajoutée');
             }
         } else {
-            $id = '';
-            foreach($pm->errors() as $error) {
+            foreach ($d->errors() as $error) {
                 $this->error($error);
             }
         }
         return $this->redirect('admin/category-program/');
     }
 
-    public function store()
-    {
-        $this->model->save($this->request->getPost());
-        return redirect()->to('/category-program');
-    }
 
-    public function edit($id)
+    /**
+     * Controller d'accès à la page de création ou d'édition
+     * @param $id
+     * @return \CodeIgniter\HTTP\RedirectResponse|string
+     */
+    public function createOrEdit($id = "new")
     {
         helper('form');
+        if ($id == "new") {
+            return $this->view('/admin/category-program/form');
+        }
+
         $cat_prgrm = $this->model->find($id);
 
         if (!$cat_prgrm) {
-            $this->error('Catégorie de programme introuvable');
+            $this->error('Catégorie introuvable');
             return $this->redirect('admin/category-program');
         }
 
@@ -69,13 +74,6 @@ class CategoryProgram extends BaseController
             'cat_prgrm' => $cat_prgrm,
         ]);
     }
-
-    public function update($id)
-    {
-        $this->model->update($id, $this->request->getPost());
-        return redirect()->to('/category-program');
-    }
-
 
     public function delete()
     {
@@ -85,7 +83,7 @@ class CategoryProgram extends BaseController
             $this->model->delete($id);
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Catégorie de programme supprimé avec succès'
+                'message' => 'Catégorie supprimée avec succès'
             ]);
         } else {
             return $this->response->setJSON([

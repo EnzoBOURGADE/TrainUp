@@ -1,11 +1,11 @@
 <?php
-$routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+$routes->group('api', ['filter' => 'apitoken'], ['namespace' => 'App\Controllers\Api'], function ($routes) {
     $routes->group('users', function ($routes) {
         $routes->get('all', 'User::index');
         $routes->get('(:num)', 'User::show/$1');
     });
 
-    $routes->group('exercice', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('exercice', function ($routes) {
         $routes->get('all', 'Exercices::index');
         $routes->get('(:num)', 'Exercices::show/$1');
         $routes->get('new', 'Exercices::create');
@@ -18,7 +18,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('login', 'Auth::login');
     });
 
-    $routes->group('category', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('category', function ($routes) {
         $routes->get('all', 'Category::index');
         $routes->get('(:num)', 'Category::show/$1');
         $routes->get('new', 'Category::create');
@@ -27,7 +27,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('delete', 'Category::delete');
     });
 
-    $routes->group('category-Program', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('category-Program', function ($routes) {
         $routes->get('all', 'CategoryProgram::index');
         $routes->get('(:num)', 'CategoryProgram::show/$1');
         $routes->get('new', 'CategoryProgram::create');
@@ -36,7 +36,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('delete', 'CategoryProgram::delete');
     });
 
-    $routes->group('friends', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('friends', function ($routes) {
         $routes->get('all', 'Friends::index');
         $routes->get('(:num)', 'Friends::show/$1');
         $routes->get('new', 'Friends::create');
@@ -45,7 +45,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('delete', 'Friends::delete');
     });
 
-    $routes->group('friends-request', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('friends-request', function ($routes) {
         $routes->get('all', 'FriendsRequest::index');
         $routes->get('(:num)', 'FriendsRequest::show/$1');
         $routes->get('new', 'FriendsRequest::create');
@@ -54,7 +54,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('delete', 'FriendsRequest::delete');
     });
 
-    $routes->group('muscles', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('muscles', function ($routes) {
         $routes->get('all', 'Muscles::index');
         $routes->get('(:num)', 'Muscles::show/$1');
         $routes->get('new', 'Muscles::create');
@@ -63,7 +63,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('delete', 'Muscles::delete');
     });
 
-    $routes->group('program', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('program', function ($routes) {
         $routes->get('all', 'Program::index');
         $routes->get('(:num)', 'Program::show/$1');
         $routes->get('new', 'Program::create');
@@ -72,7 +72,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('delete', 'Program::delete');
     });
 
-    $routes->group('series', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('series', function ($routes) {
         $routes->get('all', 'Series::index');
         $routes->get('(:num)', 'Series::show/$1');
         $routes->get('new', 'Series::create');
@@ -81,7 +81,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('delete', 'Series::delete');
     });
 
-    $routes->group('workout', ['filter' => 'apitoken'], function ($routes) {
+    $routes->group('workout', function ($routes) {
         $routes->get('all', 'Workout::index');
         $routes->get('(:num)', 'Workout::show/$1');
         $routes->get('new', 'Workout::create');

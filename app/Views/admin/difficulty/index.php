@@ -8,7 +8,7 @@
                 </a>
             </div>
             <div class="card-body">
-                <table id="DifficultyTable" class="table table-sm table-bordered table-striped">
+                <table id="table" class="table table-sm table-bordered table-striped">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -30,7 +30,7 @@
 <script>
     $(document).ready(function() {
         var baseUrl = "<?= base_url(); ?>";
-        var table = $('#DifficultyTable').DataTable({
+        var table = $('#table').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
@@ -82,7 +82,7 @@
         };
     });
 
-    function deleteCategory(id) {
+    function deleteDifficulty(id) {
         Swal.fire({
             title: `Êtes-vous sûr ?`,
             text: `Voulez-vous vraiment supprimer cette difficulté ?`,

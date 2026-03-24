@@ -31,8 +31,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
 
     $routes->group('exercices', function ($routes) {
         $routes->get('/', 'Exercices::index');
-        $routes->get('new', 'Exercices::create');
-        $routes->get('(:num)', 'Exercices::edit/$1');
+        $routes->get('(:any)', 'Exercices::createOrEdit/$1');
         $routes->post('save', 'Exercices::save');
         $routes->post('delete', 'Exercices::delete');
         $routes->get('info/(:num)', 'Exercices::info/$1');
@@ -41,48 +40,42 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
 
     $routes->group('category', function ($routes) {
         $routes->get('/', 'Category::index');
-        $routes->get('new', 'Category::create');
-        $routes->get('(:num)', 'Category::edit/$1');
+        $routes->get('(:any)', 'Category::createOrEdit/$1');
         $routes->post('save', 'Category::save');
         $routes->post('delete', 'Category::delete');
     });
 
     $routes->group('difficulty', function ($routes) {
         $routes->get('/', 'Difficulty::index');
-        $routes->get('new', 'Difficulty::create');
-        $routes->get('(:num)', 'Difficulty::edit/$1');
+        $routes->get('(:any)', 'Difficulty::createOrEdit/$1');
         $routes->post('save', 'Difficulty::save');
         $routes->post('delete', 'Difficulty::delete');
     });
 
     $routes->group('category-program', function ($routes) {
         $routes->get('/', 'CategoryProgram::index');
-        $routes->get('new', 'CategoryProgram::create');
-        $routes->get('(:num)', 'CategoryProgram::edit/$1');
+        $routes->get('(:any)', 'CategoryProgram::createOrEdit/$1');
         $routes->post('save', 'CategoryProgram::save');
         $routes->post('delete', 'CategoryProgram::delete');
     });
 
     $routes->group('series', function ($routes) {
         $routes->get('/', 'Series::index');
-        $routes->get('new', 'Series::create');
-        $routes->get('(:num)', 'Series::edit/$1');
+        $routes->get('(:any)', 'Series::createOrEdit/$1');
         $routes->post('save', 'Series::save');
         $routes->post('delete', 'Series::delete');
     });
 
     $routes->group('muscles', function ($routes) {
         $routes->get('/', 'Muscles::index');
-        $routes->get('new', 'Muscles::create');
-        $routes->get('(:num)', 'Muscles::edit/$1');
+        $routes->get('(:any)', 'Muscles::createOrEdit/$1');
         $routes->post('save', 'Muscles::save');
         $routes->post('delete', 'Muscles::delete');
     });
 
     $routes->group('workout', function ($routes) {
         $routes->get('/', 'Workout::index');
-        $routes->get('new/(:num)', 'Workout::create/$1');
-        $routes->get('(:num)', 'Workout::edit/$1');
+        $routes->get('(:any)', 'Workout::createOrEdit/$1');
         $routes->post('save', 'Workout::save');
         $routes->post('delete', 'Workout::delete');
     });

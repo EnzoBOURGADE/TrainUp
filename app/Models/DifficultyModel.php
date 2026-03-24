@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use CodeIgniter\Model;
 
 class DifficultyModel extends Model
 {
+
+    use DataTableTrait;
+
     protected $table            = 'difficulties';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [
-        'libelle', 'color_hex'
-    ];
+    protected $allowedFields    = ['libelle', 'color_hex'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -46,25 +48,17 @@ class DifficultyModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getDifficultyById(int $id): array|null
-    {
-        $difficultyModel = model('DifficultyModel');
-        return $difficultyModel->find($id);
-    }
-
 
     protected function getDataTableConfig(): array
     {
         return [
-            'searchable_fields' => [
-                'difficulties.id', 'difficulties.libelle', 'difficulties.color_hex'
+            'searchable_fields' => ['difficulties.id', 'difficulties.libelle','difficulties.color_hex'],
+            'joins' => [
             ],
-            'select' => '
-            difficulties.*
+            'select' => 'difficulties.*, 
             (
-                (SELECT COUNT(*) FROM exercices WHERE exercices.difficulty = difficulty.id)
-            ) AS count_usage
-        ',
+                (SELECT COUNT(*) FROM exercices WHERE exercices.difficulty = difficulties.id)
+            ) AS count_usage',
             'with_deleted' => false,
         ];
     }

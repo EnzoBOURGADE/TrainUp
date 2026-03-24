@@ -21,28 +21,21 @@ class Difficulty extends BaseController
         $this->model = new DifficultyModel();
     }
 
+    /**
+     * @return string
+     */
     public function index()
     {
-        $data['difficulties'] = $this->model->findAll();
-        return $this->view('/admin/difficulty/index', $data);
+        return $this->view('/admin/difficulty/index');
     }
 
-    public function create()
-    {
-        helper('form');
-        $difficulty = $this->model->findAll();
-
-        return $this->view('/admin/difficulty/form',
-            [
-                'difficulties' => $difficulty
-            ]);
-    }
-
+    /**
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     * @throws \ReflectionException
+     */
     public function save()
     {
         $data = $this->request->getPost();
-        print_r($data);
-        die();
         $d = $this->model;
         if ($d->save($data)) {
             if (isset($data['id'])) {
@@ -58,15 +51,18 @@ class Difficulty extends BaseController
         return $this->redirect('admin/difficulty/');
     }
 
-    public function store()
-    {
-        $this->model->save($this->request->getPost());
-        return redirect()->to('/difficulty');
-    }
 
-    /*public function edit($id)
-    {
+    /**
+     * Controller d'accès a page de création ou d'édition
+     * @param $id
+     * @return \CodeIgniter\HTTP\RedirectResponse|string
+     */
+    public function createOrEdit($id = "new") {
         helper('form');
+        if($id == "new"){
+            return $this->view('/admin/difficulty/form');
+        }
+
         $difficulty = $this->model->find($id);
 
         if (!$difficulty) {
@@ -77,11 +73,23 @@ class Difficulty extends BaseController
         return $this->view('/admin/difficulty/form', [
             'difficulty' => $difficulty,
         ]);
-    }*/
+    }
 
-    /*public function update($id)
+    public function delete()
     {
-        $this->model->update($id, $this->request->getPost());
-        return redirect()->to('/difficulty');
-    }*/
+        $id = $this->request->getPost('id');
+
+        if ($id) {
+            $this->model->delete($id);
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Difficultée supprimée avec succès'
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'ID manquant'
+            ]);
+        }
+    }
 }
