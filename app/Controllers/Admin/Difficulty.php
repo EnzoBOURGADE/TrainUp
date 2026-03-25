@@ -1,14 +1,15 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\CategoryProgramModel;
+use App\Models\DifficultyModel;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\RESTful\ResourceController;
 
-class CategoryProgram extends BaseController
+class Difficulty extends BaseController
 {
     protected $model;
-
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -17,7 +18,7 @@ class CategoryProgram extends BaseController
 
     public function __construct()
     {
-        $this->model = new CategoryProgramModel();
+        $this->model = new DifficultyModel();
     }
 
     /**
@@ -25,7 +26,7 @@ class CategoryProgram extends BaseController
      */
     public function index()
     {
-        return $this->view('/admin/category-program/index');
+        return $this->view('/admin/difficulty/index');
     }
 
     /**
@@ -38,40 +39,39 @@ class CategoryProgram extends BaseController
         $d = $this->model;
         if ($d->save($data)) {
             if (isset($data['id'])) {
-                $this->success('Catégorie bien modifiée');
+                $this->success('Difficulté bien modifié');
             } else {
-                $this->success('Catégorie bien ajoutée');
+                $this->success('Difficulté bien ajouté');
             }
         } else {
             foreach ($d->errors() as $error) {
                 $this->error($error);
             }
         }
-        return $this->redirect('admin/category-program/');
+        return $this->redirect('admin/difficulty/');
     }
 
 
     /**
-     * Controller d'accès à la page de création ou d'édition
+     * Controller d'accès a page de création ou d'édition
      * @param $id
      * @return \CodeIgniter\HTTP\RedirectResponse|string
      */
-    public function createOrEdit($id = "new")
-    {
+    public function createOrEdit($id = "new") {
         helper('form');
-        if ($id == "new") {
-            return $this->view('/admin/category-program/form');
+        if($id == "new"){
+            return $this->view('/admin/difficulty/form');
         }
 
-        $cat_prgrm = $this->model->find($id);
+        $difficulty = $this->model->find($id);
 
-        if (!$cat_prgrm) {
-            $this->error('Catégorie introuvable');
-            return $this->redirect('admin/category-program');
+        if (!$difficulty) {
+            $this->error('Difficulté introuvable');
+            return $this->redirect('admin/difficulty');
         }
 
-        return $this->view('/admin/category-program/form', [
-            'cat_prgrm' => $cat_prgrm,
+        return $this->view('/admin/difficulty/form', [
+            'difficulty' => $difficulty,
         ]);
     }
 
@@ -83,7 +83,7 @@ class CategoryProgram extends BaseController
             $this->model->delete($id);
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Catégorie supprimée avec succès'
+                'message' => 'Difficultée supprimée avec succès'
             ]);
         } else {
             return $this->response->setJSON([

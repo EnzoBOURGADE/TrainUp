@@ -1,38 +1,68 @@
 <?php
 
 namespace App\Controllers\Admin;
-
 use App\Controllers\BaseController;
 use App\Models\CategoryModel;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class Category extends BaseController
 {
     protected $model;
+
+    /**
+     * Return an array of resource objects, themselves in array format.
+     *
+     * @return ResponseInterface
+     */
 
     public function __construct()
     {
         $this->model = new CategoryModel();
     }
 
+    /**
+     * @return string
+     */
     public function index()
     {
         return $this->view('/admin/category/index');
     }
 
-    public function create() {
-        helper('form');
-        $category = Model('CategoryModel');
-
-        return $this->view('/admin/category/form',
-            [
-                'categories' => $category
-            ]);
+    /**
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     * @throws \ReflectionException
+     */
+    public function save()
+    {
+        $data = $this->request->getPost();
+        $d = $this->model;
+        if ($d->save($data)) {
+            if (isset($data['id'])) {
+                $this->success('Catégorie bien modifiée');
+            } else {
+                $this->success('Catégorie bien ajoutée');
+            }
+        } else {
+            foreach ($d->errors() as $error) {
+                $this->error($error);
+            }
+        }
+        return $this->redirect('admin/category/');
     }
 
 
-    public function edit($id)
+    /**
+     * Controller d'accès à la page de création ou d'édition
+     * @param $id
+     * @return \CodeIgniter\HTTP\RedirectResponse|string
+     */
+    public function createOrEdit($id = "new")
     {
         helper('form');
+        if ($id == "new") {
+            return $this->view('/admin/category/form');
+        }
+
         $category = $this->model->find($id);
 
         if (!$category) {
@@ -45,26 +75,6 @@ class Category extends BaseController
         ]);
     }
 
-    public function save() {
-        $data = $this->request->getPost();
-        $ct = Model('CategoryModel');
-        if ($ct->save($data)) {
-            if (isset($data['id'])) {
-                $id = $data['id'];
-                $this->success('Catégorie bien modifié');
-            } else {
-                $id = $ct->getInsertID();
-                $this->success('Catégorie bien ajouté');
-            }
-        } else {
-            $id = '';
-            foreach($ct->errors() as $error) {
-                $this->error($error);
-            }
-        }
-        return $this->redirect('admin/category');
-    }
-
     public function delete()
     {
         $id = $this->request->getPost('id');
@@ -73,7 +83,7 @@ class Category extends BaseController
             $this->model->delete($id);
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Catégorie supprimé avec succès'
+                'message' => 'Catégorie supprimée avec succès'
             ]);
         } else {
             return $this->response->setJSON([

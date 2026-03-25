@@ -19,6 +19,18 @@
                     <input type="text" class="form-control" name="name" value="<?= $exercice['name'] ?? '' ?>" placeholder="Nom de l’exercice" required>
                     <label for="name">Nom de l’exercice</label>
                 </div>
+                <div class="col-md-4 form-floating">
+                    <select class="form-select" name="id_dif" id="id_dif" required>
+                        <option value="">-- Sélectionner une difficulté --</option>
+                        <?php foreach ($difficulties as $dif): ?>
+                            <option value="<?= $dif['id'] ?>"
+                                <?= isset($selectedDifficultyId) && $selectedDifficultyId == $dif['id'] ? 'selected' : '' ?>>
+                                <?= esc($dif['libelle']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <label for="id_cat">Catégorie</label>
+                </div>
                 <div class="row g-3 mb-3">
                     <div class="col-md-4 form-floating">
                         <input type="number" class="form-control" name="rest_time" value="<?= $exercice['rest_time'] ?? '' ?>" placeholder="Temps de repos" required>

@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\ExerciceModel;
+use App\Models\DifficultyModel;
 
 class Exercices extends BaseController
 {
@@ -16,56 +17,48 @@ class Exercices extends BaseController
 
     public function index()
     {
-        $data['exercices'] = $this->model->findAll();
-        return $this->view('/admin/exercices/index', $data);
+        return $this->view('/admin/exercices/index');
     }
 
-    public function create() {
-        helper('form');
-        $exercices = Model('ExerciceModel')->findAll();
-        $category = Model('CategoryModel')->findAll();
-        $muscles = Model('MusclesModel')->findAll();
-
-        return $this->view('/admin/exercices/form',
-            [
-                'exercices' => $exercices,
-                'categories' => $category,
-                'muscles' => $muscles
-            ]);
-    }
-
-    public function save() {
+    public function save()
+    {
         $data = $this->request->getPost();
-        $pm = Model('ExerciceModel');
-        if ($pm->save($data)) {
+        $d = $this->model;
+        if ($d->save($data)) {
             if (isset($data['id'])) {
-                $id = $data['id'];
                 $this->success('Exercice bien modifié');
             } else {
-                $id = $pm->getInsertID();
                 $this->success('Exercice bien ajouté');
             }
         } else {
-            $id = '';
-            foreach($pm->errors() as $error) {
+            foreach ($d->errors() as $error) {
                 $this->error($error);
             }
         }
         return $this->redirect('admin/exercices/');
     }
 
-    public function store()
-    {
-        $this->model->save($this->request->getPost());
-        return redirect()->to('/exercices');
-    }
-
-    public function edit($id)
+    public function createOrEdit($id = "new")
     {
         helper('form');
-        $exercice = $this->model->find($id);
+
         $categories = model('CategoryModel')->findAll();
         $muscles = model('MusclesModel')->findAll();
+        $difficulties = model('DifficultyModel')->findAll();
+
+        if ($id == "new") {
+            return $this->view('/admin/exercices/form', [
+
+                'categories' => $categories,
+                'muscles' => $muscles,
+                'difficulties' => $difficulties,
+                'selectedDifficultyId' => $exercice['id_dif'] ?? null,
+                'selectedCategoryId' => $exercice['id_cat'] ?? null,
+                'selectedMuscleId' => $exercice['id_muscle'] ?? null,
+            ]);
+        }
+
+        $exercice = $this->model->find($id);
 
         if (!$exercice) {
             $this->error('Exercice introuvable');
@@ -76,17 +69,12 @@ class Exercices extends BaseController
             'exercice' => $exercice,
             'categories' => $categories,
             'muscles' => $muscles,
+            'difficulties' => $difficulties,
+            'selectedDifficultyId' => $exercice['id_dif'] ?? null,
             'selectedCategoryId' => $exercice['id_cat'] ?? null,
             'selectedMuscleId' => $exercice['id_muscle'] ?? null,
         ]);
     }
-
-    public function update($id)
-    {
-        $this->model->update($id, $this->request->getPost());
-        return redirect()->to('/exercices');
-    }
-
 
     public function delete()
     {

@@ -19,7 +19,7 @@ class ExerciceModel extends Model
     protected $useSoftDeletes   = false;
     protected $useTimestamps    = true;
     protected $allowedFields    = [
-        'name', 'description', 'rest_time', 'reps', 'nber_series', 'time_series', 'id_cat', 'id_muscle'
+        'name', 'description', 'rest_time', 'reps', 'nber_series', 'time_series', 'id_cat', 'id_muscle', 'difficulty'
     ];
 
     protected $select2SearchableFields = ['name'];
@@ -38,7 +38,7 @@ class ExerciceModel extends Model
     {
         return [
             'searchable_fields' => [
-                'exercices.id', 'exercices.name', 'exercices.description',
+                'exercices.id', 'exercices.name', 'exercices.description', 'exercices.difficulty',
                 'exercices.rest_time', 'exercices.reps', 'exercices.nber_series', 'exercices.time_series',
                 'categories.name', 'muscles.name'
             ],
@@ -52,12 +52,19 @@ class ExerciceModel extends Model
                     'table' => 'categories',
                     'condition' => 'categories.id = exercices.id_cat',
                     'type' => 'left'
+                ],
+                [
+                    'table' => 'difficulties',
+                    'condition' => 'difficulties.id = exercices.difficulty',
+                    'type' => 'left'
                 ]
             ],
             'select' => '
             exercices.*,
             muscles.name as name_muscle,
             categories.name as name_cat,
+            difficulties.libelle as name_difficulty,
+            difficulties.color_hex as color_difficulty,
             (
                 (SELECT COUNT(*) FROM workout WHERE workout.id_exercices = exercices.id)
                 +

@@ -46,6 +46,11 @@
         "url": "/admin/exercices",
         "icon": "<i class=\"nav-icon fa-solid fa-person-walking\"></i>"
       },
+      "difficultés": {
+        "title": "Difficulty",
+        "url": "/admin/difficulty",
+        "icon": "<i class=\"nav-icon fa-solid fa-arrow-trend-up\"></i>"
+      },
       "muscle": {
         "title": "Muscles",
         "url": "/admin/muscles",
