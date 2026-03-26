@@ -14,8 +14,8 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
 
     $routes->group('user-permission', function ($routes) {
         $routes->get('/', 'UserPermission::index');
-        $routes->post('update', 'UserPermission::update');
-        $routes->post('insert', 'UserPermission::insert');
+        $routes->get('(:any)', 'UserPermission::createOrEdit/$1');
+        $routes->post('save', 'UserPermission::save');
         $routes->post('delete', 'UserPermission::delete');
     });
 

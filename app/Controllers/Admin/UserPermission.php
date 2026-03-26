@@ -18,37 +18,26 @@ class UserPermission extends BaseController
 
     public function index()
     {
-        return $this->view('admin/user-permission');
+        return $this->view('admin/user-permission/index');
     }
 
-    public function insert()
+
+    public function createOrEdit($id = "new")
     {
-        $data = $this->request->getPost();
-        if ($this->model->insert($data)) {
-            $this->success('Permission utilisateur bien créée');
-        } else {
-            foreach ($this->model->errors() as $error) {
-                $this->error($error);
-            }
-        }
-        return $this->redirect('admin/user-permission');
-    }
-
-    public function update() {
-        $data = $this->request->getPost();
-        $id = $data['id'];
-        unset($data['id']);
-        if ($this->model->update($id, $data)) {
-            return $this->response->setJSON([
-                'success' => true,
-                'message' => "La permission à été modifiée avec succés !",
-            ]);
-        } else {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => $this->model->errors(),
+        $perm = $this->model->find($id);
+        helper('form');
+        if ($id == "new") {
+            return $this->view('/admin/user-permission/form', [
+                'permissions' => $perm,
             ]);
         }
+        if (!$perm) {
+            $this->error('Permission introuvable');
+            return $this->redirect('admin/user-permission');
+        }
+        return $this->view('/admin/user-permission/form', [
+            'permissions' => $perm,
+        ]);
     }
 
     public function delete() {
@@ -64,5 +53,24 @@ class UserPermission extends BaseController
                 'message' => $this->model->errors(),
             ]);
         }
+    }
+
+
+
+    public function save()
+    {
+        $data = $this->request->getPost();
+        if ($this->model->save($data)) {
+            if (!empty($data['id'])) {
+                $this->success('Permission bien modifiée');
+            } else {
+                $this->success('Permission bien ajoutée');
+            }
+        } else {
+            foreach ($this->model->errors() as $error) {
+                $this->error($error);
+            }
+        }
+        return $this->redirect('admin/user-permission');
     }
 }

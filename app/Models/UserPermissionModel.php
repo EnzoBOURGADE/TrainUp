@@ -16,6 +16,7 @@ class UserPermissionModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['name','slug'];
     protected $validationRules = [
+        'id'   => 'permit_empty|is_natural',
         'name' => 'required|max_length[255]|is_unique[user_permission.name,id,{id}]',
         'slug' => 'max_length[255]|is_unique[user_permission.name,id,{id}]',
     ];
@@ -52,7 +53,10 @@ class UserPermissionModel extends Model
                 'id',
             ],
             'joins' => [],
-            'select' => '*',
+            'select' => 'user_permission.id, user_permission.name, 
+            (
+                (SELECT COUNT(*) FROM user WHERE user.id_permission = user_permission.id)
+            ) AS count_usage'
         ];
     }
 }
