@@ -13,16 +13,10 @@ class Friends extends BaseController
     {
         $this->model = new FriendsModel();
     }
+
     public function index()
     {
-        $data['friends'] = $this->model->findAll();
-        return $this->view('/admin/friends/index', $data);
-    }
-
-    public function store()
-    {
-        $this->model->save($this->request->getPost());
-        return redirect()->to('/friends');
+        return $this->view('/admin/friends/index');
     }
 
     public function delete()

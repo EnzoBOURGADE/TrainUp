@@ -4,74 +4,35 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\UserModel;
+use App\Models\UserPermissionModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class User extends BaseController
 {
     protected $model;
+    protected $permModel;
 
     public function __construct()
     {
         $this->model = new UserModel();
+        $this->permModel = new UserPermissionModel();
     }
     public function index()
     {
         return $this->view('/admin/user/index');
     }
 
-    public function create()
+
+    public function createOrEdit($id = "new")
     {
         helper('form');
-
-        $user = new \App\Entities\User();
-        $permissions = model('UserPermissionModel')->findAll();
-
-        return $this->view('/admin/user/form', [
-            'users' => $user,
-            'permissions' => $permissions,
-            'selectedPermissionId' => null,
-        ]);
-    }
-
-
-    public function save()
-    {
-        $data = $this->request->getPost();
-        $pm = model('UserModel');
-
-        if (empty($data['id'])) {
-            if (!empty($data['password'])) {
-                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-            }
-        }
-        else {
-            unset($data['password']);
+        if ($id == "new") {
+            $permissions = $this->permModel->findAll();
+            return $this->view('/admin/user/form', [
+                'permissions' => $permissions
+            ]);
         }
 
-        if ($pm->save($data)) {
-            if (isset($data['id'])) {
-                $this->success('Utilisateur bien modifié');
-            } else {
-                $this->success('Utilisateur bien ajouté');
-            }
-        } else {
-            foreach ($pm->errors() as $error) {
-                $this->error($error);
-            }
-        }
-
-        return $this->redirect('admin/user/');
-    }
-
-    public function store()
-    {
-        $this->model->save($this->request->getPost());
-        return redirect()->to('/user');
-    }
-
-    public function edit($id)
-    {
-        helper('form');
         $users = $this->model->find($id);
         $permissions = model('UserPermissionModel')->findAll();
         if (!$users) {
@@ -86,16 +47,38 @@ class User extends BaseController
         ]);
     }
 
-    public function update($id)
+
+    public function save()
     {
-        $this->model->update($id, $this->request->getPost());
-        return redirect()->to('/user');
+        $data = $this->request->getPost();
+
+        if (empty($data['id'])) {
+            if (!empty($data['password'])) {
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+            }
+        }
+        else {
+            unset($data['password']);
+        }
+
+        if ($this->model->save($data)) {
+            if (isset($data['id'])) {
+                $this->success('Utilisateur bien modifié');
+            } else {
+                $this->success('Utilisateur bien ajouté');
+            }
+        } else {
+            foreach ($this->model->errors() as $error) {
+                $this->error($error);
+            }
+        }
+        return $this->redirect('admin/user/');
     }
+
 
     public function switchActive() {
         $id = $this->request->getPost('id_user');
-        $userModel = model('UserModel');
-        $user = $userModel->withDeleted()->find($id);
+        $user = $this->model->withDeleted()->find($id);
 
         if (!$user) {
             return $this->response->setJSON([
@@ -105,14 +88,14 @@ class User extends BaseController
         }
 
         if ($user->isActive()) {
-            $userModel->delete($id);
+            $this->model->delete($id);
             return $this->response->setJSON([
                 'success' => true,
                 'message' => 'Utilisateur désactivé',
                 'status' => 'inactive'
             ]);
         } else {
-            if ($userModel->reactive($id)) {
+            if ($this->model->reactive($id)) {
                 return $this->response->setJSON([
                     'success' => true,
                     'message' => 'Utilisateur activé',
@@ -134,11 +117,10 @@ class User extends BaseController
         if (!$request->isAJAX()) {
             return $this->response->setJSON(['error' => 'Requête non autorisée']);
         }
-        $um = Model('UserModel');
         $search = $request->getGet('search') ?? '';
         $page = (int)($request->getGet('page') ?? 1);
         $limit = 20;
-        $result = $um->quickSearchForSelect2($search, $page, $limit);
+        $result = $this->model->quickSearchForSelect2($search, $page, $limit);
         return $this->response->setJSON($result);
     }
 

@@ -35,15 +35,14 @@ class Category extends BaseController
     public function save()
     {
         $data = $this->request->getPost();
-        $d = $this->model;
-        if ($d->save($data)) {
+        if ($this->model->save($data)) {
             if (isset($data['id'])) {
                 $this->success('Catégorie bien modifiée');
             } else {
                 $this->success('Catégorie bien ajoutée');
             }
         } else {
-            foreach ($d->errors() as $error) {
+            foreach ($this->model->errors() as $error) {
                 $this->error($error);
             }
         }
@@ -62,14 +61,11 @@ class Category extends BaseController
         if ($id == "new") {
             return $this->view('/admin/category/form');
         }
-
         $category = $this->model->find($id);
-
         if (!$category) {
             $this->error('Catégorie introuvable');
             return $this->redirect('admin/category');
         }
-
         return $this->view('/admin/category/form', [
             'category' => $category,
         ]);

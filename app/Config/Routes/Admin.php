@@ -4,9 +4,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
 
     $routes->group('user', function ($routes) {
         $routes->get('/', 'User::index');
-        $routes->get('(:num)', 'User::edit/$1');
-        $routes->get('new', 'User::create');
-        $routes->post('update/(:num)', 'User::update/$1');
+        $routes->get('(:any)', 'User::createOrEdit/$1');
         $routes->post('insert', 'User::insert');
         $routes->post('save', 'User::save');
         $routes->post('switch-active','User::switchActive');
@@ -21,10 +19,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->post('delete', 'UserPermission::delete');
     });
 
-    $routes->group('Program', function ($routes) {
+    $routes->group('program', function ($routes) {
         $routes->get('/', 'Program::index');
-        $routes->get('new', 'Program::create');
-        $routes->get('(:num)', 'Program::edit/$1');
+        $routes->get('(:any)', 'Program::createOrEdit/$1');
         $routes->post('save', 'Program::save');
         $routes->post('delete', 'Program::delete');
     });
