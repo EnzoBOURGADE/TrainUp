@@ -52,7 +52,7 @@ class Exercices extends BaseController
                 'categories' => $categories,
                 'muscles' => $muscles,
                 'difficulties' => $difficulties,
-                'selectedDifficultyId' => $exercice['id_dif'] ?? null,
+                'selectedDifficultyId' => $exercice['difficulty'] ?? null,
                 'selectedCategoryId' => $exercice['id_cat'] ?? null,
                 'selectedMuscleId' => $exercice['id_muscle'] ?? null,
             ]);
@@ -70,7 +70,7 @@ class Exercices extends BaseController
             'categories' => $categories,
             'muscles' => $muscles,
             'difficulties' => $difficulties,
-            'selectedDifficultyId' => $exercice['id_dif'] ?? null,
+            'selectedDifficultyId' => $exercice['difficulty'] ?? null,
             'selectedCategoryId' => $exercice['id_cat'] ?? null,
             'selectedMuscleId' => $exercice['id_muscle'] ?? null,
         ]);
