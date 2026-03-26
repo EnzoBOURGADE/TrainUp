@@ -3,46 +3,50 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\ExerciceModel;
+use App\Models\ProgramModel;
 use App\Models\SeriesModel;
 
 class Series extends BaseController
 {
     protected $model;
+    protected $programModel;
+    protected $exerciceModel;
 
     public function __construct()
     {
         $this->model = new SeriesModel();
+        $this->programModel = new ProgramModel();
+        $this->exerciceModel = new ExerciceModel();
     }
 
-    public function create() {
-        helper('form');
-        $series = Model('SeriesModel')->findAll();
-        $program = Model('ProgramModel')->findAll();
-        $exercices = Model('ExerciceModel')->findAll();
 
-        return $this->view('/admin/series/form',
-            [
-                'series' => $series,
-                'program' => $program,
-                'exercices' => $exercices
-            ]);
+    public function createOrEdit($id = "new")
+    {
+        helper('form');
+        if ($id == "new") {
+            $program = $this->programModel->findAll();
+            $exercices = $this->exerciceModel->findAll();
+
+            return $this->view('/admin/series/form',
+                [
+                    'program' => $program,
+                    'exercices' => $exercices
+                ]);
+        }
     }
 
 
     public function save() {
         $data = $this->request->getPost();
-        $pm = Model('SeriesModel');
-        if ($pm->save($data)) {
+        if ($this->model->save($data)) {
             if (isset($data['id'])) {
-                $id = $data['id'];
                 $this->success('Séries bien modifié');
             } else {
-                $id = $pm->getInsertID();
                 $this->success('Séries bien ajouté');
             }
         } else {
-            $id = '';
-            foreach($pm->errors() as $error) {
+            foreach($this->model->errors() as $error) {
                 $this->error($error);
             }
         }
@@ -52,7 +56,6 @@ class Series extends BaseController
 
     public function index()
     {
-        $data['series'] = $this->model->findAll();
-        return $this->view('/admin/series/index', $data);
+        return $this->view('/admin/series/index');
     }
 }

@@ -3,114 +3,43 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\ExerciceModel;
+use App\Models\ProgramModel;
+use App\Models\SeriesModel;
 use App\Models\WorkoutModel;
 
 class Workout extends BaseController
 {
     protected $model;
+    protected $seriesModel;
+    protected $exerciceModel;
+    protected $programModel;
 
     public function __construct()
     {
         $this->model = new WorkoutModel();
+        $this->seriesModel  = new SeriesModel();
+        $this->exerciceModel  = new ExerciceModel();
+        $this->programModel  = new ProgramModel();
     }
 
     public function index()
     {
-        $data['workout'] = $this->model->findAll();
-        return $this->view('/admin/workout/index', $data);
+        return $this->view('/admin/workout/index');
     }
 
-    public function create($id_program)
+
+
+    public function createOrEdit($id = "new")
     {
         helper('form');
-
-        $program = model('ProgramModel')->find($id_program);
-
-        if (!$program) {
-            $this->error('Programme introuvable');
-            return $this->redirect('admin/workout');
-        }
-        return $this->view('/admin/workout/form', [
-            'id_program' => $id_program,
-            'program'    => $program
-        ]);
-    }
-
-
-    public function save()
-    {
-        $data = $this->request->getPost();
-
-        $workoutModel = model('WorkoutModel');
-        $seriesModel  = model('SeriesModel');
-
-        if (empty($data['exercices'])) {
-            return redirect()->back()->with('error', 'Aucun exercice ajouté');
+        if ($id == "new") {
+            return $this->view('/admin/muscles/form');
         }
 
-        foreach ($data['exercices'] as $order => $exercice) {
-            if (!empty($exercice['series'])) {
-                foreach ($exercice['series'] as $serie) {
-                    $seriesModel->insert([
-                        'id_program'   => $data['id_program'],
-                        'id_exercices' => $exercice['id_exercices'],
-                        'reps'         => $serie['reps'],
-                        'weight'       => $serie['weight'],
-                        'date'         => $data['date'],
-                    ]);
-                }
-            }
-            $workoutModel->insert([
-                'id_program'   => $data['id_program'],
-                'id_exercices' => $exercice['id_exercices'],
-                'date'         => $data['date'],
-                'order'        => $order + 1,
-                'rest_time'    => 0,
-            ]);
-        }
-
-        return redirect()->to('/admin/program/' . $data['id_program'])->with('success', 'Séance enregistrée avec succès');
-    }
-
-
-
-
-    /*public function save()
-    {
-        $data = $this->request->getPost();
-        $workoutModel = model('WorkoutModel');
-
-        foreach ($data['exercices'] as $index => $exercice) {
-
-            $workoutModel->insert([
-                'id_program'   => $data['id_program'],
-                'date'         => $data['date'],
-                'id_exercices' => $exercice['id_exercices'],
-                'rest_time'    => gmdate('H:i:s', (int)$exercice['rest_time']),
-                'order'        => $index + 1,
-            ]);
-        }
-
-        $this->success('Workout enregistré avec succès');
-        return $this->redirect('admin/workout');
-    }*/
-
-
-
-
-
-    public function store()
-    {
-        $this->model->save($this->request->getPost());
-        return redirect()->to('/workout');
-    }
-
-    public function edit($id)
-    {
-        helper('form');
         $workout = $this->model->find($id);
-        $exercice = model('ExerciceModel')->findAll();
-        $program = model('ProgramModel')->findAll();
+        $exercice = $this->exerciceModel->findAll();
+        $program =  $this->programModel->findAll();
 
         if (!$workout) {
             $this->error('workout introuvable');
@@ -126,10 +55,37 @@ class Workout extends BaseController
         ]);
     }
 
-    public function update($id)
+
+    public function save()
     {
-        $this->model->update($id, $this->request->getPost());
-        return redirect()->to('/workout');
+        $data = $this->request->getPost();
+
+        if (empty($data['exercices'])) {
+            return redirect()->back()->with('error', 'Aucun exercice ajouté');
+        }
+
+        foreach ($data['exercices'] as $order => $exercice) {
+            if (!empty($exercice['series'])) {
+                foreach ($exercice['series'] as $serie) {
+                    $this->seriesModel->insert([
+                        'id_program'   => $data['id_program'],
+                        'id_exercices' => $exercice['id_exercices'],
+                        'reps'         => $serie['reps'],
+                        'weight'       => $serie['weight'],
+                        'date'         => $data['date'],
+                    ]);
+                }
+            }
+            $this->model->insert([
+                'id_program'   => $data['id_program'],
+                'id_exercices' => $exercice['id_exercices'],
+                'date'         => $data['date'],
+                'order'        => $order + 1,
+                'rest_time'    => 0,
+            ]);
+        }
+
+        return redirect()->to('/admin/program/' . $data['id_program'])->with('success', 'Séance enregistrée avec succès');
     }
 
     public function delete()

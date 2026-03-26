@@ -36,15 +36,14 @@ class Difficulty extends BaseController
     public function save()
     {
         $data = $this->request->getPost();
-        $d = $this->model;
-        if ($d->save($data)) {
+        if ($this->model->save($data)) {
             if (isset($data['id'])) {
                 $this->success('Difficulté bien modifié');
             } else {
                 $this->success('Difficulté bien ajouté');
             }
         } else {
-            foreach ($d->errors() as $error) {
+            foreach ($this->model->errors() as $error) {
                 $this->error($error);
             }
         }
@@ -62,14 +61,11 @@ class Difficulty extends BaseController
         if($id == "new"){
             return $this->view('/admin/difficulty/form');
         }
-
         $difficulty = $this->model->find($id);
-
         if (!$difficulty) {
             $this->error('Difficulté introuvable');
             return $this->redirect('admin/difficulty');
         }
-
         return $this->view('/admin/difficulty/form', [
             'difficulty' => $difficulty,
         ]);

@@ -3,7 +3,10 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\CategoryModel;
+use App\Models\CategoryProgramModel;
 use App\Models\ProgramModel;
+use App\Models\UserModel;
 use App\Models\WorkoutModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -11,11 +14,15 @@ class Program extends BaseController
 {
     protected $model;
     protected $workoutModel;
+    protected $userModel;
+    protected $catProModel;
 
     public function __construct()
     {
         $this->model = new ProgramModel();
         $this->workoutModel = new WorkoutModel();
+        $this->userModel = new UserModel();
+        $this->catProModel = new CategoryProgramModel();
     }
 
     public function index()
@@ -23,28 +30,20 @@ class Program extends BaseController
         return $this->view('/admin/program/index');
     }
 
-    public function create() {
-        helper('form');
-        $program = null;
-        $categoryProgram = Model('CategoryProgramModel')->findAll();
-        $users = Model('UserModel')->findAll();
-
-        return $this->view('/admin/program/form',
-            [
-                'program' => $program,
-                'categoriesProgram' => $categoryProgram,
-                'users' => $users
-            ]);
-    }
-
-
-    public function edit($id)
+    public function createOrEdit($id = "new")
     {
         helper('form');
         $program = $this->model->find($id);
-        $user = model('UserModel')->findAll();
-        $categoriesProgram = model('CategoryProgramModel')->findAll();
+        $user = $this->userModel->findAll();
+        $categoriesProgram = $this->catProModel->findAll();
         $workout = $this->workoutModel->FindWorkoutById($id);
+
+        if ($id == "new") {
+            return $this->view('/admin/program/form', [
+                'users' => $user,
+                'categoriesProgram' => $categoriesProgram
+            ]);
+        }
 
         if (!$program) {
             $this->error('Programme introuvable');
@@ -64,24 +63,24 @@ class Program extends BaseController
     public function save()
     {
         $data = $this->request->getPost();
-        $pm = model('ProgramModel');
 
-        if ($pm->save($data)) {
+        if ($this->model->save($data)) {
             if (!empty($data['id'])) {
                 $this->success('Programme bien modifié');
-                return $this->redirect('admin/program/' . $data['id']);
+                return $this->redirect('admin/program/');
             }
-            $id = $pm->getInsertID();
+            $id = $this->model->getInsertID();
             $this->success('Programme bien ajouté');
             return $this->redirect('admin/program/' . $id);
 
         } else {
-            foreach ($pm->errors() as $error) {
+            foreach ($this->model->errors() as $error) {
                 $this->error($error);
             }
             return $this->redirect('admin/program');
         }
     }
+
 
     public function delete()
     {
