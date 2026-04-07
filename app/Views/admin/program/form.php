@@ -72,7 +72,7 @@
                                             echo '<td>' . esc($workout['date']) . '</td>';
                                             echo '<td>' . esc($workout['total_exercices']) . '</td>';
                                             echo '<td>
-                                                <a href="' . base_url('admin/workout/edit/' . $program['id'] . '/' . $workout['date']) . '" class="btn btn-sm btn-warning">
+                                                <a href="' . base_url('admin/workout/' . $program['id'] . '/' . $workout['date']) . '" class="btn btn-sm btn-warning">
                                                 <i class="fas fa-edit"></i>
                                                 </a>
                                                 <a href="' . base_url('admin/workout/delete/' . $program['id'] . '/' . $workout['date']) . '" class="btn btn-sm btn-danger" onclick="return confirm(\'Voulez-vous vraiment supprimer cette séance ?\')">
@@ -93,7 +93,7 @@
                         <div class="col-auto">
                             <a id="addWorkout"
                                class="btn btn-sm btn-primary"
-                               href="<?= base_url('admin/workout/new/' . $program['id']) ?>">
+                               href="<?= base_url('admin/workout/' . $program['id']) ?>">
                                 <i class="fas fa-plus"></i> Ajouter une séance
                             </a>
                         </div>
@@ -122,3 +122,13 @@
         </div>
     </div>
 </div>
+
+<?php if(session()->getFlashdata('success')): ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'OK',
+            text: "<?= session()->getFlashdata('success') ?>"
+        });
+    </script>
+<?php endif; ?>

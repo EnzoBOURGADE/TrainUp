@@ -92,11 +92,14 @@ class Exercices extends BaseController
         }
     }
 
-    public function info(int $id) {
+    public function info(int $id)
+    {
         if (!$this->model->find($id)) {
             return $this->response->setJSON(['error' => 'Exercice non trouvé']);
         }
-        return $this->response->setJSON($this->model);
+        return $this->response->setJSON(
+            $this->model->find($id)
+        );
     }
 
     public function search()

@@ -61,13 +61,13 @@ class CategoryProgram extends BaseController
         if ($id == "new") {
             return $this->view('/admin/category-program/form');
         }
-        $cat_prgrm = $this->model->find($id);
-        if (!$cat_prgrm) {
+        $cat_prgm = $this->model->find($id);
+        if (!$cat_prgm) {
             $this->error('Catégorie introuvable');
             return $this->redirect('admin/category-program');
         }
         return $this->view('/admin/category-program/form', [
-            'cat_prgrm' => $cat_prgrm,
+            'cat_prgrm' => $cat_prgm,
         ]);
     }
 

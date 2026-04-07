@@ -28,18 +28,21 @@ class Workout extends BaseController
         return $this->view('/admin/workout/index');
     }
 
-
-
-    public function createOrEdit($id = "new")
+    public function createOrEdit($idProgram, $dateWorkout = null)
     {
         helper('form');
-        if ($id == "new") {
-            return $this->view('/admin/muscles/form');
-        }
 
-        $workout = $this->model->find($id);
-        $exercice = $this->exerciceModel->findAll();
-        $program =  $this->programModel->findAll();
+        $exercices = $this->exerciceModel->findAll();
+        $programs = $this->programModel->find($idProgram);
+        if ($dateWorkout === null) {
+
+            return $this->view('/admin/workout/form', [
+                'id_program' => $idProgram,
+                'exercices' => $exercices,
+                'program' => $programs,
+            ]);
+        }
+        $workout = $this->model->findWorkout($idProgram, $dateWorkout);
 
         if (!$workout) {
             $this->error('workout introuvable');
@@ -48,8 +51,8 @@ class Workout extends BaseController
 
         return $this->view('/admin/workout/form', [
             'workout' => $workout,
-            'exercices' => $exercice,
-            'program' => $program,
+            'exercices' => $exercices,
+            'program' => $programs,
             'selectedExerciceId' => $workout['id_exercices'] ?? null,
             'selectedProgramId' => $workout['id_program'] ?? null,
         ]);
@@ -88,21 +91,21 @@ class Workout extends BaseController
         return redirect()->to('/admin/program/' . $data['id_program'])->with('success', 'Séance enregistrée avec succès');
     }
 
-    public function delete()
+    public function delete($idProgram, $dateWorkout)
     {
-        $id = $this->request->getPost('id');
-
-        if ($id) {
-            $this->model->delete($id);
-            return $this->response->setJSON([
-                'success' => true,
-                'message' => 'Workout supprimé avec succès'
-            ]);
-        } else {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'ID manquant'
-            ]);
+        if (!$idProgram || !$dateWorkout) {
+            return redirect()
+                ->to('/admin/program/' . $idProgram)
+                ->with('error', 'Paramètres invalides');
         }
+        $deleted = $this->model->deleteWorkout($idProgram, $dateWorkout);
+        if ($deleted) {
+            return redirect()
+                ->to('/admin/program/' . $idProgram)
+                ->with('success', 'Séance supprimée avec succès');
+        }
+        return redirect()
+            ->to('/admin/program/' . $idProgram)
+            ->with('error', 'Aucune séance supprimée');
     }
 }

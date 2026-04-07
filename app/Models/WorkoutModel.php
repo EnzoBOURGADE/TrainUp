@@ -12,8 +12,6 @@ class WorkoutModel extends Model
     use DataTableTrait;
 
     protected $table            = 'workout';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
@@ -56,6 +54,12 @@ class WorkoutModel extends Model
             ->findAll();
     }
 
+    public function findWorkout($idProgram, $dateWorkout) {
+        return $this->where('id_program', $idProgram)
+            ->where('date', $dateWorkout)
+            ->first();
+    }
+
 
     protected function getDataTableConfig(): array
     {
@@ -89,5 +93,13 @@ class WorkoutModel extends Model
             'group_by' => 'workout.date, workout.id_program, exercices.name, program.name',
             'with_deleted' => false,
         ];
+    }
+
+    public function deleteWorkout($idProgram, $dateWorkout)
+    {
+        $this->where('id_program', $idProgram)
+            ->where('date', $dateWorkout)
+            ->delete();
+        return $this->db->affectedRows() > 0;
     }
 }

@@ -27,12 +27,13 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
     });
 
     $routes->group('exercices', function ($routes) {
-        $routes->get('/', 'Exercices::index');
-        $routes->get('(:any)', 'Exercices::createOrEdit/$1');
+        $routes->get('search', 'Exercices::search');
+        $routes->get('info/(:num)', 'Exercices::info/$1');
         $routes->post('save', 'Exercices::save');
         $routes->post('delete', 'Exercices::delete');
-        $routes->get('info/(:num)', 'Exercices::info/$1');
-        $routes->get('search', 'Exercices::search');
+        $routes->get('(:any)', 'Exercices::createOrEdit/$1');
+        $routes->get('/', 'Exercices::index');
+
     });
 
     $routes->group('category', function ($routes) {
@@ -71,10 +72,10 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
     });
 
     $routes->group('workout', function ($routes) {
-        $routes->get('/', 'Workout::index');
-        $routes->get('(:any)', 'Workout::createOrEdit/$1');
+        $routes->get('(:num)', 'Workout::createOrEdit/$1');
+        $routes->get('(:num)/(:any)', 'Workout::createOrEdit/$1/$2');
         $routes->post('save', 'Workout::save');
-        $routes->post('delete', 'Workout::delete');
+        $routes->get('delete/(:num)/(:any)', 'Workout::delete/$1/$2');
     });
 
     $routes->group('friends', function ($routes) {

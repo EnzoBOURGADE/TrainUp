@@ -63,7 +63,7 @@
                     data: 'name_difficulty',
                     className: 'text-center',
                     render: function(data, type, row) {
-                        const bgColor = row.color_difficulty || '#6c757d'; // fallback gris si vide
+                        const bgColor = row.color_difficulty || '#6c757d';
                         return `<span class="badge" style="background-color:${bgColor}; color:#fff;">${data}</span>`;
                     }
                 },
@@ -83,7 +83,7 @@
                                 <a href="<?= base_url('/admin/exercices/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteExercice(${row.id})">
+                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteExercice(${row.id}, ${row.count_usage})">
                                     <i class="fas fa-trash"></i>
                                 </span>
                             </div>
@@ -103,7 +103,7 @@
         };
     });
 
-    function deleteExercice(id) {
+    function deleteExercice(id, countUsage) {
         Swal.fire({
             title: 'Êtes-vous sûr ?',
             text: 'Voulez-vous vraiment supprimer cet exercice ?',
@@ -115,7 +115,14 @@
             cancelButtonText: 'Annuler',
         }).then((result) => {
             if (result.isConfirmed) {
-
+                if (countUsage > 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur',
+                        text: "L'exercice est encore utilisé autre part.",
+                    });
+                    return;
+                }
                 $.ajax({
                     url: "<?= base_url('admin/exercices/delete') ?>",
                     type: 'POST',
