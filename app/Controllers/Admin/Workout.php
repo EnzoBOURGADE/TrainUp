@@ -98,8 +98,9 @@ class Workout extends BaseController
                 ->to('/admin/program/' . $idProgram)
                 ->with('error', 'Paramètres invalides');
         }
-        $deleted = $this->model->deleteWorkout($idProgram, $dateWorkout);
-        if ($deleted) {
+        $deletedWorkout = $this->model->deleteWorkout($idProgram, $dateWorkout);
+        $deletedSeries = $this->seriesModel->deleteSeries($idProgram, $dateWorkout);
+        if ($deletedWorkout && $deletedSeries) {
             return redirect()
                 ->to('/admin/program/' . $idProgram)
                 ->with('success', 'Séance supprimée avec succès');

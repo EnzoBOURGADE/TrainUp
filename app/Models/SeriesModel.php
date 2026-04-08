@@ -68,4 +68,13 @@ class SeriesModel extends Model
             'with_deleted' => false,
         ];
     }
+
+
+
+    public function deleteSeries($id, $date) {
+        $this->where('id_program', $id)
+            ->where('date', $date)
+            ->delete();
+        return $this->db->affectedRows() > 0;
+    }
 }

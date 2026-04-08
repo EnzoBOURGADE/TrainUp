@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\CategoryModel;
 use App\Models\CategoryProgramModel;
 use App\Models\ProgramModel;
+use App\Models\SeriesModel;
 use App\Models\UserModel;
 use App\Models\WorkoutModel;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -16,6 +17,7 @@ class Program extends BaseController
     protected $workoutModel;
     protected $userModel;
     protected $catProModel;
+    protected $serieModel;
 
     public function __construct()
     {
@@ -23,6 +25,7 @@ class Program extends BaseController
         $this->workoutModel = new WorkoutModel();
         $this->userModel = new UserModel();
         $this->catProModel = new CategoryProgramModel();
+        $this->serieModel = new SeriesModel();
     }
 
     public function index()
@@ -85,6 +88,7 @@ class Program extends BaseController
     public function delete()
     {
         $id = $this->request->getPost('id');
+        $date = $this->request->getPost('date');
 
         if ($id) {
             $this->model->delete($id);

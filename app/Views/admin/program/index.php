@@ -64,7 +64,7 @@
                                 <a href="<?= base_url('/admin/program/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteProgram(${row.id})">
+                                <span class="btn btn-sm btn-danger" title="Supprimer" onclick="deleteProgram(${row.id}, '${row.name}')">
                                     <i class="fas fa-trash"></i>
                                 </span>
                             </div>
@@ -100,6 +100,7 @@
                     'url' : base_url + 'admin/program/delete',
                     'type' : 'POST',
                     'data' : {
+
                         id : id
                     },
                     success: function(response) {
